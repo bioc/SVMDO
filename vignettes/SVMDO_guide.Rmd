@@ -1,0 +1,150 @@
+---
+title: "SVMDO-Tutorial"
+author: "<h4>Author: <i>Mustafa Erhan Özer</i></h4>" 
+date: "<h4>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
+
+output:
+    BiocStyle::html_document:
+      toc: true
+bibliography: citations.bib
+link-citations: yes
+csl: bioinformatics.csl
+
+vignette: >
+  %\VignetteIndexEntry{SVMDO-Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  warning = FALSE,
+  comment = "#>",
+  cache = TRUE
+)
+
+
+is_windows <- identical(.Platform$OS.type, "windows")
+```
+# Installation
+
+The day-to-day development version from the [Github repository](https://github.com/robogeno/SVMDO) can be installed.
+```{r install, eval=FALSE}
+# From Github repository
+if (!requireNamespace("devtools", quietly=TRUE))
+  install.packages("devtools")
+devtools::install_github("robogeno/SVMDO")
+```
+
+# Package Loading
+```{r load_windows, message=FALSE, warning=FALSE, eval=is_windows, echo=is_windows}
+#library(SVMDO)
+#Main screen of GUI
+#runGUI()
+# OR
+#SVMDO::runGUI()
+
+```{r load_other_os, message=FALSE, warning=FALSE, eval=isFALSE(is_windows), echo=isFALSE(is_windows)}
+#library(SVMDO)
+#runGUI()
+# OR
+#SVMDO::runGUI()
+```
+
+# Introduction
+Transcriptome-based supervised classification can be difficult to handle due to including vast amount of junk features reducing the efficiency of the process. To minimize the efficiency problem, feature selection methods have been applied [@Cai2018]. Ensemble methodology in constructing a feature selection method has been mainly preferred for its better accuracy in classification processes [@Liu2004]. Cancer-based studies have been reported to co-occur with several chronic diseases [@Gallagher2015] and oncogenic viral infections [@Kori2020]. Disease Ontology (DO) enrichment analysis can provide a filtration approach through reported diseases that interact with the gene sets used [@LePendu2011]. Wilk's lambda criterion is one of the moderate techniques for feature selection. The method combines different features(genes) step by step based on their contributions to the discriminating power of overall model [@elOuardighi2007]. Thus, disease related genes with better discriminatory characteristics can be acquired. SVMDO is an easy-to-use GUI using disease information for detecting tumor/normal sample discriminating gene sets from differentially expressed genes. Our approach is based on an iterative algorithm filtering genes with disease ontology enrichment analysis and wilk’s lambda criterion connected to SVM classification model construction. Along with gene set extraction, SVMDO also provides individual prognostic marker detection. The algorithm is designed for FPKM and RPKM normalized RNA-Seq transcriptome datasets.
+
+# Implementation
+SVMDO was developed by using Shiny package. It is available for Windows and Linux from Bioconductor website. SVMDO requires the following R packages: Shiny, nortest, e1071, BSDA, data.table, sjmisc, klaR, caTools, dplyr, caret, survival, DOSE, AnnotationDbi, DOSE, org.Hs.eg.db
+
+# Dataset Preparation
+RNA-Seq cancer transcriptome datasets must be prepared before applying them in SVMDO. The expected form of input dataset is indicated in Table-1.
+
+```{r table_data_prep, echo=FALSE}
+id<-c("TCGA-AA-3662","TCGA-AA-3514","TCGA-D5-6541","...")
+tissue_type<-c("Normal","Normal","Tumour","...")
+AB1G<-c("Exp_1","Exp_2","Exp_3","...")
+A2M<-c("Exp_1","Exp_2","Exp_3","...")
+table_prep<-data.frame(id,tissue_type,AB1G,A2M)
+```
+`r knitr::kable(table_prep,"pipe",col.name=c("id","tissue_type","AB1G","A2M"),align = "cccc",caption="Table-1 Structure of RNA-Seq Transcriptome Dataset")`
+
+* **id:** TCGA Sample Ids (Optional Column for Survival Analysis)
+* **tissue_type:** Normal/Tumour (or Tumor) Tissue Information (Column name “tissue_type” is mandatory)
+* **A1BG, A2M:** Gene Symbol and Gene Expression
+
+# SVMDO GUI Description
+The main dialog box is indicated in **Figure-1**. It is divided into three parts: DEG Analysis, Gene Filtration with DO, Wilk’s Lambda Filtration & SVM Classification and Survival Analysis. At each step of the sections, necessary variables are saved in a temporary environment to be used in the following sections. The input of SVMDO is a txt file of transcriptome dataset prepared in the form of **Table-1**. 
+
+![**Figure-1** SVMDO Main Dialog Box](svmdo_gui_figure.png)
+
+# How to use SVMDO Main Screen
+1. To open GUI screen, you can directly write **SVMDO::runGUI()** in R console. If library is previously activated you can open GUI screen by writing **runGUI()** in R console. 
+2. To change your output directory, you can adjust it in the **Enter Output Directory** section.  Otherwise, default output directory will automatically be used.
+3. A user-defined input size (n) was defined to filter the initial gene list (i.e., n number of upregulated and downregulated genes) by entering a number in **Enter Top Gene Number** section.
+4. To omit test dataset application, select **"empty"** option from the combo box. 
+5. To search your transcriptome dataset, use the file detection in **Select Gene Expression Dataset** section. By clicking on **DEG Analysis** button you further apply differential expression analysis. Labels of tissue_type column in dataset must contain “Nor” and “Tum” for determining normal/tumour (or tumor) samples. When the process is completed, a message window saying **Differential Expression Analysis is Completed** will appear.
+8. To apply disease ontology-based gene filtration, click on **Gene Filtration with DO** button. When the process is completed, a message window saying **Gene Filtration with DO is Completed** will appear.
+9. To further apply the following feature selection and classification processes, click on the **Wilk’s Lambda Filtration & SVM Classification** button. When the process is completed, a message window saying **Classification is Completed** will appear.
+10. Acquired discriminative gene set can be further used for survival analysis to detect individual prognostic genes. To apply this process, use the file detection in **Select Clinical Data** section for searching clinical data about patient survival followed by clicking on **Survival Analysis** button. When the process is completed, a message window saying **Survival Analysis Completed* will appear.
+
+# Using test datasets with SVMDO Main Screen
+Before using the GUI in a study, analysis using the test datasets can be used to understand overall functionality of the algorithm.
+When test datasets are used, predefined input size (n=50) is used. Therefore, the user does not need to adjust the output gene size of differential expression analysis. 
+1. First of all, select the dataset to be used in test analysis by using combo box. There are two datasets consisting of simplified forms of TCGA-COAD (coad) and TCGA-LUSC (lusc) with 198 genes.
+2. To apply differential expression analysis on the selected dataset click on the **DEG Analysis** button. When the process is completed, a message window saying **Differential Expression Analysis is Completed** will appear.
+3. To further apply disease ontology-based gene filtration, click on **Gene Filtration with DO** button. When the process is completed, a message window saying **Gene Filtration with DO is Completed** will appear.
+3. To apply survival analysis on the acquired discriminative gene sets, click on **Survival Analysis** button. Clinical dataset for the selected dataset is automatically loaded into the GUI. When the process is completed, a message window saying **Survival Analysis Completed* will appear.
+
+# Output Files of SVMDO
+* **top_genes:** n number of most upregulated and downregulated genes in expression data
+* **complete_deg_gene_list:** Complete set of upregulated and downregulated genes in expression data
+* **final_discriminative_gene_set:** Final form of gene set providing optimal classification performance 
+* **disease_filtered_gene_data:** Disease Ontology Enrichment-based filtered transcriptome dataset. 
+* **prognostic_analysis:** A table of prognostic evaluation of discriminative gene set (Optional)
+* Kaplan Meier plots of individual genes from the final form of discriminative gene set (Optional)
+
+# References
+<div id="refs"></div>
+
+# How to install R and RStudio GUI
+
+## Windows Operating System
+
+**R-base Install:
+
+1. Copy/Paste the address https://cran.r-project.org/bin/windows/base/
+2. Click on Download R-X.X.X for Windows
+3. Click on the downloaded R-X.X.X-win.exe file to install R-base
+
+**RStudio Install:
+
+1. Copy/Paste the address  https://posit.co/products/open-source/rstudio/
+2. In RStudio Desktop Section, select open-source edition
+3. In All Installers section, select .exe or .zip version for Windows to download RStudio-X.X.X.exe or RStudio-X.X.X.zip file
+4. Click on the downloaded RStudio-X.X.X.exe and/or unzipped file to install RStudio
+
+## Ubuntu Operating System
+
+**R-base Install:
+
+1. Copy/Paste the address https://cran.r-project.org/
+2. In the Download and Install R section, click on Download R for Linux
+3. In the parent directory, click on ubuntu/ 
+4. Run the following lines in terminal (as root or by prefixing sudo) to provide access to recent version of R:
+* apt update -qq
+* apt install --no-install-recommends software-properties-common dirmngr
+* wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+* add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+
+5. Run apt-get install r-base
+
+**RStudio Install:
+
+1. Copy/Paste the address https://posit.co/products/open-source/rstudio/
+2. In RStudio Desktop Section, select open-source edition
+3. In All Installers section, select .deb or .debian.tar.gz version for Ubuntu 
+4. Right click on the download and/or unzipped .deb file to install RStudio
+   (Alternatively, .deb file can be installed from terminal by typing 
+   sudo dpkg -i installed_Rstudio_file.deb)

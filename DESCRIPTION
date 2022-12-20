@@ -1,0 +1,42 @@
+Package: SVMDO
+Title: Identification of Tumor-Discriminating mRNA Signatures via Support Vector Machines Supported by Disease Ontology
+Version: 0.99.0
+Date: 2022-12-18
+Authors@R: 
+    c(person(given = "Mustafa Erhan",
+	family = "Özer",
+    role = c("aut","cre"),
+    email = "erhanozer19@marun.edu.tr"),
+    person(given = "Pemra",
+    family = "Özbek Sarıca",
+    role = "aut",
+    email = "pemra.ozbek@marmara.edu.tr"),
+    person(given = "Kazım Yalçın",
+    family = "Arğa",
+    role = "aut",
+    email = "kazim.arga@marmara.edu.tr"))      
+Depends: R(>= 4.2), shiny (>= 1.7.3)
+Imports: rstudioapi (>= 0.14),nortest (>= 1.0-4), e1071 (>= 1.7-11), BSDA (>=
+        1.2.1),data.table (>= 1.14.2), sjmisc (>= 2.8.9), klaR (>=
+        1.7-1), caTools (>= 1.18.2),caret (>= 6.0-93), survival (>= 3.4-0),
+		DOSE (>= 3.22.1) , AnnotationDbi (>= 1.58.0), org.Hs.eg.db (>= 3.15.0),
+		dplyr (>= 1.0.10),grDevices, graphics, stats, utils
+Description: It is an easy-to-use GUI using disease information for detecting tumor/normal sample 
+    discriminating gene sets from differentially expressed genes. Our approach is based on an 
+    iterative algorithm filtering genes with disease ontology enrichment analysis and wilk’s lambda 
+    criterion connected to SVM classification model construction. Along with gene set extraction, 
+    SVMDO also provides individual prognostic marker detection. The algorithm is designed 
+    for FPKM and RPKM normalized RNA-Seq transcriptome datasets.    
+biocViews: GeneSetEnrichment, DifferentialExpression, GUI, Classification, RNASeq, Transcriptomics, Survival
+NeedsCompilation: no
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+BugReports: https://github.com/robogeno/SVMDO/issues
