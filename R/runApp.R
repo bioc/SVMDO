@@ -82,9 +82,18 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' # Disease Ontology Enrichment of a differentially expresed gene (entrez id):
 #' a_1<-DOSE::enrichDO(2981,ont="DO", maxGSSize=Inf)
 
-
-runGUI <- function() {
+#' @importFrom golem with_golem_options
+ 
+runGUI <- function(
+    reproducible = TRUE
+) {
   options(shiny.maxRequestSize = 700*1024^2)
-  appDir <- system.file("R", package = "SVMDO")
-  shiny::runApp(appDir, display.mode = "normal")
+  with_golem_options(
+    app = shinyApp(
+      ui = ui, 
+      server = server,
+      options = list(display.mode = 'normal')
+    ), 
+    golem_opts = list(reproducible = reproducible)
+  )
 }

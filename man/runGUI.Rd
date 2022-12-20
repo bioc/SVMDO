@@ -4,7 +4,7 @@
 \alias{runGUI}
 \title{Initiating GUI screen}
 \usage{
-runGUI()
+runGUI(reproducible = TRUE)
 }
 \value{
 Returning GUI window screen
