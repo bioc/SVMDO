@@ -52,10 +52,13 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' Function of SVMDO initiating GUI screen of main dialog box including
 #' analysis steps
 #' 
+#' @param reproducible Visualizing GUI screen
+
 #' @return Returning GUI window screen
 #' @export
 
 #' @importFrom rstudioapi selectDirectory
+#' @importFrom golem with_golem_options 
 #' @importFrom nortest ad.test
 #' @importFrom e1071 svm
 #' @importFrom BSDA z.test
@@ -74,6 +77,7 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' @importFrom stats median na.omit p.adjust predict qnorm sd wilcox.test
 #' @importFrom utils read.table write.table
 
+
 #' @import shiny
 
 #' @examples
@@ -82,8 +86,7 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' # Disease Ontology Enrichment of a differentially expresed gene (entrez id):
 #' a_1<-DOSE::enrichDO(2981,ont="DO", maxGSSize=Inf)
 
-#' @importFrom golem with_golem_options
- 
+
 runGUI <- function(
     reproducible = TRUE
 ) {
@@ -93,7 +96,7 @@ runGUI <- function(
       ui = ui, 
       server = server,
       options = list(display.mode = 'normal')
-    ), 
+    ),
     golem_opts = list(reproducible = reproducible)
   )
 }

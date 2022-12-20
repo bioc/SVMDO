@@ -6,6 +6,9 @@
 \usage{
 runGUI(reproducible = TRUE)
 }
+\arguments{
+\item{reproducible}{Visualizing GUI screen}
+}
 \value{
 Returning GUI window screen
 }
