@@ -95,7 +95,7 @@ runGUI <- function(
     app = shinyApp(
       ui = ui, 
       server = server,
-      options = list(display.mode = 'normal')
+      options = list(display.mode = 'window')
     ),
     golem_opts = list(reproducible = reproducible)
   )
