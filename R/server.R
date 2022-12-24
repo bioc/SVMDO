@@ -220,7 +220,7 @@ server <- function(input, output,session) {
     count_gene_id<-length(database_selection$ENTREZID)
     
     for (i in 1:count_gene_id) {
-      disease_enrichment<-DOSE::enrichDO(pop_gene_id[i],ont = "DO",maxGSSize = Inf)
+      disease_enrichment<-DOSE::enrichDO(pop_gene_id[i],ont = "DO")
       
       if (is.null(disease_enrichment)==FALSE){
         dis_length<-length(disease_enrichment@result$Description)
