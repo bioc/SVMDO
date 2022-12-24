@@ -206,7 +206,7 @@ server <- function(input, output,session) {
     
     changed_whole_data<-cbind(tissue_type_list,top_genes)
     collect_gene_names<-NULL
-    selected_data<-colnames(changed_whole_data)
+    selected_data<-colnames(changed_whole_data)[-1]
     
     checking_data<-selected_data
     checking_data<-as.character(checking_data)
