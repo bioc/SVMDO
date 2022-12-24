@@ -466,15 +466,7 @@ server <- function(input, output,session) {
           footer = NULL
         )
       )
-    }else{
-      showModal(
-        modalDialog(
-          title = "Classifcation Result",
-          "Process failed",
-          easyClose = TRUE,
-          footer = NULL
-        )
-      )}
+    }
   })
   
   survival_analysis<-observeEvent(input$initiate_surv_analysis, {
