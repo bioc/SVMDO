@@ -205,8 +205,7 @@ server <- function(input, output,session) {
   
   top_gene_selection<-observeEvent(input$initiate_top_gene_selection, {
     message_val<-NULL
-    #top_gene_number<-input$num_val
-    top_gene_number<-50
+    top_gene_number<-input$num_val
     if (nrow(sorted_new_bound_form_A) < top_gene_number | nrow(sorted_new_bound_form_B) < top_gene_number) {
       message_val_2<-1
       max_down_genes<-sorted_new_bound_form_A
@@ -238,7 +237,11 @@ server <- function(input, output,session) {
     disease_filtered_gene_data<-NULL
     changed_name_plus_var_imp_genes_table<-NULL
     
-    changed_whole_data<-cbind(tissue_type_list,top_genes)
+    if (exists("top_genes_test")) {
+      top_genes<-top_genes_test
+    }
+    
+    changed_whole_data<-cbind(tissue_type_list,top_geness)
     collect_gene_names<-NULL
     selected_data<-colnames(changed_whole_data)[-1]
     
