@@ -84,7 +84,7 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' #SVMDO::runGUI() Calling GUI without activating library
 #' #runGUI() Calling GUI after activating library
 #' # Disease Ontology Enrichment of a differentially expresed gene (entrez id):
-#' a_1<-DOSE::enrichDO(2981,ont="DO", maxGSSize=Inf)
+#' a_1<-DOSE::enrichDO(2981,ont="DO")
 
 
 runGUI <- function(
