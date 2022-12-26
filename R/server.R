@@ -241,7 +241,7 @@ server <- function(input, output,session) {
       top_genes<-top_genes_test
     }
     
-    changed_whole_data<-cbind(tissue_type_list,top_geness)
+    changed_whole_data<-cbind(tissue_type_list,top_genes)
     collect_gene_names<-NULL
     selected_data<-colnames(changed_whole_data)[-1]
     
