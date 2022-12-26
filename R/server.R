@@ -14,8 +14,7 @@ server <- function(input, output,session) {
       output$dir_select_ready <- renderUI({
         HTML("<font color=\"red\">", "using default Rstudio directory", "</font>")
       })}
-})
-
+      })
   
   rawData <- eventReactive(input$file1, {fread(input$file1$datapath,sep = "\t")})
   rawData_2 <- eventReactive(input$file1, {read.table(input$file2$datapath,sep = "\t",header = TRUE)})
@@ -25,25 +24,19 @@ server <- function(input, output,session) {
   
   deg_analysis<-observeEvent(input$initiate_deg_analysis, {
     if (input$test_datasets=="COAD") {
-      top_gene_number<-25
       c_path<-system.file("extdata","coad_exp_sum.rds",package="SVMDO",mustWork = TRUE)
       c<-readRDS(c_path)
       c<-as.data.frame(c@assays@data@listData)
     }else if (input$test_datasets=="LUSC"){
-      top_gene_number<-25
       c_path<-system.file("extdata","lusc_exp_sum.rds",package="SVMDO",mustWork = TRUE)
       c<-readRDS(c_path)
       c<-as.data.frame(c@assays@data@listData)
     }else{
-      top_gene_number<-input$num_val
       c<-rawData()
     }
-    
-    
     col_val_1<-NULL
     col_val_2<-NULL
-    
-    
+
     for (i in 1:ncol(c)) {                      
       if (typeof(c[[i]][2])=="character") {                        
         col_val_1<- i
@@ -82,7 +75,6 @@ server <- function(input, output,session) {
     int_col<-NULL
     dist_normal_pval<-NULL
     dist_tumour_pval<-NULL
-    
     
     i<-1:ncol(c)
     u<-duplicated(colnames(c))
@@ -161,7 +153,60 @@ server <- function(input, output,session) {
     sorted_new_bound_form_A<-new_bound_form_A[order(-new_bound_form_A$Fold_Change),]
     sorted_new_bound_form_B<-new_bound_form_B[order(new_bound_form_B$Fold_Change),]
     
-    
+    assign("sorted_new_bound_form_A",sorted_new_bound_form_A,envir =.GlobalEnv)
+    assign("sorted_new_bound_form_B",sorted_new_bound_form_B,envir =.GlobalEnv)
+    data.table::fwrite(complete_deg_gene_list,"complete_deg_gene_list.txt",sep = "\t")
+    assign("complete_deg_gene_list",complete_deg_gene_list,envir =.GlobalEnv)
+    assign("total_exp_dataset",c, envir =.GlobalEnv)
+
+    if (input$test_datasets %in% c("COAD","LUSC")) {
+      top_gene_number<-25
+      if (nrow(sorted_new_bound_form_A) < top_gene_number | nrow(sorted_new_bound_form_B) < top_gene_number) {
+      message_val_2<-1
+      max_down_genes<-sorted_new_bound_form_A
+      max_up_genes<-sorted_new_bound_form_B
+      print("Insufficient gene number All up/downregulated genes were selected")
+      print("Enter a lower value of input size")
+      }else{
+      max_down_genes<-sorted_new_bound_form_A[(nrow(sorted_new_bound_form_A)-(top_gene_number-1)):nrow(sorted_new_bound_form_A),]
+      max_up_genes<-sorted_new_bound_form_B[(nrow(sorted_new_bound_form_B)-(top_gene_number-1)):nrow(sorted_new_bound_form_B),]
+    }
+      top_combined_genes<-rbind(max_down_genes,max_up_genes)
+      rownames(top_combined_genes)<-top_combined_genes[,1]
+      changed_whole_data<-subset(c,select=top_combined_genes$Genes)    
+      data.table::fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
+      assign("top_genes_test",changed_whole_data,envir =.GlobalEnv)
+      message_val_2<-1
+    }else{
+      message_val<-1
+    }    
+
+    if (!is.null(message_val)) {
+      showModal(
+        modalDialog(
+          title = "DEG Analysis Result",
+          "Process Completed",
+          easyClose = TRUE,
+          footer = NULL
+        )
+      )
+    }
+  if (!is.null(message_val_2)) {
+    showModal(
+      modalDialog(
+        title = "Test Data-Based DEG Analysis Result",
+        "Process Completed",
+        easyClose = TRUE,
+        footer = NULL
+        )
+      )
+    }
+  })
+  
+  top_gene_selection<-observeEvent(input$initiate_top_gene_selection, {
+    message_val<-NULL
+    #top_gene_number<-input$num_val
+    top_gene_number<-50
     if (nrow(sorted_new_bound_form_A) < top_gene_number | nrow(sorted_new_bound_form_B) < top_gene_number) {
       message_val_2<-1
       max_down_genes<-sorted_new_bound_form_A
@@ -172,29 +217,18 @@ server <- function(input, output,session) {
       max_down_genes<-sorted_new_bound_form_A[(nrow(sorted_new_bound_form_A)-(top_gene_number-1)):nrow(sorted_new_bound_form_A),]
       max_up_genes<-sorted_new_bound_form_B[(nrow(sorted_new_bound_form_B)-(top_gene_number-1)):nrow(sorted_new_bound_form_B),]
     }
-    
     top_combined_genes<-rbind(max_down_genes,max_up_genes)
     rownames(top_combined_genes)<-top_combined_genes[,1]
-    changed_whole_data<-subset(c,select=top_combined_genes$Genes)
+    changed_whole_data<-subset(total_exp_dataset,select=top_combined_genes$Genes)
     
-    data.table::fwrite(complete_deg_gene_list,"complete_deg_gene_list.txt",sep = "\t")
     data.table::fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
     assign("top_genes",changed_whole_data,envir =.GlobalEnv)
-    assign("complete_deg_gene_list",complete_deg_gene_list,envir =.GlobalEnv)
-    
     message_val<-1
-    
     if (!is.null(message_val)) {
-      
       showModal(
         modalDialog(
-          title = "DEG Analysis Result",
-          "Process Completed",
-          easyClose = TRUE,
-          footer = NULL
-        )
-      )
-    }
+          title = "Top Gene Selection Result","Process Completed",
+          easyClose = TRUE,footer = NULL))}
   })
   
   do_analysis<-observeEvent(input$initiate_do_analysis, {
