@@ -512,7 +512,12 @@ server <- function(input, output,session) {
     coxcoeff<-NULL
     
     exp_col_data<-tcga_sample_comb$id
-    exp_data<-top_genes
+    
+    if (exists("top_genes_test")) {
+      exp_data<-top_genes_test
+    }else{
+      exp_data<-top_genes
+    }
     
     st_point<-as.numeric(sum(tcga_sample_comb$tissue_type=="normal")+1)
     end_point<-as.numeric(sum(tcga_sample_comb$tissue_type=="normal")+sum(tcga_sample_comb$tissue_type=="tumour"))
@@ -520,7 +525,6 @@ server <- function(input, output,session) {
     tcga_sample_comb<-tcga_sample_comb[tcga_sample_comb$tissue_type=="tumour",]
     
     exp_data<-as.data.frame(t(exp_data))
-    exp_data<-exp_data[-1,]
     colnames(exp_data)<-exp_col_data
     
     V1<-rownames(exp_data)
