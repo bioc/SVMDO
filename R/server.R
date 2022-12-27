@@ -528,7 +528,7 @@ server <- function(input, output,session) {
       showModal(
         modalDialog(
           title = "Classification Result",
-          "Process completed",
+          "Process Completed",
           easyClose = TRUE,
           footer = NULL
         )
@@ -537,7 +537,7 @@ server <- function(input, output,session) {
       showModal(
         modalDialog(
           title = "Error in Classification",
-          "Process failed",
+          "Process Failed",
           easyClose = TRUE,
           footer = NULL
         )
@@ -693,7 +693,7 @@ server <- function(input, output,session) {
     showModal(
       modalDialog(
         title = "Survival Analysis Result",
-        "Process completed",
+        "Process Completed",
         easyClose = TRUE,
         footer = NULL
       )
