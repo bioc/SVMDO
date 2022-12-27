@@ -81,29 +81,32 @@ The main dialog box is indicated in **Figure-1**. At each step of the GUI sectio
 
 # How to use SVMDO Main Screen
 1. To open GUI screen, you can directly write **SVMDO::runGUI()** in R console. If library is previously activated you can open GUI screen by writing **runGUI()** in R console. 
-2. To change your output directory, you can adjust it in the **Enter Output Directory** section.  Otherwise, default output directory will automatically be used.
-3. A user-defined input size (n) was defined to filter the initial gene list (i.e., n number of upregulated and downregulated genes) by entering a number in **Enter Top Gene Number** section.
-4. To omit test dataset application, select **"empty"** option from the combo box. 
-5. To search your transcriptome dataset, use the file detection in **Select Gene Expression Dataset** section. By clicking on **DEG Analysis** button you further apply differential expression analysis. Labels of tissue_type column in dataset must contain “Nor” and “Tum” for determining normal/tumour (or tumor) samples. When the process is completed, a message window saying **Differential Expression Analysis is Completed** will appear.
-8. To apply disease ontology-based gene filtration, click on **Gene Filtration with DO** button. When the process is completed, a message window saying **Gene Filtration with DO is Completed** will appear.
-9. To further apply the following feature selection and classification processes, click on the **Wilk’s Lambda Filtration & SVM Classification** button. When the process is completed, a message window saying **Classification is Completed** will appear.
-10. Acquired discriminative gene set can be further used for survival analysis to detect individual prognostic genes. To apply this process, use the file detection in **Select Clinical Data** section for searching clinical data about patient survival followed by clicking on **Survival Analysis** button. When the process is completed, a message window saying **Survival Analysis Completed* will appear.
+2. To change your output directory, you can adjust it in the **Choose Directory** section.  Otherwise, default output directory will automatically be used.
+3. To search your transcriptome dataset, use the file detection in **Choose Your Expression Dataset** section. The file will be automatically uploaded into the GUI.
+4. To prevent clashing with test datasets, select **"None"** option from the radio button section.
+6. By clicking on **DEG Analysis** button you further apply differential expression analysis. Labels of tissue_type column in dataset must contain “Nor” and “Tum” for determining normal/tumour (or tumor) samples. A meesage window saying process completed will appear if there is not any problem.
+8. When the process is completed, a message window saying **Differential Expression Analysis is Completed** will appear.
+9.  When the differential expression process is completed, a user-defined input size (n) is selected to filter the initial gene list (i.e., n number of upregulated and downregulated genes) by entering a number in **Input Size** section. It is predetermined as **50** in GUI which can be changed based on the user. A meesage window saying **process completed** will appear if there is not any problem. If there is problem with the value of input size, you will get a warning about inappropriate input size selection. If the input size remains, algorithm selects all of the differentiallly expressed genes to be used in the next process.
+11. To apply disease ontology-based gene filtration, click on **DO Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
+12. To further apply the following feature selection and classification processes, click on the **Classification** button. A meesage window saying **process completed** will appear if there is not any problem.
+15. Acquired discriminative gene set can be further used for survival analysis to detect individual prognostic genes. To apply this process, use the file detection in **Select Clinical Data** section for searching clinical data about patient survival followed by clicking on **Survival Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
 
 # Using test datasets with SVMDO Main Screen
-Before using the GUI in a study, analysis using the test datasets can be used to understand overall functionality of the algorithm.
-When test datasets are used, predefined input size (n=50) is used. Therefore, the user does not need to adjust the output gene size of differential expression analysis. 
-1. First of all, select the dataset to be used in test analysis by using combo box. There are two datasets consisting of simplified forms of TCGA-COAD (coad) and TCGA-LUSC (lusc) with 198 genes.
-2. To apply differential expression analysis on the selected dataset click on the **DEG Analysis** button. When the process is completed, a message window saying **Differential Expression Analysis is Completed** will appear.
-3. To further apply disease ontology-based gene filtration, click on **Gene Filtration with DO** button. When the process is completed, a message window saying **Gene Filtration with DO is Completed** will appear.
-3. To apply survival analysis on the acquired discriminative gene sets, click on **Survival Analysis** button. Clinical dataset for the selected dataset is automatically loaded into the GUI. When the process is completed, a message window saying **Survival Analysis Completed* will appear.
+Before using the GUI in a study, analysis using the test datasets can be used to understand overall functionality of the algorithm. Test datasets consists of objects of expression and Clinical datasets integrated into summarized experiment objects. These objects are saved in RDA forms and called from **extdata** folder of the package. 
+
+When test datasets are used, predefined input size (n=25) is used. 
+1. First of all, select the dataset to be used in test analysis by using radio buttons. There are two datasets consisting of simplified forms of TCGA-COAD (COAD) and TCGA-LUSC (LUSC) with 550 genes.
+2. To apply differential expression analysis on the selected dataset click on the **DEG Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
+3. To further apply disease ontology-based gene filtration, click on **DO Analysis** button.A meesage window saying **process completed** will appear if there is not any problem.
+3. To apply survival analysis on the acquired discriminative gene sets, click on **Survival Analysis** button. Clinical dataset for the selected dataset is automatically loaded into the GUI. A meesage window saying **process completed** will appear if there is not any problem.
 
 # Output Files of SVMDO
 * **top_genes:** n number of most upregulated and downregulated genes in expression data
 * **complete_deg_gene_list:** Complete set of upregulated and downregulated genes in expression data
 * **final_discriminative_gene_set:** Final form of gene set providing optimal classification performance 
 * **disease_filtered_gene_data:** Disease Ontology Enrichment-based filtered transcriptome dataset. 
-* **prognostic_analysis:** A table of prognostic evaluation of discriminative gene set (Optional)
-* Kaplan Meier plots of individual genes from the final form of discriminative gene set (Optional)
+* **prognostic_analysis:** A table of prognostic evaluation of discriminative gene set
+* Kaplan Meier plots of individual genes from the final form of discriminative gene set
 
 # References
 <div id="refs"></div>
