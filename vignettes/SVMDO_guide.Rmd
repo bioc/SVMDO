@@ -59,7 +59,7 @@ Transcriptome-based supervised classification can be difficult to handle due to 
 SVMDO was developed by using Shiny package. It is available for Windows and Linux from Bioconductor website. SVMDO requires the following R packages: Shiny, nortest, e1071, BSDA, data.table, sjmisc, klaR, caTools, dplyr, caret, survival, DOSE, AnnotationDbi, DOSE, org.Hs.eg.db
 
 # Dataset Preparation
-RNA-Seq cancer transcriptome datasets must be prepared before applying them in SVMDO. The expected form of input dataset is indicated in Table-1.
+RNA-Seq cancer transcriptome and clinical datasets must be prepared before applying them in SVMDO. The expected forms of input datasets are indicated in Table-1 and Table-2 for transcriptome and clinical datasets respectively
 
 ```{r table_data_prep, echo=FALSE}
 id<-c("TCGA-AA-3662","TCGA-AA-3514","TCGA-D5-6541","...")
@@ -70,9 +70,21 @@ table_prep<-data.frame(id,tissue_type,AB1G,A2M)
 ```
 `r knitr::kable(table_prep,"pipe",col.name=c("id","tissue_type","AB1G","A2M"),align = "cccc",caption="Table-1 Structure of RNA-Seq Transcriptome Dataset")`
 
-* **id:** TCGA Sample Ids (Optional Column for Survival Analysis)
-* **tissue_type:** Normal/Tumour (or Tumor) Tissue Information (Column name “tissue_type” is mandatory)
+```{r table_data_prep, echo=FALSE}
+id<-c("TCGA-AA-3662","TCGA-AA-3514","TCGA-D5-6541","...")
+days_to_death<-c(49,1331,225,"...")
+vital_status<-c("Alive","Dead","Dead","...")
+table_prep<-data.frame(id,days_to_death,vital_status)
+```
+`r knitr::kable(table_prep,"pipe",col.name=c("id","days_to_death","vital_status"),align = "cccc",caption="Table-2 Structure of Clinical Dataset")`
+
+* **tissue_type:** Normal/Tumour (or Tumor) Tissue Information 
 * **A1BG, A2M:** Gene Symbol and Gene Expression
+* **id:** TCGA Sample Ids
+* **days_to_death:** Survival Time of Patients 
+* **vital_status:** Vitality of Patients
+
+If there is not any requirement for **survival analysis**, preparation of **clinical dataset** and involvement of **id** column in the transcriptome dataset are optional.
 
 # SVMDO GUI Description
 The main dialog box is indicated in **Figure-1**. At each step of the GUI sections, necessary variables are saved as objects in the workspace environment to be used in the following sections. The input of SVMDO is a txt file of transcriptome dataset prepared in the form of **Table-1**. 
