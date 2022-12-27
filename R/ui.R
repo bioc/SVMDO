@@ -12,7 +12,7 @@ ui <- fluidPage(
   
   fluidRow(
     column(4,
-           fileInput("file1", "Choose Your Expression Dataset",accept = "text/txt"))),
+           fileInput("file1", "Choose Your Expression Dataset",accept = ".txt"))),
   fluidRow(
     column(4,radioButtons("test_datasets","Load Test Datasets (DEG + Survival)",choices = c("None","COAD","LUSC")))),
   

@@ -20,7 +20,6 @@ test_that("Prognostic Analysis is succesful", {
   tcga_sample_comb<-tcga_sample_comb[tcga_sample_comb$tissue_type=="tumour",]
   
   exp_data<-as.data.frame(t(exp_data))
-  exp_data<-exp_data[-1,]
   colnames(exp_data)<-exp_col_data
   
   V1<-rownames(exp_data)

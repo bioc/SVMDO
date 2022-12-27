@@ -1,16 +1,13 @@
 test_that("Disease Ontology-based Gene Selection is succesful", {
   
   globalVariables("new_tissue_type_list")
-  
-  
+
   normal_samples<-NULL
   tumour_samples<-NULL
   disease_filtered_gene_data<-NULL
   changed_name_plus_var_imp_genes_table<-NULL
   
-  c_2<-top_genes
-  
-  changed_whole_data<-c_2
+  changed_whole_data<-cbind(tissue_type_list,top_genes)
   collect_gene_names<-NULL
   selected_data<-colnames(changed_whole_data[,-1])
   

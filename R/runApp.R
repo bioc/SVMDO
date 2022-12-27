@@ -1,6 +1,7 @@
 globalVariables(c("final_discriminative_gene_set","top_genes","tcga_id_list", 
                   "..elected_val","tissue_type_list","disease_filtered_gene_data",
-                  "tcga_sample_comb","new_tissue_type_list","tissue_type"))
+                  "tcga_sample_comb","new_tissue_type_list","tissue_type",
+                  "top_genes_test","total_exp_dataset"))
 
 if (!requireNamespace("nortest", quietly = TRUE))
   stop("Install 'nortest' to use this package.")
