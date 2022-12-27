@@ -75,7 +75,7 @@ table_prep<-data.frame(id,tissue_type,AB1G,A2M)
 * **A1BG, A2M:** Gene Symbol and Gene Expression
 
 # SVMDO GUI Description
-The main dialog box is indicated in **Figure-1**. It is divided into three parts: DEG Analysis, Gene Filtration with DO, Wilk’s Lambda Filtration & SVM Classification and Survival Analysis. At each step of the sections, necessary variables are saved in a temporary environment to be used in the following sections. The input of SVMDO is a txt file of transcriptome dataset prepared in the form of **Table-1**. 
+The main dialog box is indicated in **Figure-1**. At each step of the GUI sections, necessary variables are saved as objects in the workspace environment to be used in the following sections. The input of SVMDO is a txt file of transcriptome dataset prepared in the form of **Table-1**. 
 
 ![**Figure-1** SVMDO Main Dialog Box](svmdo_gui_figure.png)
 
