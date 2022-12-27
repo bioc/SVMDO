@@ -47,7 +47,7 @@ ui <- fluidPage(
   
   fluidRow(
     column(4,
-           fileInput("file2", "Choose Clinical Data",accept = "text/txt"))),
+           fileInput("file2", "Choose Clinical Data",accept = ".txt"))),
   fluidRow(
     column(1,
            actionButton("initiate_surv_analysis","Survival Analysis"))),
