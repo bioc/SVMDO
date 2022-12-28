@@ -1,7 +1,8 @@
 linebreaks <- function(n){HTML(strrep(br(), n))}
 ui <- fluidPage(
-  
-  titlePanel("SVMDO Analysis"),
+  title="SVMDO",
+  use_shiny_title(),
+  titlePanel("Analysis Screen"),
   fluidRow(
     column(3,
            actionButton("dir_select","Choose directory",
