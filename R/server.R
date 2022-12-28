@@ -26,11 +26,14 @@ server <- function(input, output,session) {
                  if (!"path" %in% names(dir())) return()
                  home <- normalizePath("~")
                  global$datapath <-file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
-                 filtered<-gsub("^[^/]*/", "", global$datapath)
-                 selected_dir_val<-paste(as.character(def_roots),"/",filtered,sep = "")
-                 setwd(selected_dir_val)
-                 global$datapath<-selected_dir_val
-                 })
+                 if (osSystem == "Linux") {
+                   setwd(global$datapath)
+                 }else{
+                   filtered<-gsub("^[^/]*/", "", global$datapath)
+                   selected_dir_val<-paste(as.character(def_roots),"/",filtered,sep = "")
+                   setwd(selected_dir_val)
+                   global$datapath<-selected_dir_val
+                 }})
   
   rawData <- eventReactive(input$file1, {fread(input$file1$datapath,sep = "\t")})
   rawData_2 <- eventReactive(input$file1, {read.table(input$file2$datapath,sep = "\t",header = TRUE)})
