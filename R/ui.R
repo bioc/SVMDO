@@ -5,9 +5,9 @@ ui <- fluidPage(
   titlePanel("Analysis Screen"),
   fluidRow(
     column(3,
-           actionButton("dir_select","Choose directory",
-                        icon = icon("folder")
-           ),htmlOutput("dir_select_ready"))),
+           shinyDirButton("dir", "Input directory", "Upload"),
+           verbatimTextOutput("dir", placeholder = TRUE)
+           )),
   
   linebreaks(1),
   

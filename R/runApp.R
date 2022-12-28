@@ -51,8 +51,8 @@ if (!requireNamespace("shinytitle", quietly = TRUE))
 if (!requireNamespace("golem", quietly = TRUE))
   stop("Install 'shiny' to use this package.")
 
-if (!requireNamespace("rstudioapi", quietly = TRUE))
-  stop("Install 'rstudioapi' to use this package.")
+if (!requireNamespace("shinyFiles", quietly = TRUE))
+  stop("Install 'shinyFiles' to use this package.")
 
 #' Initiating GUI screen
 #' 
@@ -64,7 +64,7 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' @return Returning GUI window screen
 #' @export
 
-#' @importFrom rstudioapi selectDirectory
+#' @importFrom shinyFiles shinyDirChoose shinyDirButton
 #' @importFrom golem with_golem_options
 #' @importFrom shinytitle use_shiny_title
 #' @importFrom nortest ad.test
@@ -101,8 +101,8 @@ runGUI <- function(
   with_golem_options(
     app = shinyApp(
       ui = ui, 
-      server = server
+      server = server,
     ),
-    golem_opts = list(reproducible = reproducible)
+    golem_opts = list(reproducible = reproducible),
   )
 }
