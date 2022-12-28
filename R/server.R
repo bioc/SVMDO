@@ -2,13 +2,13 @@ server <- function(input, output,session) {
   osSystem <- Sys.info()["sysname"]
   if (osSystem == "Linux") {
     def_roots <- c(home = "~")
-  } else {
+  }else {
     def_roots <- shinyFiles::getVolumes()()
   }
   shinyDirChoose(
     input,
     'dir',
-    roots = def_roots,
+    roots=def_roots,
     filetypes = c("txt")
   )
   
@@ -22,11 +22,14 @@ server <- function(input, output,session) {
                  input$dir
                },
                handlerExpr = {
+                 
                  if (!"path" %in% names(dir())) return()
                  home <- normalizePath("~")
-                 global$datapath <-
-                   file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
-                 setwd(global$datapath)
+                 global$datapath <-file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
+                 filtered<-gsub("^[^/]*/", "", global$datapath)
+                 selected_dir_val<-paste(as.character(def_roots),"/",filtered,sep = "")
+                 setwd(selected_dir_val)
+                 global$datapath<-selected_dir_val
                  })
   
   rawData <- eventReactive(input$file1, {fread(input$file1$datapath,sep = "\t")})
