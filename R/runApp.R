@@ -45,6 +45,12 @@ if (!requireNamespace("dplyr", quietly = TRUE))
 if (!requireNamespace("shiny", quietly = TRUE))
   stop("Install 'shiny' to use this package.")
 
+if (!requireNamespace("shinytitle", quietly = TRUE))
+  stop("Install 'shiny' to use this package.")
+
+if (!requireNamespace("golem", quietly = TRUE))
+  stop("Install 'shiny' to use this package.")
+
 if (!requireNamespace("rstudioapi", quietly = TRUE))
   stop("Install 'rstudioapi' to use this package.")
 
@@ -59,7 +65,8 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' @export
 
 #' @importFrom rstudioapi selectDirectory
-#' @importFrom golem with_golem_options 
+#' @importFrom golem with_golem_options
+#' @importFrom shinytitle use_shiny_title
 #' @importFrom nortest ad.test
 #' @importFrom e1071 svm
 #' @importFrom BSDA z.test
@@ -77,7 +84,6 @@ if (!requireNamespace("rstudioapi", quietly = TRUE))
 #' @importFrom graphics legend mtext
 #' @importFrom stats median na.omit p.adjust predict qnorm sd wilcox.test
 #' @importFrom utils read.table write.table
-
 
 #' @import shiny
 
