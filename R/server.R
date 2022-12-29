@@ -569,7 +569,7 @@ server <- function(input, output,session) {
     exp_col_data<-NULL
     coxcoeff<-NULL
     
-    if (exists("tcga_sample_comb")) {
+    if (exists("tcga_sample_comb") & exists("final_discriminative_gene_set")) {
       exp_col_data<-tcga_sample_comb$id
       
       if (exists("top_genes_test")) {
@@ -730,4 +730,40 @@ server <- function(input, output,session) {
     
 
   })
+  
+  clearing_workspace<-observeEvent(input$clean_workspace, {
+    string_names<-c("complete_deg_gene_list","disease_filtered_gene_data","final_discriminative_gene_set",
+                       "new_tissue_type_list","sorted_new_bound_form_A","sorted_new_bound_form_B","tcga_id_list","tcga_sample_comb",
+                       "tissue_type_list","top_genes_test","top_genes","total_exp_dataset")
+
+    u<-0
+        for (i in 1:length(string_names)) {
+      if (exists(string_names[i])) {
+        u<-u+1
+        rm(list = c(string_names[i]), envir = .GlobalEnv)
+
+      }
+    }
+    
+    if (u==0) {
+      showModal(
+        modalDialog(
+          title = "Error in SVMDO Objects",
+          "Objects were not found",
+          easyClose = TRUE,
+          footer = NULL
+        )
+      )
+    }else{
+      showModal(
+        modalDialog(
+          title = "Clearing SVMDO Objects",
+          "Process Completed",
+          easyClose = TRUE,
+          footer = NULL
+        )
+      )
+    }
+  })
+  
 }
