@@ -181,7 +181,7 @@ server <- function(input, output,session) {
     assign("total_exp_dataset",c, envir =.GlobalEnv)
     
     if (input$test_datasets %in% c("COAD","LUSC")) {
-      top_gene_number<-25
+      top_gene_number<-50
       if (nrow(sorted_new_bound_form_A) < top_gene_number | nrow(sorted_new_bound_form_B) < top_gene_number) {
         message_val_2<-1
         max_down_genes<-sorted_new_bound_form_A
