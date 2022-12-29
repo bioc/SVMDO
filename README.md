@@ -1,7 +1,7 @@
 # SVMDO
 
 ## Overview
-SVMDO is a R package providing a GUI for extracting disease-associated and normal/tumor tissue sample discriminating gene sets. 
+SVMDO is a R package providing Shiny-based web application for extracting disease-associated and normal/tumor tissue sample discriminating gene sets. 
 
 ![](vignettes/algorithm_figure.png)
 
