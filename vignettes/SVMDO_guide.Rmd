@@ -111,8 +111,8 @@ When test datasets are used, predefined input size (n=50) is used.
 1. First of all, select the dataset to be used in test analysis by using radio buttons. There are two datasets consisting of simplified forms of TCGA-COAD (COAD) and TCGA-LUSC (LUSC) with 400 genes loaded into summarized experiement objects.
 2. To apply differential expression analysis on the selected dataset click on the **DEG Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
 3. To further apply disease ontology-based gene filtration, click on **DO Analysis** button.A meesage window saying **process completed** will appear if there is not any problem.
-3. To apply survival analysis on the acquired discriminative gene sets, click on **Survival Analysis** button. Clinical dataset for the selected dataset is automatically loaded into the GUI. A meesage window saying **process completed** will appear if there is not any problem.
-4. When the testing process is completed, click on the **Clear Environment** button to remove the global variables created during the algorithm sections. To prevent error in the next usages of GUI, it is a necessary processes. It can be applied at any moment without the necessity of completing all of the steps of algorithm. 
+4. To apply survival analysis on the acquired discriminative gene sets, click on **Survival Analysis** button. Clinical dataset for the selected dataset is automatically loaded into the GUI. A meesage window saying **process completed** will appear if there is not any problem.
+5. When the testing process is completed, click on the **Clear Environment** button to remove the global variables created during the algorithm sections. To prevent error in the next usages of GUI, it is a necessary processes. It can be applied at any moment without the necessity of completing all of the steps of algorithm. 
 
 # Output Files of SVMDO
 * **top_genes:** n number of most upregulated and downregulated genes in expression data
