@@ -119,8 +119,6 @@ When test datasets are used, predefined input size (n=50) is used.
 * **complete_deg_gene_list:** Complete set of upregulated and downregulated genes in expression data
 * **final_discriminative_gene_set:** Final form of gene set providing optimal classification performance 
 * **disease_filtered_gene_data:** Disease Ontology Enrichment-based filtered transcriptome dataset. 
-* **prognostic_analysis:** A table of prognostic evaluation of discriminative gene set
-* Kaplan Meier plots of individual genes from the final form of discriminative gene set
 
 # References
 <div id="refs"></div>
