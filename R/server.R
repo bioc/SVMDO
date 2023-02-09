@@ -1,9 +1,30 @@
+#' @importFrom shinyFiles shinyDirChoose shinyDirButton getVolumes
+#' @importFrom shinytitle use_shiny_title
+#' @importFrom nortest ad.test
+#' @importFrom e1071 svm
+#' @importFrom BSDA z.test
+#' @importFrom data.table fread fwrite first
+#' @importFrom sjmisc str_contains
+#' @importFrom caTools sample.split
+#' @importFrom klaR greedy.wilks
+#' @importFrom caret confusionMatrix
+#' @importFrom survival Surv survfit coxph survdiff
+#' @importFrom DOSE enrichDO
+#' @importFrom AnnotationDbi select
+#' @importFrom org.Hs.eg.db org.Hs.eg.db
+#' @importFrom dplyr mutate
+#' @importFrom grDevices dev.off png
+#' @importFrom graphics legend mtext
+#' @importFrom stats median na.omit p.adjust predict qnorm sd wilcox.test
+#' @importFrom utils read.table write.table
+#' @importFrom SummarizedExperiment assay
+
 server <- function(input, output,session) {
   osSystem <- Sys.info()["sysname"]
   if (osSystem == "Linux") {
     def_roots <- c(home = "~")
   }else {
-    def_roots <- shinyFiles::getVolumes()()
+    def_roots <- getVolumes()()
   }
   shinyDirChoose(
     input,
@@ -30,7 +51,7 @@ server <- function(input, output,session) {
                    setwd(global$datapath)
                  }else{
                    filtered<-gsub("^[^/]*/", "", global$datapath)
-                   selected_dir_val<-paste(as.character(def_roots),"/",filtered,sep = "")
+                   selected_dir_val<-file.path(as.character(def_roots),filtered,fsep = "/")
                    setwd(selected_dir_val)
                    global$datapath<-selected_dir_val
                  }})
@@ -46,45 +67,60 @@ server <- function(input, output,session) {
     if (input$test_datasets=="COAD") {
       c_path<-system.file("extdata","coad_exp_sum.rds",package="SVMDO",mustWork = TRUE)
       c<-readRDS(c_path)
-      c<-as.data.frame(c@assays@data@listData)
+      c<-assay(c)
+      type_num_data<-seq.int(1,ncol(c))
+      type_data<-c[1,type_num_data]
     }else if (input$test_datasets=="LUSC"){
       c_path<-system.file("extdata","lusc_exp_sum.rds",package="SVMDO",mustWork = TRUE)
       c<-readRDS(c_path)
-      c<-as.data.frame(c@assays@data@listData)
+      c<-assay(c)
+      type_num_data<-seq.int(1,ncol(c))
+      type_data<-c[1,type_num_data]
     }else{
       c<-rawData()
+      type_num_data<-seq.int(1,ncol(c))
+      type_data<-c[1,..type_num_data]
     }
     
     col_val_1<-NULL
     col_val_2<-NULL
     
-    for (i in 1:ncol(c)) {                      
-      if (typeof(c[[i]][2])=="character") {                        
-        col_val_1<- i
-        break
-      }
-    }
+
+    type_apply_1<-lapply(type_data,is.character)
+    type_loc_1<-as.numeric(first(which(type_apply_1==TRUE)))
     
-    for (i in 1:ncol(c)) {                      
-      if (typeof(c[[i]][2])!="character" & typeof(c[[i]][2])!="integer") {                        
-        col_val_2<- i-1
-        break
-      }
-    }
-    assigning_tcga_id_list<-as.data.frame(c[[col_val_1]])
-    assigning_tissue_type_list<-as.data.frame(c[[col_val_2]])
-    
-    colnames(assigning_tcga_id_list)<-data.frame("id")
-    colnames(assigning_tissue_type_list)<-c("tissue_type")
-    
-    if(assigning_tcga_id_list$id[1]!=assigning_tissue_type_list$tissue_type[1]){
+    if (!is.character(c[[type_loc_1+1]])) {
+      
+      type_loc_2<-type_loc_1+1
+      col_val_1<-type_loc_1
+      col_val_2<-type_loc_2
+      
+      assigning_tissue_type_list<-as.data.frame(c[[col_val_1]])
+      colnames(assigning_tissue_type_list)<-c("tissue_type")
+      assign("tissue_type_list",assigning_tissue_type_list,envir =.GlobalEnv)
+      
+      start_val<-type_loc_1
+      num_data<-start_val+1
+    }else{
+      type_loc_2<-type_loc_1+2
+      col_val_1<-type_loc_1
+      col_val_2<-type_loc_2
+      
+      assigning_tcga_id_list<-as.data.frame(c[[col_val_1]])
+      assigning_tissue_type_list<-as.data.frame(c[[col_val_1+1]])
+      
+      colnames(assigning_tcga_id_list)<-data.frame("id")
+      colnames(assigning_tissue_type_list)<-c("tissue_type")
+      
+      assign("tissue_type_list",assigning_tissue_type_list,envir =.GlobalEnv)
       assign("tcga_id_list",assigning_tcga_id_list,envir =.GlobalEnv)
+      
+      start_val<-type_loc_1+1
+      num_data<-start_val+2
+      
     }
     
-    assigning_tissue_type_list$tissue_type<-as.character(assigning_tissue_type_list$tissue_type)
-    assign("tissue_type_list",assigning_tissue_type_list,envir =.GlobalEnv)
-    
-    c<-c[,-(1:col_val_2)]
+    c<-c[,num_data:ncol(c)]
     
     c<-cbind(tissue_type_list,c)
     
@@ -97,15 +133,7 @@ server <- function(input, output,session) {
     dist_normal_pval<-NULL
     dist_tumour_pval<-NULL
     
-    i<-1:ncol(c)
-    u<-duplicated(colnames(c))
-    df<-which(u[i]==TRUE)
-    d<-colnames(c)[df]
-    duplicate_number<-as.data.frame(d)
-    
-    for(j in 1:nrow(duplicate_number)){
-      colnames(c)[df[j]]<-paste0(colnames(c)[df[j]],"__",j)
-    }
+    colnames(c)<-(make.unique(colnames(c)))
     
     #####Modifying illegal symbols
     colnames(c)<-gsub( "-", "__",  colnames(c))
@@ -119,38 +147,43 @@ server <- function(input, output,session) {
     normal_data<-c[grep("Nor",c$tissue_type),]
     tumour_data<-c[grep("Tum",c$tissue_type),]
     
-    for(i in 1:ncol(c)){
-      if(typeof(unlist(c[[i]][1]))!="character" & typeof(unlist(c[[i]][1]))!="integer"){
-        start_val<-i
-        break
-      }
-    }
-    
-    normal_data_mean<-colMeans(normal_data[,start_val:ncol(normal_data)])
-    tumour_data_mean<-colMeans(tumour_data[,start_val:ncol(tumour_data)])
+    num_data_norm<-(seq.int(start_val,ncol(normal_data)))
+    num_data_tum<-(seq.int(start_val,ncol(tumour_data)))
+    normal_data_mean<-colMeans(normal_data[,num_data_norm])
+    tumour_data_mean<-colMeans(tumour_data[,num_data_tum])
     
     fold_change<-tumour_data_mean/normal_data_mean
     matr_fold<-as.matrix(fold_change)
     
-    for (i in start_val:ncol(normal_data)) {
-      dist_normal_pval<-nortest::ad.test(normal_data[[i]][1:nrow(normal_data)])$p.value
-      dist_tumour_pval<-nortest::ad.test(tumour_data[[i]][1:nrow(tumour_data)])$p.value
-      
-      if (dist_normal_pval<0.05 | dist_tumour_pval<0.05 ) {
-        
-        for (i in start_val:ncol(c)) {
-          p_val<-wilcox.test(as.numeric(unlist(normal_data[[i]])),as.numeric(unlist(tumour_data[[i]])))$p.value
+    i<-start_val
+    u<-start_val
+    s<-start_val
+    
+    dist_normal_pval<-ad.test(normal_data[[i]][seq.int(1,ncol(normal_data))])$p.value
+    dist_tumour_pval<-ad.test(tumour_data[[i]][seq.int(1,ncol(tumour_data))])$p.value
+    
+    repeat{
+      if (!is.null(dist_normal_pval) & (dist_normal_pval>=0.05 | dist_tumour_pval>=0.05)) {
+        dist_normal_pval<-ad.test(normal_data[[i]][seq.int(1,ncol(normal_data))])$p.value
+        dist_tumour_pval<-ad.test(tumour_data[[i]][seq.int(1,ncol(tumour_data))])$p.value
+        if (i==ncol(normal_data)) {
+          p_val<-z.test(normal_data[[s]],tumour_data[[s]],sigma.x = sd(normal_data[[s]]),sigma.y = sd(tumour_data[[s]]))$p.value
           p_val_total<-c(p_val_total,p_val)
+          s<-s+1
+        }else{
+          i<-i+1
         }
+      }
+      
+      if (dist_normal_pval<0.05 | dist_tumour_pval<0.05) {
+        p_val<-wilcox.test(as.numeric(unlist(normal_data[[u]])),as.numeric(unlist(tumour_data[[u]])))$p.value
+        p_val_total<-c(p_val_total,p_val)
+        u<-u+1
+      }
+      if (u>ncol(normal_data) | s>ncol(normal_data)) {
         break
       }
-    }
-    
-    if (is.null(p_val_total)) {
-      for(i in start_val:ncol(c)) {
-        p_val<-z.test(normal_data[[i]],tumour_data[[i]],sigma.x = sd(normal_data[[i]]),sigma.y = sd(tumour_data[[i]]))$p.value
-        p_val_total<-c(p_val_total,p_val)
-      }
+      
     }
     
     padjust<-p.adjust(p_val_total,method = "BH")
@@ -176,7 +209,7 @@ server <- function(input, output,session) {
     
     assign("sorted_new_bound_form_A",sorted_new_bound_form_A,envir =.GlobalEnv)
     assign("sorted_new_bound_form_B",sorted_new_bound_form_B,envir =.GlobalEnv)
-    data.table::fwrite(complete_deg_gene_list,"complete_deg_gene_list.txt",sep = "\t")
+    fwrite(complete_deg_gene_list,"complete_deg_gene_list.txt",sep = "\t")
     assign("complete_deg_gene_list",complete_deg_gene_list,envir =.GlobalEnv)
     assign("total_exp_dataset",c, envir =.GlobalEnv)
     
@@ -186,16 +219,16 @@ server <- function(input, output,session) {
         message_val_2<-1
         max_down_genes<-sorted_new_bound_form_A
         max_up_genes<-sorted_new_bound_form_B
-        print("Insufficient gene number All up/downregulated genes were selected")
-        print("Enter a lower value of input size")
+        message("Insufficient gene number All up/downregulated genes were selected")
+        message("Enter a lower value of input size")
       }else{
-        max_down_genes<-sorted_new_bound_form_A[(nrow(sorted_new_bound_form_A)-(top_gene_number-1)):nrow(sorted_new_bound_form_A),]
-        max_up_genes<-sorted_new_bound_form_B[(nrow(sorted_new_bound_form_B)-(top_gene_number-1)):nrow(sorted_new_bound_form_B),]
+        max_down_genes<-sorted_new_bound_form_A[seq.int((nrow(sorted_new_bound_form_A)-(top_gene_number-1)),nrow(sorted_new_bound_form_A)),]
+        max_up_genes<-sorted_new_bound_form_B[seq.int((nrow(sorted_new_bound_form_B)-(top_gene_number-1)),nrow(sorted_new_bound_form_B)),]
       }
       top_combined_genes<-rbind(max_down_genes,max_up_genes)
       rownames(top_combined_genes)<-top_combined_genes[,1]
       changed_whole_data<-subset(c,select=top_combined_genes$Genes)    
-      data.table::fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
+      fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
       assign("top_genes_test",changed_whole_data,envir =.GlobalEnv)
       message_val_2<-1
     }else{
@@ -235,17 +268,17 @@ server <- function(input, output,session) {
         message_val_2<-1
         max_down_genes<-sorted_new_bound_form_A
         max_up_genes<-sorted_new_bound_form_B
-        print("Insufficient gene number All up/downregulated genes were selected")
-        print("Enter a lower value of input size")
+        message("Insufficient gene number All up/downregulated genes were selected")
+        message("Enter a lower value of input size")
       }else{
-        max_down_genes<-sorted_new_bound_form_A[(nrow(sorted_new_bound_form_A)-(top_gene_number-1)):nrow(sorted_new_bound_form_A),]
-        max_up_genes<-sorted_new_bound_form_B[(nrow(sorted_new_bound_form_B)-(top_gene_number-1)):nrow(sorted_new_bound_form_B),]
+        max_down_genes<-sorted_new_bound_form_A[seq.int((nrow(sorted_new_bound_form_A)-(top_gene_number-1)),nrow(sorted_new_bound_form_A)),]
+        max_up_genes<-sorted_new_bound_form_B[seq.int((nrow(sorted_new_bound_form_B)-(top_gene_number-1)),nrow(sorted_new_bound_form_B)),]
       }
       top_combined_genes<-rbind(max_down_genes,max_up_genes)
       rownames(top_combined_genes)<-top_combined_genes[,1]
       changed_whole_data<-subset(total_exp_dataset,select=top_combined_genes$Genes)
       
-      data.table::fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
+      fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
       assign("top_genes",changed_whole_data,envir =.GlobalEnv)
       message_val<-1
     }else{
@@ -283,46 +316,45 @@ server <- function(input, output,session) {
       checking_data<-as.character(checking_data)
       checking_data<-gsub( "__", "-",checking_data)
       
-      colnames(changed_whole_data[,2:ncol(changed_whole_data)])<-checking_data
-      database_selection<-AnnotationDbi::select(org.Hs.eg.db::org.Hs.eg.db, keys = checking_data,columns = c("ENTREZID", "SYMBOL"),keytype = "SYMBOL")
+      colnames(changed_whole_data[,seq.int(2,ncol(changed_whole_data))])<-checking_data
+      database_selection<-select(org.Hs.eg.db, keys = checking_data,columns = c("ENTREZID", "SYMBOL"),keytype = "SYMBOL")
       
       pop_gene_id<-database_selection$ENTREZID
       pop_gene_symbol<-database_selection$SYMBOL
       count_gene_id<-length(database_selection$ENTREZID)
       
-      for (i in 1:count_gene_id) {
-        disease_enrichment<-DOSE::enrichDO(pop_gene_id[i],ont = "DO")
-        
-        if (is.null(disease_enrichment)==FALSE){
-          dis_length<-length(disease_enrichment@result$Description)
-          p_check<-(disease_enrichment@result$p.adjust[1])
-          
-          if (dis_length>0 & p_check<0.05) {
-            assign(paste0("disease_table","_",i),disease_enrichment)
-            check_value<-assign(paste0("disease_table","_",i),disease_enrichment)
-            collect_gene_names<-c(collect_gene_names,pop_gene_symbol[i])
+      dis_gene_extract<-lapply(seq_along(pop_gene_id),function(x){
+        disease_enrichment<-enrichDO(pop_gene_id[x],ont = "DO")
+        if (!is.null(disease_enrichment)){
+          dis_length<-length(disease_enrichment[1]$Description)
+          p_check<-(disease_enrichment[1]$p.adjust[1])
+          if (dis_length>0 & p_check<0.05 ){
+            selected_gene_list<-c(collect_gene_names,pop_gene_symbol[x])
           }
         }
-      }
+      })
       
+      collect_gene_names<-unlist(dis_gene_extract)
       collect_gene_names<-gsub( "-", "__",collect_gene_names)
       changed_whole_data<-changed_whole_data[,-1]
       changed_name_plus_var_imp_genes_table<-subset(changed_whole_data,select=(collect_gene_names))
       
-      
-      for (i in 1:nrow(tissue_type_list)) {
-        
-        if (sjmisc::str_contains(tissue_type_list$tissue_type[i],"Nor")) {
+      samp_select_norm<-lapply(seq.int(1,nrow(tissue_type_list)), function(x){
+        if (str_contains(tissue_type_list$tissue_type[x],"Nor")) {
           normal_samples<-rbind("normal",normal_samples)
-        }
-        if (sjmisc::str_contains(tissue_type_list$tissue_type[i],"Tum")) {
+        }})
+      samp_select_tum<-lapply(seq.int(1,nrow(tissue_type_list)), function(x){
+        if (str_contains(tissue_type_list$tissue_type[x],"Tum")) {
           tumour_samples<-rbind("tumour",tumour_samples)
         }
-      }
+      })
       
+      normal_samples<-as.data.frame(unlist(samp_select_norm))
+      tumour_samples<-as.data.frame(unlist(samp_select_tum))
+      colnames(normal_samples)<-"tissue_type"
+      colnames(tumour_samples)<-"tissue_type"
       assigning_new_tissue_type_list<-rbind(normal_samples,tumour_samples)
-      colnames(assigning_new_tissue_type_list)<-c("tissue_type")
-      assigning_new_tissue_type_list<-as.data.frame(assigning_new_tissue_type_list)
+      rownames(assigning_new_tissue_type_list)<-NULL
       assign("new_tissue_type_list",assigning_new_tissue_type_list,envir = .GlobalEnv)
       
       if(exists("tcga_id_list")){
@@ -334,7 +366,7 @@ server <- function(input, output,session) {
       assigning_disease_filtered_gene_data<-cbind(new_tissue_type_list,changed_name_plus_var_imp_genes_table)
       assigning_disease_filtered_gene_data<-as.data.frame(assigning_disease_filtered_gene_data)
       assign("disease_filtered_gene_data",assigning_disease_filtered_gene_data,envir = .GlobalEnv)
-      data.table::fwrite(assigning_disease_filtered_gene_data,"disease_filtered_gene_data.txt",sep = "\t")
+      fwrite(assigning_disease_filtered_gene_data,"disease_filtered_gene_data.txt",sep = "\t")
       message_val_3<-1
     }
     if (!is.null(message_val_3)) {
@@ -398,13 +430,10 @@ server <- function(input, output,session) {
     control_val<-0
     abc<-0
     
-    
     if (exists("new_tissue_type_list")) {
       
       all_names<-new_tissue_type_list
       actual_disease_filtered_gene_data<-subset(disease_filtered_gene_data,select=-tissue_type)
-      
-      start_time<-Sys.time()
       
       repeat{
         
@@ -416,7 +445,7 @@ server <- function(input, output,session) {
         
         if (ncol(disease_filtered_gene_data)>2 & specific_check_val==0) {
           elected_val<-NULL
-          elected_genes<-klaR::greedy.wilks(tissue_type ~ ., data=disease_filtered_gene_data,niveau=niv_value)
+          elected_genes<-greedy.wilks(tissue_type ~ ., data=disease_filtered_gene_data,niveau=niv_value)
           nameless_disease_filtered_gene_data<-disease_filtered_gene_data[,-1]
           elected_val<-elected_genes$results$vars
           elected_val<-as.vector(elected_val)
@@ -441,7 +470,7 @@ server <- function(input, output,session) {
         
         if (is.null(skip_value)==FALSE) {
           
-          spl <- caTools::sample.split(disease_filtered_gene_data$tissue_type, SplitRatio = 0.80)
+          spl <- sample.split(disease_filtered_gene_data$tissue_type, SplitRatio = 0.80)
           training_set <- subset(disease_filtered_gene_data, spl == TRUE)
           test_set <- subset(disease_filtered_gene_data, spl == FALSE)
           row.names(training_set) <- NULL
@@ -463,14 +492,8 @@ server <- function(input, output,session) {
             c_val_const<-c_val_selection
             
           }
-          
-          end_time<-Sys.time()
-          
-          if (as.numeric(difftime(end_time,start_time,units = "mins"))>10) {
-            break
-          }
-          
-          tuning_action<-e1071::svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
+
+          tuning_action<-svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
           svm_data<-tuning_action
           
           check_training_set<-subset(training_set,select=-tissue_type)
@@ -481,8 +504,8 @@ server <- function(input, output,session) {
           y_pred <- predict(svm_data,type="prob", check_testing_set,probability =TRUE)
           
           
-          train_table<-caret::confusionMatrix(t_pred, as.factor(training_set$tissue_type))
-          test_table<-caret::confusionMatrix(y_pred,as.factor(test_set$tissue_type))
+          train_table<-confusionMatrix(t_pred, as.factor(training_set$tissue_type))
+          test_table<-confusionMatrix(y_pred,as.factor(test_set$tissue_type))
           
           test_spec<-test_table$byClass[2]
           train_spec<-train_table$byClass[2]
@@ -587,7 +610,7 @@ server <- function(input, output,session) {
       colnames(exp_data)<-exp_col_data
       
       V1<-rownames(exp_data)
-      exp_data<-exp_data[,st_point:end_point]
+      exp_data<-exp_data[,seq.int(st_point,end_point)]
       exp_data<-cbind(V1,exp_data)
       
       colnames(exp_data)<-c("V1",as.character(tcga_sample_comb$id))
@@ -598,11 +621,11 @@ server <- function(input, output,session) {
       if (input$test_datasets=="COAD") {
         c_path<-system.file("extdata","coad_clinic_sum.rds",package="SVMDO",mustWork = TRUE)
         c<-readRDS(c_path)
-        alldata<-as.data.frame(c@assays@data@listData)
+        alldata<-assay(c)
       }else if (input$test_datasets=="LUSC"){
         c_path<-system.file("extdata","lusc_clinic_sum.rds",package="SVMDO",mustWork = TRUE)
         c<-readRDS(c_path)
-        alldata<-as.data.frame(c@assays@data@listData)
+        alldata<-assay(c)
         
       }else{
         alldata<-rawData_2()
@@ -626,8 +649,7 @@ server <- function(input, output,session) {
       table1 <- data.frame(matrix(NA, nrow = length(disc_list$Names), ncol = 5))
       colnames(table1) <- c("modulename", "p", "hr", "low", "up")
       
-      for (a in 1:length(disc_list$Names)) {
-        
+      prog_prep<-lapply(seq_along(disc_list$Names),function(a){
         alldata1 <- alldata
         
         module <- (sub_exp_data[a,])
@@ -640,17 +662,18 @@ server <- function(input, output,session) {
         moduletrans<-as.data.frame(moduletrans[match(alldata1$id,rownames(moduletrans)),])
         colnames(moduletrans)<-name_val
         
-        coxcoeff<- survival::coxph(survival::Surv(time= alldata1$days_to_death, event = alldata1$vital_status) ~ (moduletrans[,1]), data = alldata1)$coefficients
-        PI <- data.frame()[1:nrow(moduletrans),]
+        coxcoeff<- coxph(Surv(time= alldata1$days_to_death, event = alldata1$vital_status) ~ (moduletrans[,1]), data = alldata1)$coefficients
+        PI <- data.frame()[seq.int(1,nrow(moduletrans)),]
         
-        for (j in 1:nrow(moduletrans)) {
-          PI[j,1] <- sum(na.omit(((moduletrans[j,])) * coxcoeff))
-        }
+        lap_PI_test<-lapply(seq_along(1:nrow(moduletrans)), function(b){
+          pi_val<-sum(na.omit(((moduletrans[b,])) * coxcoeff))
+        })
+        
+        PI<-as.data.frame(unlist(lap_PI_test))
         rownames(PI) <- rownames(moduletrans)
         colnames(PI) <- 'PI'
-        PI <- as.data.frame(PI)
         
-        alldata1 <- dplyr::mutate(alldata1, PI = PI$PI)
+        alldata1 <- mutate(alldata1, PI = PI$PI)
         medPI <- median(PI$PI)
         
         if (medPI<=0 ) {
@@ -668,28 +691,23 @@ server <- function(input, output,session) {
           alldata1$group <- ifelse(PI$PI <= medPI, 2, 1)
         }
         
-        
         if (sum(!duplicated(alldata1$group))!=1) {
           
-          surv_object <- survival::Surv(time = alldata1$days_to_death, event = alldata1$vital_status)
-          fit1 <- survival::survfit(surv_object ~ group, data = alldata1)
-          coxhr <- survival::coxph(surv_object ~ group, data = alldata1)
+          surv_object <- Surv(time = alldata1$days_to_death, event = alldata1$vital_status)
+          fit1 <- survfit(surv_object ~ group, data = alldata1)
+          coxhr <- coxph(surv_object ~ group, data = alldata1)
           summhr <- summary(coxhr)
           p <- round(summhr$sctest[3], digits = 5)
           
-          data.survdiff <- survival::survdiff(surv_object ~ group, data = alldata1)
+          data.survdiff <- survdiff(surv_object ~ group, data = alldata1)
           hr = round((data.survdiff$obs[1]/data.survdiff$exp[1])/(data.survdiff$obs[2]/data.survdiff$exp[2]), digits = 3)
           up = round(exp(log(hr) + qnorm(0.975)*sqrt(1/data.survdiff$exp[2]+1/data.survdiff$exp[1])), digits = 3)
           low = round(exp(log(hr) - qnorm(0.975)*sqrt(1/data.survdiff$exp[2]+1/data.survdiff$exp[1])), digits = 3)
           
-          modulename <- as.character(sub_exp_data$V1[a])
-          
-          if (sjmisc::str_contains(modulename,"__")) {
+          modulename <- (sub_exp_data$V1[a])
+          if (str_contains(modulename,"__")) {
             modulename<-gsub("__","-",modulename)
           }
-          
-          table <- t(cbind.data.frame(modulename, p, hr, low, up))
-          table1[a,] <- table
           
           if (p<0.05) {
             
@@ -703,9 +721,6 @@ server <- function(input, output,session) {
             dev.off()
             alldata1_col<-NULL
           }
-          
-          colnames(table1)<-c("Gene", "p", "hr", "low", "up")
-          write.table(table1,"prognostic_analysis.txt",sep = "\t")
         }
         showModal(
           modalDialog(
@@ -715,8 +730,8 @@ server <- function(input, output,session) {
             footer = NULL
           )
         )
-        
-      }
+      })
+      
     }else{
       showModal(
         modalDialog(
@@ -728,22 +743,22 @@ server <- function(input, output,session) {
       )
     }
     
-
+    
   })
   
   clearing_workspace<-observeEvent(input$clean_workspace, {
     string_names<-c("complete_deg_gene_list","disease_filtered_gene_data","final_discriminative_gene_set",
                        "new_tissue_type_list","sorted_new_bound_form_A","sorted_new_bound_form_B","tcga_id_list","tcga_sample_comb",
                        "tissue_type_list","top_genes_test","top_genes","total_exp_dataset")
-
+    
     u<-0
-        for (i in 1:length(string_names)) {
+    
+    rm_var_names<-lapply(seq_along(1:length(string_names)), function(i){
       if (exists(string_names[i])) {
-        u<-u+1
-        rm(list = c(string_names[i]), envir = .GlobalEnv)
-
-      }
-    }
+        rm(list = c(string_names[i]), envir = .GlobalEnv)}
+      u+1})
+    
+    u<-as.numeric(length(rm_var_names))
     
     if (u==0) {
       showModal(

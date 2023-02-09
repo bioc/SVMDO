@@ -1,5 +1,5 @@
 globalVariables(c("final_discriminative_gene_set","top_genes","tcga_id_list", 
-                  "..elected_val","tissue_type_list","disease_filtered_gene_data",
+                  "..elected_val","..num_data", "..type_num_data","tissue_type_list","disease_filtered_gene_data",
                   "tcga_sample_comb","new_tissue_type_list","tissue_type",
                   "top_genes_test","total_exp_dataset"))
 
@@ -48,11 +48,11 @@ if (!requireNamespace("shiny", quietly = TRUE))
 if (!requireNamespace("shinytitle", quietly = TRUE))
   stop("Install 'shiny' to use this package.")
 
-if (!requireNamespace("golem", quietly = TRUE))
-  stop("Install 'shiny' to use this package.")
-
 if (!requireNamespace("shinyFiles", quietly = TRUE))
   stop("Install 'shinyFiles' to use this package.")
+
+if (!requireNamespace("golem", quietly = TRUE))
+  stop("Install 'shiny' to use this package.")
 
 #' Initiating GUI screen
 #' 
@@ -64,27 +64,7 @@ if (!requireNamespace("shinyFiles", quietly = TRUE))
 #' @return Returning GUI window screen
 #' @export
 
-#' @importFrom shinyFiles shinyDirChoose shinyDirButton
 #' @importFrom golem with_golem_options
-#' @importFrom shinytitle use_shiny_title
-#' @importFrom nortest ad.test
-#' @importFrom e1071 svm
-#' @importFrom BSDA z.test
-#' @importFrom data.table fread fwrite
-#' @importFrom sjmisc str_contains
-#' @importFrom caTools sample.split
-#' @importFrom klaR greedy.wilks
-#' @importFrom caret confusionMatrix
-#' @importFrom survival Surv survfit coxph
-#' @importFrom DOSE enrichDO
-#' @importFrom AnnotationDbi select
-#' @importFrom org.Hs.eg.db org.Hs.eg.db
-#' @importFrom dplyr mutate
-#' @importFrom grDevices dev.off png
-#' @importFrom graphics legend mtext
-#' @importFrom stats median na.omit p.adjust predict qnorm sd wilcox.test
-#' @importFrom utils read.table write.table
-
 #' @import shiny
 
 #' @examples

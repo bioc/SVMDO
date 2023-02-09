@@ -1,11 +1,12 @@
 Package: SVMDO
 Title: Identification of Tumor-Discriminating mRNA Signatures via Support Vector Machines Supported by Disease Ontology
 Version: 0.99.0
-Date: 2022-12-18
+Date: 2023-02-09
 Authors@R: 
     c(person(given = "Mustafa Erhan",
 	family = "Özer",
     role = c("aut","cre"),
+    comment = c(ORCID = "0000-0002-1572-8008"),
     email = "erhanozer19@marun.edu.tr"),
     person(given = "Pemra",
     family = "Özbek Sarıca",
@@ -19,9 +20,9 @@ Depends: R(>= 4.2), shiny (>= 1.7.4)
 Imports: shinyFiles (>= 0.9.3), shinytitle (>= 0.1.0), golem (>= 0.3.5), 
         nortest (>= 1.0-4), e1071 (>= 1.7-12), BSDA (>= 1.2.1),
         data.table (>= 1.14.6), sjmisc (>= 2.8.9), klaR (>= 1.7-1), 
-        caTools (>= 1.18.2),caret (>= 6.0-93), survival (>= 3.4-0), 
-        DOSE (>= 3.24.2) , AnnotationDbi (>= 1.60.0), org.Hs.eg.db (>= 3.16.0),
-        dplyr (>= 1.0.10),grDevices, graphics, stats, utils
+        caTools (>= 1.18.2), caret (>= 6.0-93), survival (>= 3.4-0), 
+        DOSE (>= 3.24.2), AnnotationDbi (>= 1.60.0), org.Hs.eg.db (>= 3.16.0),
+        dplyr (>= 1.0.10), SummarizedExperiment (>= 1.28.0), grDevices, graphics, stats, utils
 Description: It is an easy-to-use GUI using disease information for detecting tumor/normal sample 
     discriminating gene sets from differentially expressed genes. Our approach is based on an 
     iterative algorithm filtering genes with disease ontology enrichment analysis and wilk’s lambda 
