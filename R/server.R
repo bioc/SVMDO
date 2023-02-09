@@ -435,6 +435,7 @@ server <- function(input, output,session) {
       all_names<-new_tissue_type_list
       actual_disease_filtered_gene_data<-subset(disease_filtered_gene_data,select=-tissue_type)
       
+
       repeat{
         
         if (ncol(disease_filtered_gene_data)<=2) {
@@ -494,6 +495,9 @@ server <- function(input, output,session) {
           }
 
           tuning_action<-svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
+          
+          
+          tuning_action<-e1071::svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
           svm_data<-tuning_action
           
           check_training_set<-subset(training_set,select=-tissue_type)
