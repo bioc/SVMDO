@@ -2,19 +2,19 @@
 % Please edit documentation in R/runApp.R
 \name{runGUI}
 \alias{runGUI}
-\title{Initiating GUI screen}
+\alias{outerUI}
+\title{SVMDO}
 \usage{
-runGUI(reproducible = TRUE)
+outerUI(id)
 }
 \arguments{
-\item{reproducible}{Visualizing GUI screen}
+\item{id}{connection input}
 }
 \value{
 Returning GUI window screen
 }
 \description{
-Function of SVMDO initiating GUI screen of main dialog box including
-analysis steps
+SVMDO
 }
 \examples{
 #SVMDO::runGUI() Calling GUI without activating library

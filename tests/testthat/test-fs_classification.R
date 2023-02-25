@@ -39,9 +39,7 @@ test_that("Feature Selection and Classification processes are succesful", {
   
   all_names<-new_tissue_type_list
   actual_disease_filtered_gene_data<-subset(disease_filtered_gene_data,select=-tissue_type)
-  
-  start_time<-Sys.time()
-  
+   
   repeat{
     
     
@@ -53,7 +51,7 @@ test_that("Feature Selection and Classification processes are succesful", {
     
     if (ncol(disease_filtered_gene_data)>2 & specific_check_val==0) {
       elected_val<-NULL
-      elected_genes<-klaR::greedy.wilks(tissue_type ~ ., data=disease_filtered_gene_data,niveau=niv_value)
+      elected_genes<-greedy.wilks(tissue_type ~ ., data=disease_filtered_gene_data,niveau=niv_value)
       nameless_disease_filtered_gene_data<-disease_filtered_gene_data[,-1]
       elected_val<-elected_genes$results$vars
       elected_val<-as.vector(elected_val)
@@ -80,7 +78,7 @@ test_that("Feature Selection and Classification processes are succesful", {
     
     if (is.null(skip_value)==FALSE) {
       
-      spl <- caTools::sample.split(disease_filtered_gene_data$tissue_type, SplitRatio = 0.80)
+      spl <- sample.split(disease_filtered_gene_data$tissue_type, SplitRatio = 0.80)
       training_set <- subset(disease_filtered_gene_data, spl == TRUE)
       test_set <- subset(disease_filtered_gene_data, spl == FALSE)
       row.names(training_set) <- NULL
@@ -103,13 +101,8 @@ test_that("Feature Selection and Classification processes are succesful", {
         
       }
       
-      end_time<-Sys.time()
-      
-      if (as.numeric(difftime(end_time,start_time,units = "mins"))>10) {
-        break
-      }
-      
-      tuning_action<-e1071::svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
+
+      tuning_action<-svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
       svm_data<-tuning_action
       
       check_training_set<-subset(training_set,select=-tissue_type)
@@ -120,8 +113,8 @@ test_that("Feature Selection and Classification processes are succesful", {
       y_pred <- predict(svm_data,type="prob", check_testing_set,probability =TRUE)
       
       
-      train_table<-caret::confusionMatrix(t_pred, as.factor(training_set$tissue_type))
-      test_table<-caret::confusionMatrix(y_pred,as.factor(test_set$tissue_type))
+      train_table<-confusionMatrix(t_pred, as.factor(training_set$tissue_type))
+      test_table<-confusionMatrix(y_pred,as.factor(test_set$tissue_type))
       
       test_spec<-test_table$byClass[2]
       train_spec<-train_table$byClass[2]
@@ -136,14 +129,9 @@ test_that("Feature Selection and Classification processes are succesful", {
       if (train_spec>0.8 & train_kappa>0.8 & train_pval<0.05 & test_pval<0.05 & test_kappa>0.8 & test_spec>0.8) {
         
         
-        assign(paste0("elected_gene_set","_",set_val),elected_genes)
-        final_elected_check<-assign(paste0("elected_gene_set","_",set_val),elected_genes)
-        
-        final_gene_list<-assign(paste0("gene_set","_",set_val),colnames(disease_filtered_gene_data[,-1]))
-        
-        assign(paste0("train_table","_",set_val),train_table)
-        assign(paste0("test_table","_",set_val),test_table)
-        
+        final_elected_check<-elected_genes
+        final_gene_list<-colnames(disease_filtered_gene_data[,-1])
+		
         collected_g_val<-g_val_selection
         collected_c_val<-c_val_selection
         set_val<-set_val+1

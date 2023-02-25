@@ -31,11 +31,19 @@ is_windows <- identical(.Platform$OS.type, "windows")
 
 The day-to-day development version from the [Github repository](https://github.com/robogeno/SVMDO) can be installed.
 ```{r install, eval=FALSE}
-# From Github repository
+# From Github 
 if (!requireNamespace("devtools", quietly=TRUE))
   install.packages("devtools")
 devtools::install_github("robogeno/SVMDO")
 ```
+
+```{r eval = FALSE}
+# From Biocodunctor
+if(!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("SVMDO")
+```
+
 
 # Package Loading
 ```{r load_windows, message=FALSE, warning=FALSE, eval=is_windows, echo=is_windows}
@@ -54,10 +62,11 @@ devtools::install_github("robogeno/SVMDO")
 ```
 
 # Introduction
-Transcriptome-based supervised classification can be difficult to handle due to including vast amount of junk features reducing the efficiency of the process. To minimize the efficiency problem, feature selection methods have been applied [@Cai2018]. Ensemble methodology in constructing a feature selection method has been mainly preferred for its better accuracy in classification processes [@Liu2004]. Cancer-based studies have been reported to co-occur with several chronic diseases [@Gallagher2015] and oncogenic viral infections [@Kori2020]. Disease Ontology (DO) enrichment analysis can provide a filtration approach through reported diseases that interact with the gene sets used [@LePendu2011]. Wilk's lambda criterion is one of the moderate techniques for feature selection. The method combines different features(genes) step by step based on their contributions to the discriminating power of overall model [@elOuardighi2007]. Thus, disease related genes with better discriminatory characteristics can be acquired. SVMDO is an easy-to-use GUI using disease information for detecting tumor/normal sample discriminating gene sets from differentially expressed genes. Our approach is based on an iterative algorithm filtering genes with disease ontology enrichment analysis and wilk’s lambda criterion connected to SVM classification model construction. Along with gene set extraction, SVMDO also provides individual prognostic marker detection. The algorithm is designed for FPKM and RPKM normalized RNA-Seq transcriptome datasets.
+Transcriptome-based supervised classification can be difficult to handle due to including vast amount of junk features reducing the efficiency of the process. To minimize the efficiency problem, feature selection methods have been applied [@Cai2018]. Ensemble methodology in constructing a feature selection method has been mainly preferred for its better accuracy in classification processes [@Liu2004]. Cancer-based studies have been reported to co-occur with several chronic diseases [@Gallagher2015] and oncogenic viral infections [@Kori2020]. Disease Ontology (DO) enrichment analysis can provide a filtration approach through reported diseases that interact with the gene sets used [@LePendu2011]. Wilk's lambda criterion is one of the moderate techniques for feature selection. The method combines different features(genes) step by step based on their contributions to the discriminating power of overall model [@elOuardighi2007]. Thus, disease related genes with better discriminatory characteristics can be acquired. SVMDO is an easy-to-use GUI using disease information for detecting tumor/normal sample discriminating gene sets from differentially expressed genes. Our approach is based on an iterative algorithm filtering genes with disease ontology enrichment analysis and wilk’s lambda criterion connected to SVM classification model construction. Along with gene set extraction, SVMDO also provides individual prognostic marker detection. The algorithm is designed for FPKM and RPKM normalized RNA-Seq transcriptome datasets. During the development our algorithm, Bioconductor provided a robust approach for acquiring significant disease-gene interaction information from disease ontology database.
+
 
 # Implementation
-SVMDO was developed by using Shiny package. It is available for Windows and Linux from Bioconductor website. SVMDO requires the following R packages: Shiny, golem, nortest, e1071, BSDA, data.table, sjmisc, klaR, caTools, dplyr, caret, survival, DOSE, AnnotationDbi, DOSE, org.Hs.eg.db
+SVMDO was developed by using Shiny package. It is available for Windows and Linux from Bioconductor website. SVMDO requires the following R packages: Shiny, ShinyFiles, golem, nortest, e1071, BSDA, data.table, sjmisc, klaR, caTools, dplyr, caret, survival, DOSE, AnnotationDbi, DOSE, org.Hs.eg.db
 
 # Dataset Preparation
 RNA-Seq cancer transcriptome and clinical datasets must be prepared before applying them in SVMDO. The datasets must be used in **txt** format. The expected designs of input datasets are indicated in Table-1 and Table-2 for transcriptome and clinical datasets respectively.
@@ -88,21 +97,34 @@ table_prep_2<-data.frame(id,days_to_death,vital_status)
 Using **tissue_type** and **id** as column names for representing tissue information and TCGA sample id is **mandatory**. If there is not any requirement for **survival analysis**, preparation of **clinical dataset** and involvement of **id** column in the transcriptome dataset are optional.
 
 # SVMDO GUI Description
-The main dialog box is indicated in **Figure-1**. At each step of the GUI sections, necessary variables are saved as objects in the workspace environment to be used in the following sections. The input of SVMDO is a txt file of transcriptome dataset prepared in the form of **Table-1**. 
+The main dialog box is indicated in **Figure-1**. The GUI page consists of two main sections which are "Analysis" and "Result". In the Analysis section, steps of acquiring discriminative gene set and preparations of individual survival plots are included. In the Result section, visualization and download of discriminative gene set and survival plots are included. At each step of the GUI sections, necessary variables are saved as objects in the workspace environment to be used in the following sections. The input of SVMDO is a txt file of transcriptome dataset prepared in the form of **Table-1**. 
 
-![**Figure-1** SVMDO Main Dialog Box](svmdo_gui_figure.png)
+```{r, out.width = "30%",fig.align='center',fig.show='hold',echo=FALSE}
+# two figs side by side
+knitr::include_graphics(c("svmdo_analysis_screen.png",
+                   "svmdo_result_screen.png"))
+```
+
+# How to open SVMDO Main Screen
+To open GUI screen, you can directly write **SVMDO::runGUI()** in R console. If library is previously activated you can open GUI screen by writing **runGUI()** in R console.
 
 # How to use SVMDO Main Screen
-1. To open GUI screen, you can directly write **SVMDO::runGUI()** in R console. If library is previously activated you can open GUI screen by writing **runGUI()** in R console. 
-2. To change your output directory, you can adjust it in the **Choose Directory** section.  Otherwise, default output directory will automatically be used.
-3. To search your transcriptome dataset, use the file detection in **Choose Your Expression Dataset** section. The file will be automatically uploaded into the GUI.
-4. To prevent clashing with test datasets, select **"None"** option from the radio button section.
-5. By clicking on **DEG Analysis** button you further apply differential expression analysis. Labels of tissue_type column in dataset must contain “Nor” and “Tum” for determining normal/tumour (or tumor) samples. A message window saying **Process Completed** will appear if there is not any problem.
-6. When the differential expression process is completed, a user-defined input size (n) is selected to filter the initial gene list (i.e., n number of upregulated and downregulated genes) by entering a number in **Input Size** section. It is predetermined as **50** in GUI which can be changed based on the user. A meesage window saying **process completed** will appear if there is not any problem. If there is problem with the value of input size, you will get a warning about inappropriate input size selection. If the input size remains, algorithm selects all of the differentiallly expressed genes to be used in the next process.
-7. To apply disease ontology-based gene filtration, click on **DO Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
-8. To further apply the following feature selection and classification processes, click on the **Classification** button. A meesage window saying **process completed** will appear if there is not any problem.
-9. Acquired discriminative gene set can be further used for survival analysis to detect individual prognostic genes. To apply this process, use the file detection in **Choose Clinical Data** section for searching clinical data about patient survival followed by clicking on **Survival Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
-10. When the user task is completed, click on the **Clear Environment** button to remove the global variables created during the algorithm sections. To prevent error in the next usages of GUI, it is a necessary process. It can be applied at any moment without the necessity of completing all of the steps of algorithm. A meesage window saying **process completed** will appear if there is not any problem.
+
+Steps of Analysis Screen
+
+1. To change your output directory, you can adjust it in the **Choose Directory** section.  Otherwise, default output directory will automatically be used.
+2. To search your transcriptome dataset, use the file detection in **Choose Your Expression Dataset** section. The file will be automatically uploaded into the GUI.
+3. To prevent clashing with test datasets, select **"None"** option from the radio button section.
+4. By clicking on **DEG Analysis** button you further apply differential expression analysis. Labels of tissue_type column in dataset must contain “Nor” and “Tum” for determining normal/tumour (or tumor) samples. A message window saying **Process Completed** will appear if there is not any problem.
+5. When the differential expression process is completed, a user-defined input size (n) is selected to filter the initial gene list (i.e., n number of upregulated and downregulated genes) by entering a number in **Input Size** section. It is predetermined as **50** in GUI which can be changed based on the user. A meesage window saying **process completed** will appear if there is not any problem. If there is problem with the value of input size, you will get a warning about inappropriate input size selection. If the input size remains, algorithm selects all of the differentiallly expressed genes to be used in the next process.
+6. To apply disease ontology-based gene filtration, click on **DO Analysis** button. A message window saying **process completed** will appear if there is not any problem.
+7. To further apply the following feature selection and classification processes, click on the **Classification** button. A message window saying **process completed** will appear if there is not any problem.
+8. Acquired discriminative gene set can be further used for survival analysis to detect individual prognostic genes. To apply this process, use the file detection in **Choose Clinical Data** section for searching clinical data about patient survival followed by clicking on **Survival Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
+
+Applications of Result Screen
+
+1. To visualize discriminative gene sets inside GUI screen, click on **Show Gene Results** button. When you click this button, a table of gene set will appear. The resulting table can be downloaded by clicking on **Download Gene List** button.If there is a problem in the analysis, an error message will appear.
+2. To visualize survival plots of individual genes, two steps have to be applied. First of all, click on **Prepare Plot Lists** button to feed plot information to the visualization system. After that, click on **Show Plots** button to visualize survival plots. Once **Prepare Plot Lists** button is clicked, the resulting plot list can be downloaded by clicking on **Download Plot List** button. If there is a problem in the analysis, an error message will appear at each step.
 
 # Using test datasets with SVMDO Main Screen
 Before using the GUI in a study, analysis using the test datasets can be used to understand overall functionality of the algorithm. Test datasets consists of objects of expression and Clinical datasets integrated into summarized experiment objects. These objects are saved in RDA forms and called from **extdata** folder of the package. 
@@ -112,13 +134,13 @@ When test datasets are used, predefined input size (n=50) is used.
 2. To apply differential expression analysis on the selected dataset click on the **DEG Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
 3. To further apply disease ontology-based gene filtration, click on **DO Analysis** button. A meesage window saying **process completed** will appear if there is not any problem.
 4. To apply survival analysis on the acquired discriminative gene sets, click on **Survival Analysis** button. Clinical dataset for the selected dataset is automatically loaded into the GUI. A meesage window saying **process completed** will appear if there is not any problem.
-5. When the testing process is completed, click on the **Clear Environment** button to remove the global variables created during the algorithm sections. To prevent error in the next usages of GUI, it is a necessary processes. It can be applied at any moment without the necessity of completing all of the steps of algorithm. 
+
+# Workspace Clearance
+When the user task is completed, click on the **Clear Environment** button to remove the global variables created during the algorithm sections. To prevent error in the next usages of GUI, it is a necessary process. It can be applied at any moment without the necessity of completing all of the steps of algorithm. A message window saying **process completed** will appear if there is not any problem.
 
 # Output Files of SVMDO
-* **top_genes:** n number of most upregulated and downregulated genes in expression data
-* **complete_deg_gene_list:** Complete set of upregulated and downregulated genes in expression data
 * **final_discriminative_gene_set:** Final form of gene set providing optimal classification performance 
-* **disease_filtered_gene_data:** Disease Ontology Enrichment-based filtered transcriptome dataset. 
+* **Individiual Survival Plots:** Separate survival plots of individual genes with prognostic performance
 
 # References
 <div id="refs"></div>
@@ -163,3 +185,10 @@ When test datasets are used, predefined input size (n=50) is used.
 4. Right click on the download and/or unzipped .deb file to install RStudio
    (Alternatively, .deb file can be installed from terminal by typing 
    sudo dpkg -i installed_Rstudio_file.deb)
+
+
+# Session Info
+```{r SessionInfo, eval=TRUE, message=FALSE, echo=FALSE}
+sessionInfo()
+```
+

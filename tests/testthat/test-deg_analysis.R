@@ -4,8 +4,7 @@ test_that("Differential Expression Analysis is succesful", {
   
   c_path<-system.file("extdata","coad_exp_sum.rds",package="SVMDO",mustWork = TRUE)
   c<-readRDS(c_path)
-  c<-as.data.frame(c@assays@data@listData)
-  
+  c<-assay(c)  
   col_val_1<-NULL
   col_val_2<-NULL
   
