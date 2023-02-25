@@ -147,7 +147,6 @@ test_that("Feature Selection and Classification processes are succesful", {
           if (final_elected_check$results$p.value.diff[length(final_elected_check$results$p.value.diff)]>0.05 & final_elected_check$results$p.value.diff[length(final_elected_check$results$p.value.diff)-1]<0.05) {
             final_gene_list<-as.data.frame(final_gene_list)
             colnames(final_gene_list)<-"Names"
-            write.table(final_gene_list,"final_discriminative_gene_set.txt",sep="\t",row.names=FALSE)
             assign("final_discriminative_gene_set",final_gene_list,envir =.GlobalEnv)
             eq_val<-1
             expect_equal(eq_val,1)
@@ -156,7 +155,6 @@ test_that("Feature Selection and Classification processes are succesful", {
           if (final_elected_check$results$p.value.diff[length(final_elected_check$results$p.value.diff)]<0.05) {
             final_gene_list<-as.data.frame(final_gene_list)
             colnames(final_gene_list)<-"Names"
-            write.table(final_gene_list,"final_discriminative_gene_set.txt",sep="\t",row.names=FALSE)
             assign("final_discriminative_gene_set",final_gene_list,envir =.GlobalEnv)
             eq_val<-1
             expect_equal(eq_val,1)

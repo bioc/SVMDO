@@ -75,7 +75,6 @@ innerServer_6<-function(input,output,session){
       assigning_disease_filtered_gene_data<-cbind(new_tissue_type_list,changed_name_plus_var_imp_genes_table)
       assigning_disease_filtered_gene_data<-as.data.frame(assigning_disease_filtered_gene_data)
       assign("disease_filtered_gene_data",assigning_disease_filtered_gene_data,envir = .GlobalEnv)
-      fwrite(assigning_disease_filtered_gene_data,"disease_filtered_gene_data.txt",sep = "\t")
       message_val_3<-1
     }
     if (!is.null(message_val_3)) {

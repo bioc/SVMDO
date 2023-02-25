@@ -155,7 +155,6 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
     
     assign("sorted_new_bound_form_A",sorted_new_bound_form_A,envir =.GlobalEnv)
     assign("sorted_new_bound_form_B",sorted_new_bound_form_B,envir =.GlobalEnv)
-    fwrite(complete_deg_gene_list,"complete_deg_gene_list.txt",sep = "\t")
     assign("complete_deg_gene_list",complete_deg_gene_list,envir =.GlobalEnv)
     assign("total_exp_dataset",c, envir =.GlobalEnv)
     
@@ -174,7 +173,6 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
       top_combined_genes<-rbind(max_down_genes,max_up_genes)
       rownames(top_combined_genes)<-top_combined_genes[,1]
       changed_whole_data<-subset(c,select=top_combined_genes$Genes)    
-      fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
       assign("top_genes_test",changed_whole_data,envir =.GlobalEnv)
       message_val_2<-1
     }else{

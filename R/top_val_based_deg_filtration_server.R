@@ -27,7 +27,6 @@ innerServer_5<- function(input,output,session,top_val){
       rownames(top_combined_genes)<-top_combined_genes[,1]
       changed_whole_data<-subset(total_exp_dataset,select=top_combined_genes$Genes)
       
-      fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
       assign("top_genes",changed_whole_data,envir =.GlobalEnv)
       message_val<-1
     }else{

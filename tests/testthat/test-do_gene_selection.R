@@ -65,7 +65,6 @@ test_that("Disease Ontology-based Gene Selection is succesful", {
   assigning_disease_filtered_gene_data<-cbind(new_tissue_type_list,changed_name_plus_var_imp_genes_table)
   assigning_disease_filtered_gene_data<-as.data.frame(assigning_disease_filtered_gene_data)
   assign("disease_filtered_gene_data",assigning_disease_filtered_gene_data,envir = .GlobalEnv)
-  fwrite(assigning_disease_filtered_gene_data,"disease_filtered_gene_data.txt",sep = "\t")
   eq_val<-1
   expect_equal(eq_val,1)
   

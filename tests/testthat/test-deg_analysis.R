@@ -6,40 +6,46 @@ test_that("Differential Expression Analysis is succesful", {
   c<-readRDS(c_path)
   c<-assay(c)  
   col_val_1<-NULL
-  col_val_2<-NULL
+  col_val_2<-NULL  
+  type_num_data<-seq.int(ncol(c))
+  type_data<-c[1,type_num_data]
   
+  type_apply_1<-lapply(type_data,is.character)
+  type_loc_1<-as.numeric(min((which(type_apply_1==TRUE))))
   
-  for (i in 1:ncol(c)) {                      
-    if (typeof(c[[i]][2])=="character") {                        
-      col_val_1<- i
-      break
-    }
+
+  
+  if (!is.character(c[[type_loc_1+1]])) {
     
-  }
-  
-  for (i in 1:ncol(c)) {                      
-    if (typeof(c[[i]][2])!="character" & typeof(c[[i]][2])!="integer") {                        
-      col_val_2<- i-1
-      break
-    }
+    type_loc_2<-type_loc_1+1
+    col_val_1<-type_loc_1
+    col_val_2<-type_loc_2
     
-  }
-  
-  assigning_tcga_id_list<-as.data.frame(c[[col_val_1]])
-  assigning_tissue_type_list<-as.data.frame(c[[col_val_2]])
-  
-  colnames(assigning_tcga_id_list)<-data.frame("id")
-  colnames(assigning_tissue_type_list)<-c("tissue_type")
-  
-  if(assigning_tcga_id_list$id[1]!=assigning_tissue_type_list$tissue_type[1]){
+    assigning_tissue_type_list<-as.data.frame(c[[col_val_1]])
+    colnames(assigning_tissue_type_list)<-c("tissue_type")
+    assign("tissue_type_list",assigning_tissue_type_list,envir =.GlobalEnv)
+    
+    start_val<-type_loc_1
+    num_data<-start_val+1
+  }else{
+    type_loc_2<-type_loc_1+2
+    col_val_1<-type_loc_1
+    col_val_2<-type_loc_2
+    
+    assigning_tcga_id_list<-as.data.frame(c[[col_val_1]])
+    assigning_tissue_type_list<-as.data.frame(c[[col_val_1+1]])
+    
+    colnames(assigning_tcga_id_list)<-data.frame("id")
+    colnames(assigning_tissue_type_list)<-c("tissue_type")
+    
+    assign("tissue_type_list",assigning_tissue_type_list,envir =.GlobalEnv)
     assign("tcga_id_list",assigning_tcga_id_list,envir =.GlobalEnv)
-  }
-  
-  assigning_tissue_type_list$tissue_type<-as.character(assigning_tissue_type_list$tissue_type)
-  assign("tissue_type_list",assigning_tissue_type_list,envir =.GlobalEnv)
-  
-  c<-c[,-(1:col_val_2)]
-  
+    
+    start_val<-type_loc_1+1
+    num_data<-start_val+2
+    
+  }  
+  c<-c[,num_data:ncol(c)]
   c<-cbind(tissue_type_list,c)
   
   normal_data<-NULL
@@ -73,45 +79,46 @@ test_that("Differential Expression Analysis is succesful", {
   
   ############ Normal and Tumour Data Extraction and Fold Change Calculation
   
-  normal_data<-c[grep("Nor",c$tissue_type),]
-  tumour_data<-c[grep("Tum",c$tissue_type),]
-  
-  for(i in 1:ncol(c)){
-    if(typeof(unlist(c[[i]][1]))=="character"){                        
-      start_val<-i+1
-      break
-    }                      
-  }
-  
-  normal_data_mean<-colMeans(normal_data[,start_val:ncol(normal_data)])
-  tumour_data_mean<-colMeans(tumour_data[,start_val:ncol(tumour_data)])
-  
-  fold_change<-tumour_data_mean/normal_data_mean
-  matr_fold<-as.matrix(fold_change)
-  
-  for (i in start_val:ncol(normal_data)) {                    
-    dist_normal_pval<-nortest::ad.test(normal_data[[i]][1:nrow(normal_data)])$p.value
-    dist_tumour_pval<-nortest::ad.test(tumour_data[[i]][1:nrow(tumour_data)])$p.value
+    normal_data<-c[grep("Nor",c$tissue_type),]
+    tumour_data<-c[grep("Tum",c$tissue_type),]
     
-    if (dist_normal_pval<0.05 | dist_tumour_pval<0.05 ) {
+    num_data_norm<-(seq.int(start_val,ncol(normal_data)))
+    num_data_tum<-(seq.int(start_val,ncol(tumour_data)))
+    normal_data_mean<-colMeans(normal_data[,num_data_norm])
+    tumour_data_mean<-colMeans(tumour_data[,num_data_tum])
+    
+    fold_change<-tumour_data_mean/normal_data_mean
+    matr_fold<-as.matrix(fold_change)
+    
+    i<-start_val
+    u<-start_val
+    s<-start_val
       
-      for (i in start_val:ncol(c)) {
-        p_val<-wilcox.test(as.numeric(unlist(normal_data[[i]])),as.numeric(unlist(tumour_data[[i]])))$p.value
-        p_val_total<-c(p_val_total,p_val)
-        
-      }                        
-      
-      break
-      
-    }
-  }
-  
-  if (is.null(p_val_total)) {                        
-    for(i in start_val:ncol(c)) {
-      p_val<-BSDA::z.test(normal_data[[i]],tumour_data[[i]],sigma.x = sd(normal_data[[i]]),sigma.y = sd(tumour_data[[i]]))$p.value
-      p_val_total<-c(p_val_total,p_val)                          
-    }                        
-  }
+    dist_normal_pval<-ad.test(normal_data[[i]][seq.int(ncol(normal_data))])$p.value
+    dist_tumour_pval<-ad.test(tumour_data[[i]][seq.int(ncol(tumour_data))])$p.value
+	
+    repeat{
+     if (!is.null(dist_normal_pval) & (dist_normal_pval>=0.05 | dist_tumour_pval>=0.05)) {
+       dist_normal_pval<-ad.test(normal_data[[i]][seq.int(ncol(normal_data))])$p.value
+       dist_tumour_pval<-ad.test(tumour_data[[i]][seq.int(ncol(tumour_data))])$p.value
+       if (i==ncol(normal_data)) {
+         p_val<-z.test(normal_data[[s]],tumour_data[[s]],sigma.x = sd(normal_data[[s]]),sigma.y = sd(tumour_data[[s]]))$p.value
+         p_val_total<-c(p_val_total,p_val)
+         s<-s+1
+       }else{
+         i<-i+1
+       }
+     }
+     
+     if (dist_normal_pval<0.05 | dist_tumour_pval<0.05) {
+       p_val<-wilcox.test(as.numeric(unlist(normal_data[[u]])),as.numeric(unlist(tumour_data[[u]])))$p.value
+       p_val_total<-c(p_val_total,p_val)
+       u<-u+1
+     }
+     if (u>ncol(normal_data) | s>ncol(normal_data)) {
+       break
+     }
+   }
   
   padjust<-p.adjust(p_val_total,method = "BH")
   p_val_total<-padjust                                        
@@ -141,8 +148,8 @@ test_that("Differential Expression Analysis is succesful", {
     message_val_2<-1
     max_down_genes<-sorted_new_bound_form_A
     max_up_genes<-sorted_new_bound_form_B
-    print("Insufficient gene number All up/downregulated genes were selected")
-    print("Enter a lower value of input size")
+    message("Insufficient gene number All up/downregulated genes were selected")
+    message("Enter a lower value of input size")
   }else{
     max_down_genes<-sorted_new_bound_form_A[(nrow(sorted_new_bound_form_A)-(top_gene_number-1)):nrow(sorted_new_bound_form_A),]
     max_up_genes<-sorted_new_bound_form_B[(nrow(sorted_new_bound_form_B)-(top_gene_number-1)):nrow(sorted_new_bound_form_B),]
@@ -151,8 +158,6 @@ test_that("Differential Expression Analysis is succesful", {
   rownames(top_combined_genes)<-top_combined_genes[,1]
   changed_whole_data<-subset(c,select=top_combined_genes$Genes)
   
-  data.table::fwrite(complete_deg_gene_list,"complete_deg_gene_list.txt",sep = "\t")                    
-  data.table::fwrite(changed_whole_data,"top_genes.txt",sep = "\t")
   assign("top_genes",changed_whole_data,envir =.GlobalEnv)
   
   eq_val<-1
