@@ -34,7 +34,6 @@
 
 linebreaks <- function(n){HTML(strrep(br(), n))}
 
-
 outerUI <- function(id) {
   
   ns <- NS(id)

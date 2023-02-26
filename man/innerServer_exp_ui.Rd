@@ -11,7 +11,7 @@ innerUI_exp_data(id)
 \item{id}{connection input}
 }
 \value{
-UI section of providing expression dataset
+UI section of providing expression dataset into GUI
 }
 \description{
 SVMDO

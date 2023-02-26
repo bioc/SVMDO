@@ -2,10 +2,10 @@
 % Please edit documentation in R/runApp.R
 \name{runGUI}
 \alias{runGUI}
-\alias{outerUI}
+\alias{linebreaks}
 \title{SVMDO}
 \usage{
-outerUI(id)
+linebreaks(n)
 }
 \arguments{
 \item{id}{connection input}

@@ -1,5 +1,8 @@
 #' @title SVMDO
 #' @name globals
+#' @return Including script files and global variables of GUI required to be 
+#' initiated at the runApp file execution
+
 
 source(file.path('R/table_server.R'))
 source(file.path('R/table_ui.R'))

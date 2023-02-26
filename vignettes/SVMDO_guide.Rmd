@@ -71,22 +71,22 @@ SVMDO was developed by using Shiny package. It is available for Windows and Linu
 # Dataset Preparation
 RNA-Seq cancer transcriptome and clinical datasets must be prepared before applying them in SVMDO. The datasets must be used in **txt** format. The expected designs of input datasets are indicated in Table-1 and Table-2 for transcriptome and clinical datasets respectively.
 
-```{r table_data_prep_1, echo=FALSE}
+```{r echo=FALSE}
 id<-c("TCGA-AA-3662","TCGA-AA-3514","TCGA-D5-6541","...")
 tissue_type<-c("Normal","Normal","Tumour","...")
 AB1G<-c("Exp_1","Exp_2","Exp_3","...")
 A2M<-c("Exp_1","Exp_2","Exp_3","...")
 table_prep_1<-data.frame(id,tissue_type,AB1G,A2M)
 ```
-`r knitr::kable(table_prep_1,"pipe",col.name=c("id","tissue_type","AB1G","A2M"),align = "cccc",caption="Table-1 Structure of RNA-Seq Transcriptome Dataset")`
+`r knitr::kable(table_prep_1,"pipe",col.name=c("id","tissue_type","AB1G","A2M"),align = "cccc",caption="Structure of RNA-Seq Transcriptome Dataset")`
 
-```{r table_data_prep_2, echo=FALSE}
+```{r echo=FALSE}
 id<-c("TCGA-AA-3662","TCGA-AA-3514","TCGA-D5-6541","...")
 days_to_death<-c(49,1331,225,"...")
 vital_status<-c("Alive","Dead","Dead","...")
 table_prep_2<-data.frame(id,days_to_death,vital_status)
 ```
-`r knitr::kable(table_prep_2,"pipe",col.name=c("id","days_to_death","vital_status"),align = "cccc",caption="Table-2 Structure of Clinical Dataset")`
+`r knitr::kable(table_prep_2,"pipe",col.name=c("id","days_to_death","vital_status"),align = "cccc",caption="Structure of Clinical Dataset")`
 
 * **tissue_type:** Normal/Tumour (or Tumor) Tissue Information 
 * **A1BG, A2M:** Gene Symbol and Gene Expression
@@ -99,10 +99,15 @@ Using **tissue_type** and **id** as column names for representing tissue informa
 # SVMDO GUI Description
 The main dialog box is indicated in **Figure-1**. The GUI page consists of two main sections which are "Analysis" and "Result". In the Analysis section, steps of acquiring discriminative gene set and preparations of individual survival plots are included. In the Result section, visualization and download of discriminative gene set and survival plots are included. At each step of the GUI sections, necessary variables are saved as objects in the workspace environment to be used in the following sections. The input of SVMDO is a txt file of transcriptome dataset prepared in the form of **Table-1**. 
 
-```{r, out.width = "30%",fig.align='center',fig.show='hold',echo=FALSE}
+
+```{r, ,echo=FALSE,  width = 200, height = 50,fig.align = "center",fig.show='hold'}
 # two figs side by side
-knitr::include_graphics(c("svmdo_analysis_screen.png",
-                   "svmdo_result_screen.png"))
+knitr::include_graphics("svmdo_analysis_screen.png")
+```
+<br><br><br>
+```{r, ,echo=FALSE,  width = 200, height = 50,fig.align = "center",fig.show='hold'}
+# two figs side by side
+knitr::include_graphics("svmdo_result_screen.png")
 ```
 
 # How to open SVMDO Main Screen
