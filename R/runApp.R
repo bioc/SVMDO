@@ -32,6 +32,8 @@
 #' # Disease Ontology Enrichment of a differentially expresed gene (entrez id):
 #' a_1<-DOSE::enrichDO(2981,ont="DO")
 
+linebreaks <- function(n){HTML(strrep(br(), n))}
+
 
 outerUI <- function(id) {
   
@@ -81,60 +83,6 @@ outerUI <- function(id) {
                                                innerUI_plot_inject(ns("inner16")),
                                                innerUI_plot_show(ns("inner17")))
                                       )))))
-}
-
-
-ui <- fluidPage(
-  outerUI("mod1")
-)
-
-linebreaks <- function(n){HTML(strrep(br(), n))}
-
-outerUI <- function(id) {
-  
-  ns <- NS(id)
-  
-  navbarPage(title="SVMDO",
-             tabPanel(title = "Analysis",
-                      fluidRow(
-                        column(6,
-                               wellPanel(
-                                 linebreaks(1),
-                                 innerUI_path(ns("inner1")),
-                                 innerUI_exp_data(ns("inner2")),
-                                 innerUI_test_data(ns("inner3")),
-                                 innerUI_deg_analysis(ns("inner4")),
-                                 linebreaks(1),
-                                 innerUI_top_gene_val(ns("inner5")),
-                                 innerUI_top_gene_selection(ns("inner6")),
-                                 linebreaks(1),
-                                 div(style="display:inline-block",
-                                     innerUI_disease_ont_class(ns("inner7")),
-                                     innerUI_classification(ns("inner8"))),
-                                 linebreaks(1),
-                                 innerUI_clinic_data(ns("inner9")),
-                                 linebreaks(1),
-                                 div(style="display:inline-block",
-                                     innerUI_surv(ns("inner10")),
-                                     innerUI_clear_env(ns("inner11"))))))),
-             
-             tabPanel(title = "Results",
-                      fluidRow(column(6,
-                                        column(12,
-                                               innerUI_table_show(ns("inner12"))),
-                                        column(12,
-                                               div(dataTableOutput(ns("table")), style = "font-size: 60%; 
-                 width: 50%")
-                                        ),
-                                        column(12,
-                                               div(style="display:inline-block",
-                                                   innerUI_collect_plot_data(ns("inner13")),
-                                                   disc_gene_download_ui(ns("inner14")),
-                                                   surv_plots_download_ui(ns("inner15")))),
-                                        column(12,
-                                               innerUI_plot_inject(ns("inner16")),
-                                               innerUI_plot_show(ns("inner17")))
-                                      ))))
 }
 
 

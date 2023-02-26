@@ -7,7 +7,7 @@ innerUI_exp_data <- function(id) {
   ns <- NS(id)
   fluidRow(
     column(4,
-           fileInput(ns("file1"), 
+           fileInput(ns("file1"),
                      "Choose Your Expression Dataset",
                      accept = ".txt")))
 }
