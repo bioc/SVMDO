@@ -46,8 +46,7 @@ innerServer_7<-function(input,output,session) {
     if (exists("new_tissue_type_list")) {
       
       all_names<-new_tissue_type_list
-      actual_disease_filtered_gene_data<-subset(disease_filtered_gene_data,select=-tissue_type)
-      
+      actual_disease_filtered_gene_data<-subset(disease_filtered_gene_data,select=-tissue_type)      
       
       repeat{
         

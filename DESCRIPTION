@@ -1,7 +1,7 @@
 Package: SVMDO
 Title: Identification of Tumor-Discriminating mRNA Signatures via Support Vector Machines Supported by Disease Ontology
-Version: 0.99.2
-Date: 2023-02-09
+Version: 0.99.3
+Date: 2023-02-27
 Authors@R: 
     c(person(given = "Mustafa Erhan",
 	family = "Özer",
@@ -16,7 +16,7 @@ Authors@R:
     family = "Arğa",
     role = "aut",
     email = "kazim.arga@marmara.edu.tr"))      
-Depends: R(>= 4.2), shiny (>= 1.7.4)
+Depends: R(>= 4.3), shiny (>= 1.7.4)
 Imports: shinyFiles (>= 0.9.3), shinytitle (>= 0.1.0), golem (>= 0.3.5), 
         nortest (>= 1.0-4), e1071 (>= 1.7-12), BSDA (>= 1.2.1),
         data.table (>= 1.14.6), sjmisc (>= 2.8.9), klaR (>= 1.7-1), 
