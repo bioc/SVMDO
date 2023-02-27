@@ -9,8 +9,6 @@ linebreaks(n)
 }
 \arguments{
 \item{n}{linebreak function variable}
-
-\item{id}{connection input}
 }
 \value{
 Returning GUI window screen

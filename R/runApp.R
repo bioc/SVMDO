@@ -1,6 +1,5 @@
 #' @title SVMDO
 #' @name runGUI
-#' @param id connection input
 #' @param n linebreak function variable
 #' @return Returning GUI window screen
 #' 
