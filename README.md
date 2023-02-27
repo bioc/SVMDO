@@ -22,7 +22,7 @@ devtools::install_github("robogeno/SVMDO")
 ```
 
 ## Package tutorial
-A vignette is available at vignettes/SVMDO_guide.Rmd . To see the html version, use vignette("SVMDO_guide.Rmd"). Note: if you want to install from Github, please specify build_vignettes = TRUE in install_github.
+A vignette is available at [this link]vignettes/SVMDO_guide.Rmd . To see the html version, use vignette("SVMDO_guide.Rmd"). Note: if you want to install from Github, please specify build_vignettes = TRUE in install_github.
 
 ## Licence and use
 SVMDO is a free software; you can redistribute it and/or modify it under the terms of the GNU General Public License 3 (GPL 3) as published by the Free Software Foundation. It is distributed in the hope that it will be useful, but without any warranty and without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public License for more details.
