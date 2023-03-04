@@ -39,7 +39,7 @@ outerUI <- function(id) {
   ns <- NS(id)
   linebreaks <- function(n){HTML(strrep(br(), n))}
   
-  navbarPage(title="SVMDO_trial",
+  navbarPage(title="SVMDO",
              tabPanel(title = "Analysis",
                       fluidRow(
                         column(6,
