@@ -6,10 +6,6 @@ date: "<h4>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
 output:
     BiocStyle::html_document:
       toc: true
-bibliography: citations.bib
-link-citations: yes
-csl: bioinformatics.csl
-
 vignette: >
   %\VignetteIndexEntry{SVMDO-Tutorial}
   %\VignetteEngine{knitr::rmarkdown}
@@ -62,7 +58,7 @@ BiocManager::install("SVMDO")
 ```
 
 # Introduction
-Transcriptome-based supervised classification can be difficult to handle due to including vast amount of junk features reducing the efficiency of the process. To minimize the efficiency problem, feature selection methods have been applied [@Cai2018]. Ensemble methodology in constructing a feature selection method has been mainly preferred for its better accuracy in classification processes [@Liu2004]. Cancer-based studies have been reported to co-occur with several chronic diseases [@Gallagher2015] and oncogenic viral infections [@Kori2020]. Disease Ontology (DO) enrichment analysis can provide a filtration approach through reported diseases that interact with the gene sets used [@LePendu2011]. Wilk's lambda criterion is one of the moderate techniques for feature selection. The method combines different features(genes) step by step based on their contributions to the discriminating power of overall model [@elOuardighi2007]. Thus, disease related genes with better discriminatory characteristics can be acquired. SVMDO is an easy-to-use GUI using disease information for detecting tumor/normal sample discriminating gene sets from differentially expressed genes. Our approach is based on an iterative algorithm filtering genes with disease ontology enrichment analysis and wilk’s lambda criterion connected to SVM classification model construction. Along with gene set extraction, SVMDO also provides individual prognostic marker detection. The algorithm is designed for FPKM and RPKM normalized RNA-Seq transcriptome datasets. During the development our algorithm, Bioconductor provided a robust approach for acquiring significant disease-gene interaction information from disease ontology database.
+Transcriptome-based supervised classification can be difficult to handle due to including vast amount of junk features reducing the efficiency of the process. To minimize the efficiency problem, feature selection methods have been applied [1]. Ensemble methodology in constructing a feature selection method has been mainly preferred for its better accuracy in classification processes [2]. Cancer-based studies have been reported to co-occur with several chronic diseases [3] and oncogenic viral infections [4]. Disease Ontology (DO) enrichment analysis can provide a filtration approach through reported diseases that interact with the gene sets used [5]. Wilk’s lambda criterion is one of the moderate techniques for feature selection. The method combines different features(genes) step by step based on their contributions to the discriminating power of overall model [6]. Thus, disease related genes with better discriminatory characteristics can be acquired. SVMDO is an easy-to-use GUI using disease information for detecting tumor/normal sample discriminating gene sets from differentially expressed genes. Our approach is based on an iterative algorithm filtering genes with disease ontology enrichment analysis and wilk’s lambda criterion connected to SVM classification model construction. Along with gene set extraction, SVMDO also provides individual prognostic marker detection. The algorithm is designed for FPKM and RPKM normalized RNA-Seq transcriptome datasets. During the development our algorithm, Bioconductor provided a robust approach for acquiring significant disease-gene interaction information from disease ontology database.
 
 
 # Implementation
@@ -148,7 +144,14 @@ When the user task is completed, click on the **Clear Environment** button to re
 * **Individiual Survival Plots:** Separate survival plots of individual genes with prognostic performance
 
 # References
-<div id="refs"></div>
+
+1. Cai,J. et al. (2018) Feature selection in machine learning: A new perspective. Neurocomputing, 300, 70–79.
+2. Gallagher,E.J. and LeRoith,D. (2015) Obesity and diabetes: The increased risk of cancer and cancer-related mortality. Physiological Reviews, 95, 727–748.
+3. Kori,M. and Arga,K.Y. (2020) Pathways involved in viral oncogenesis: New perspectives from virus-host protein interactomics. Biochimica et Biophysica Acta (BBA) - Molecular Basis of Disease, 1866, 165885.
+4. LePendu,P. et al. (2011) Enabling enrichment analysis with the human disease ontology. Journal of Biomedical Informatics, 44, S31–S38.
+5. Liu,B. et al. (2004) BMC Bioinformatics, 5, 136.
+6. Ouardighi,A. el et al. (2007) Feature selection on supervised classification using wilks lambda statistic. In, 2007 international symposium on computational intelligence and intelligent informatics. IEEE.
+
 
 # How to install R and RStudio GUI
 
