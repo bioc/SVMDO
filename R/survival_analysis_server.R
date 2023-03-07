@@ -48,11 +48,16 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
       disc_list<-final_discriminative_gene_set
       
       if (rval_sel=="COAD") {
-        c_path<-system.file("extdata","coad_clinic_sum.rds",package="SVMDO",mustWork = TRUE)
-        c<-readRDS(c_path)
+        package_path<-find.package("SVMDO",quiet=TRUE)
+		rds_path<-"extdata/coad_clinic_sum.rds"
+		comb_path<-file.path(package_path,rds_path,fsep = "/")
+		c<-readRDS(comb_path)
         alldata<-assay(c)
       }else if (rval_sel=="LUSC"){
-        c_path<-system.file("extdata","lusc_clinic_sum.rds",package="SVMDO",mustWork = TRUE)
+	    package_path<-find.package("SVMDO",quiet=TRUE)
+		rds_path<-"extdata/lusc_clinic_sum.rds"
+		comb_path<-file.path(package_path,rds_path,fsep = "/")
+		c<-readRDS(comb_path)
         c<-readRDS(c_path)
         alldata<-assay(c)
         

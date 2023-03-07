@@ -17,14 +17,18 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
     message_val_2<-NULL
     
     if (rval_sel=="COAD") {
-      c_path<-system.file("extdata","coad_exp_sum.rds",package="SVMDO",mustWork = TRUE)
-      c<-readRDS(c_path)
+      package_path<-find.package("SVMDO",quiet=TRUE)
+      rds_path<-"extdata/coad_exp_sum.rds"
+      comb_path<-file.path(package_path,rds_path,fsep = "/")
+      c<-readRDS(comb_path)
       c<-assay(c)
       type_num_data<-seq.int(ncol(c))
       type_data<-c[1,type_num_data]
     }else if (rval_sel=="LUSC"){
-      c_path<-system.file("extdata","lusc_exp_sum.rds",package="SVMDO",mustWork = TRUE)
-      c<-readRDS(c_path)
+      package_path<-find.package("SVMDO",quiet=TRUE)
+      rds_path<-"extdata/lusc_exp_sum.rds"
+      comb_path<-file.path(package_path,rds_path,fsep = "/")
+      c<-readRDS(comb_path)
       c<-assay(c)
       type_num_data<-seq.int(ncol(c))
       type_data<-c[1,type_num_data]
