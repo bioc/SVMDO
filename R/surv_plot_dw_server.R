@@ -8,7 +8,7 @@
 
 surv_plot_dw_server<-function(input,output,session){
   observeEvent(input$dw_plots,{
-    if(exists("final_discriminative_gene_set")){
+    if(exists("final_discriminative_gene_set") & exists("modulename_list")){
       lapply(seq.int(length(fit_list)),function(a){
         png(filename=paste0(get(modulename_list[a]),".png"),width = 800,height = 600)
         plot(get(fit_list[a]),main=get(modulename_list[a]),col = c(2,4),frame.plot=0,ylab="Survival Probability",xlab="Time (day)",cex.axis=1.5,cex.lab=1.5,cex.main=2)
