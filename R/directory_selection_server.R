@@ -7,7 +7,11 @@
 
 
 innerServer <- function(input, output,session) {
-  osSystem <- Sys.info()["sysname"]
+  if (grepl("linux-gnu", R.version$os)) {
+    osSystem<-"Linux"
+  }else{
+    osSystem<-R.version$os
+  }
   if (osSystem == "Linux") {
     def_roots <- c(home = "~")
   }else {
@@ -30,7 +34,6 @@ innerServer <- function(input, output,session) {
                  input$dir
                },
                handlerExpr = {
-                 
                  if (!"path" %in% names(dir())) return()
                  home <- normalizePath("~")
                  global$datapath <-file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
