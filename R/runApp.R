@@ -47,8 +47,13 @@ outerUI <- function(id) {
                                wellPanel(
                                  linebreaks(1),
                                  innerUI_path(ns("inner1")),
+                                 helpText(a("Click here to Examine Recent Version of SVMDO Manual in Github", 
+                                            href="https://github.com/robogeno/SVMDO/blob/master/vignettes/SVMDO_guide.Rmd")),
+                                             
                                  innerUI_exp_data(ns("inner2")),
                                  innerUI_test_data(ns("inner3")),
+                                 
+                                 p("(You will receieve error if expression dataset is incompatible)"),
                                  innerUI_deg_analysis(ns("inner4")),
                                  linebreaks(1),
                                  innerUI_top_gene_val(ns("inner5")),

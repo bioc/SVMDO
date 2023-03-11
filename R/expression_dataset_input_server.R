@@ -13,6 +13,9 @@
 # If there is not any requirements for survival analysis, TCGA id is not required
 
 innerServer_exp <- function(input, output, session) {
-  rawData <- eventReactive(input$file1, {fread(input$file1$datapath,sep = "\t")})
+  rawData <- eventReactive(input$file1, {
+    fread(input$file1$datapath,sep = "\t")
+    })
   return(rawData)
+  
 }

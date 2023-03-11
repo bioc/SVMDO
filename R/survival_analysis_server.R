@@ -15,10 +15,6 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
     end_point<-NULL
     exp_col_data<-NULL
     coxcoeff<-NULL
-    
-    fit_list<-5
-    assign("fit_list",fit_list,envir = .GlobalEnv)
-    
     rval_sel<-rval()
     
     if (exists("tcga_sample_comb") & exists("final_discriminative_gene_set")) {
@@ -60,113 +56,127 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
 		c<-readRDS(comb_path)
         c<-readRDS(c_path)
         alldata<-assay(c)
-        
-        
       }else{
         alldata<-rawData_2()
       }
-      alldata[alldata == "--"] <- NA
-      alldata[alldata == ""] <- NA
-      alldata$days_to_death <- as.numeric(as.character(alldata$days_to_death))
-      alldata$vital_status <- as.character(alldata$vital_status)
-      alldata$vital_status[alldata$vital_status == "Alive"] <- 1
-      alldata$vital_status[alldata$vital_status == "Dead"] <- 2
-      alldata$vital_status <- as.numeric(as.character(alldata$vital_status))
-      alldata$id <- as.character(gsub("-", ".", alldata$id, fixed = TRUE))
       
-      exp_data<-exp_data[,(names(exp_data) %in% as.factor(alldata$id))]
-      exp_data<-cbind(V1,exp_data)
-      
-      sub_exp_data<-exp_data[exp_data$V1 %in% disc_list$Names,]
-      sub_exp_data<-as.data.frame(sub_exp_data)
-      rownames(sub_exp_data)<-NULL
-      
-      table1 <- data.frame(matrix(NA, nrow = length(disc_list$Names), ncol = 5))
-      colnames(table1) <- c("modulename", "p", "hr", "low", "up")
-      
-      name_data<-final_discriminative_gene_set$Names
-      
-      prog_prep<-lapply(seq_along(disc_list$Names),function(a){
-        alldata1 <- alldata
+      if (ncol(alldata)>2) {
+        alldata[alldata == "--"] <- NA
+        alldata[alldata == ""] <- NA
+        alldata$days_to_death <- as.numeric(as.character(alldata$days_to_death))
+        alldata$vital_status <- as.character(alldata$vital_status)
+        alldata$vital_status[alldata$vital_status == "Alive"] <- 1
+        alldata$vital_status[alldata$vital_status == "Dead"] <- 2
+        alldata$vital_status <- as.numeric(as.character(alldata$vital_status))
+        alldata$id <- as.character(gsub("-", ".", alldata$id, fixed = TRUE))
         
-        module <- (sub_exp_data[a,])
-        row.names(module) <- make.names(module[,1], unique = TRUE)
-        module <- (module[,-1])
+        exp_data<-exp_data[,(names(exp_data) %in% as.factor(alldata$id))]
+        exp_data<-cbind(V1,exp_data)
         
-        moduletrans <- as.data.frame(t(module))
-        name_val<-colnames(moduletrans)
+        sub_exp_data<-exp_data[exp_data$V1 %in% disc_list$Names,]
+        sub_exp_data<-as.data.frame(sub_exp_data)
+        rownames(sub_exp_data)<-NULL
         
-        moduletrans<-as.data.frame(moduletrans[match(alldata1$id,rownames(moduletrans)),])
-        colnames(moduletrans)<-name_val
+        table1 <- data.frame(matrix(NA, nrow = length(disc_list$Names), ncol = 5))
+        colnames(table1) <- c("modulename", "p", "hr", "low", "up")
         
-        coxcoeff<- coxph(Surv(time= alldata1$days_to_death, event = alldata1$vital_status) ~ (moduletrans[,1]), data = alldata1)$coefficients
-        PI <- data.frame()[seq.int(1,nrow(moduletrans)),]
+        name_data<-final_discriminative_gene_set$Names
         
-        lap_PI_test<-lapply(seq.int(nrow(moduletrans)), function(b){
-          pi_val<-sum(na.omit(((moduletrans[b,])) * coxcoeff))
-        })
-        
-        PI<-as.data.frame(unlist(lap_PI_test))
-        rownames(PI) <- rownames(moduletrans)
-        colnames(PI) <- 'PI'
-        
-        alldata1 <- mutate(alldata1, PI = PI$PI)
-        medPI <- median(PI$PI)
-        
-        if (medPI<=0 ) {
+        prog_prep<-lapply(seq_along(disc_list$Names),function(a){
+          alldata1 <- alldata
           
-          if (sum(PI$PI<=0)==nrow(alldata1)) {
-            alldata1$group <- ifelse(PI$PI < medPI, 2, 1)
+          module <- (sub_exp_data[a,])
+          row.names(module) <- make.names(module[,1], unique = TRUE)
+          module <- (module[,-1])
+          
+          moduletrans <- as.data.frame(t(module))
+          name_val<-colnames(moduletrans)
+          
+          moduletrans<-as.data.frame(moduletrans[match(alldata1$id,rownames(moduletrans)),])
+          colnames(moduletrans)<-name_val
+          
+          coxcoeff<- coxph(Surv(time= alldata1$days_to_death, event = alldata1$vital_status) ~ (moduletrans[,1]), data = alldata1)$coefficients
+          PI <- data.frame()[seq.int(1,nrow(moduletrans)),]
+          
+          lap_PI_test<-lapply(seq.int(nrow(moduletrans)), function(b){
+            pi_val<-sum(na.omit(((moduletrans[b,])) * coxcoeff))
+          })
+          
+          PI<-as.data.frame(unlist(lap_PI_test))
+          rownames(PI) <- rownames(moduletrans)
+          colnames(PI) <- 'PI'
+          
+          alldata1 <- mutate(alldata1, PI = PI$PI)
+          medPI <- median(PI$PI)
+          
+          if (medPI<=0 ) {
+            
+            if (sum(PI$PI<=0)==nrow(alldata1)) {
+              alldata1$group <- ifelse(PI$PI < medPI, 2, 1)
+            }
+            
+            if (sum(PI$PI>=0)==nrow(alldata1)) {
+              alldata1$group <- ifelse(PI$PI <= medPI, 2, 1)
+            }
           }
           
-          if (sum(PI$PI>=0)==nrow(alldata1)) {
+          if (medPI>0) {
             alldata1$group <- ifelse(PI$PI <= medPI, 2, 1)
           }
-        }
-        
-        if (medPI>0) {
-          alldata1$group <- ifelse(PI$PI <= medPI, 2, 1)
-        }
-        
-        if (sum(!duplicated(alldata1$group))!=1) {
           
-          surv_object <- Surv(time = alldata1$days_to_death, event = alldata1$vital_status)
-          fit1 <- survfit(surv_object ~ group, data = alldata1)
-          coxhr <- coxph(surv_object ~ group, data = alldata1)
-          summhr <- summary(coxhr)
-          p <- round(summhr$sctest[3], digits = 5)
-          
-          
-          data.survdiff <- survdiff(surv_object ~ group, data = alldata1)
-          hr = round((data.survdiff$obs[1]/data.survdiff$exp[1])/(data.survdiff$obs[2]/data.survdiff$exp[2]), digits = 3)
-          up = round(exp(log(hr) + qnorm(0.975)*sqrt(1/data.survdiff$exp[2]+1/data.survdiff$exp[1])), digits = 3)
-          low = round(exp(log(hr) - qnorm(0.975)*sqrt(1/data.survdiff$exp[2]+1/data.survdiff$exp[1])), digits = 3)
-          
-          modulename <- (sub_exp_data$V1[a])
-          if (str_contains(modulename,"__")) {
-            modulename<-gsub("__","-",modulename)
-          }
-          
-          if (p<0.05) {
-            assign(paste0("fit1","_",a),fit1,envir = .GlobalEnv)
-            assign(paste0("modulename","_",a),modulename,envir = .GlobalEnv)
-            assign(paste0("hr","_",a),hr,envir = .GlobalEnv)
-            assign(paste0("p","_",a),p,envir = .GlobalEnv)
+          if (sum(!duplicated(alldata1$group))!=1) {
             
+            surv_object <- Surv(time = alldata1$days_to_death, event = alldata1$vital_status)
+            fit1 <- survfit(surv_object ~ group, data = alldata1)
+            coxhr <- coxph(surv_object ~ group, data = alldata1)
+            summhr <- summary(coxhr)
+            p <- round(summhr$sctest[3], digits = 5)
+            
+            
+            data.survdiff <- survdiff(surv_object ~ group, data = alldata1)
+            hr = round((data.survdiff$obs[1]/data.survdiff$exp[1])/(data.survdiff$obs[2]/data.survdiff$exp[2]), digits = 3)
+            up = round(exp(log(hr) + qnorm(0.975)*sqrt(1/data.survdiff$exp[2]+1/data.survdiff$exp[1])), digits = 3)
+            low = round(exp(log(hr) - qnorm(0.975)*sqrt(1/data.survdiff$exp[2]+1/data.survdiff$exp[1])), digits = 3)
+            
+            modulename <- (sub_exp_data$V1[a])
+            if (str_contains(modulename,"__")) {
+              modulename<-gsub("__","-",modulename)
+            }
+            
+            if (p<0.05) {
+              assign(paste0("fit1","_",a),fit1,envir = .GlobalEnv)
+              assign(paste0("modulename","_",a),modulename,envir = .GlobalEnv)
+              assign(paste0("hr","_",a),hr,envir = .GlobalEnv)
+              assign(paste0("p","_",a),p,envir = .GlobalEnv)
+              
+            }
           }
-        }
+          
+          
+          showModal(
+            modalDialog(
+              title = "Survival Analysis Result",
+              "Process Completed",
+              easyClose = TRUE,
+              footer = NULL
+            )
+          )
+          
+        })
         
         
+      }else{
         showModal(
           modalDialog(
-            title = "Survival Analysis Result",
-            "Process Completed",
+            title = "Detecting Dataset Incompatibility",
+            "Please Check Manual (Vignette) for Clinical Dataset Preparation",
             easyClose = TRUE,
             footer = NULL
           )
         )
-        
-      })
+      }
+      
+
     }else{
       showModal(
         modalDialog(
