@@ -20,7 +20,8 @@ plot_list_server<-function(input,output,session){
       assign("hr_list",hr_list,envir = .GlobalEnv)
       assign("p_list",p_list,envir = .GlobalEnv)
       assign("max_plots",length(fit_list),envir = .GlobalEnv)
-      sig_val<-0
+      assign("plot_prep_sign",1,envir = .GlobalEnv)
+      
       showModal(
         modalDialog(
           title = "Survival Plot Preparation",

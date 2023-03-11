@@ -11,11 +11,10 @@
 innerServer_3 <- function(input, output, session,rawData, rval) {
   observeEvent(input$initiate_deg_analysis, {
     
+    main_process_activation<-NULL
+    test_activation<-NULL
     rval_sel<-rval()
-    
-    message_val<-NULL
-    message_val_2<-NULL
-    
+
     if (rval_sel=="COAD") {
       package_path<-find.package("SVMDO",quiet=TRUE)
       rds_path<-"extdata/coad_exp_sum.rds"
@@ -157,36 +156,35 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
     sorted_new_bound_form_A<-new_bound_form_A[order(-new_bound_form_A$Fold_Change),]
     sorted_new_bound_form_B<-new_bound_form_B[order(new_bound_form_B$Fold_Change),]
     
-    assign("sorted_new_bound_form_A",sorted_new_bound_form_A,envir =.GlobalEnv)
-    assign("sorted_new_bound_form_B",sorted_new_bound_form_B,envir =.GlobalEnv)
-    assign("complete_deg_gene_list",complete_deg_gene_list,envir =.GlobalEnv)
-    assign("total_exp_dataset",c, envir =.GlobalEnv)
-    
     if (rval_sel %in% c("COAD","LUSC")) {
       top_gene_number<-50
-      if (nrow(sorted_new_bound_form_A) < top_gene_number | nrow(sorted_new_bound_form_B) < top_gene_number) {
-        message_val_2<-1
-        max_down_genes<-sorted_new_bound_form_A
-        max_up_genes<-sorted_new_bound_form_B
-        message("Insufficient gene number All up/downregulated genes were selected")
-        message("Enter a lower value of input size")
-      }else{
-        max_down_genes<-sorted_new_bound_form_A[seq.int((nrow(sorted_new_bound_form_A)-(top_gene_number-1)),nrow(sorted_new_bound_form_A)),]
-        max_up_genes<-sorted_new_bound_form_B[seq.int((nrow(sorted_new_bound_form_B)-(top_gene_number-1)),nrow(sorted_new_bound_form_B)),]
-      }
-      top_combined_genes<-rbind(max_down_genes,max_up_genes)
-      rownames(top_combined_genes)<-top_combined_genes[,1]
-      changed_whole_data<-subset(c,select=top_combined_genes$Genes)    
-      assign("top_genes_test",changed_whole_data,envir =.GlobalEnv)
-      message_val_2<-1
+      assign("sorted_new_bound_form_A_test",sorted_new_bound_form_A,envir =.GlobalEnv)
+      assign("sorted_new_bound_form_B_test",sorted_new_bound_form_B,envir =.GlobalEnv)
+      assign("complete_deg_gene_list_test",complete_deg_gene_list,envir =.GlobalEnv)
+      assign("total_exp_dataset_test",c, envir =.GlobalEnv)
+      
+      max_down_genes_test<-sorted_new_bound_form_A_test[seq.int((nrow(sorted_new_bound_form_A_test)-(top_gene_number-1)),nrow(sorted_new_bound_form_A_test)),]
+      max_up_genes_test<-sorted_new_bound_form_B_test[seq.int((nrow(sorted_new_bound_form_B_test)-(top_gene_number-1)),nrow(sorted_new_bound_form_B_test)),]
+      top_combined_genes_test<-rbind(max_down_genes_test,max_up_genes_test)
+      rownames(top_combined_genes_test)<-top_combined_genes_test[,1]
+      changed_whole_data_test<-subset(c,select=top_combined_genes$Genes)
+      gene_names_test<-as.data.frame(top_combined_genes$Genes)
+      colnames(gene_names_test)<-"Names"
+      assign("top_genes_test",changed_whole_data_test,envir =.GlobalEnv)
+      assign("top_gene_list_test",gene_names_test,envir =.GlobalEnv)
+      test_activation<-1
     }else{
-      message_val<-1
+      assign("sorted_new_bound_form_A",sorted_new_bound_form_A,envir =.GlobalEnv)
+      assign("sorted_new_bound_form_B",sorted_new_bound_form_B,envir =.GlobalEnv)
+      assign("complete_deg_gene_list",complete_deg_gene_list,envir =.GlobalEnv)
+      assign("total_exp_dataset",c, envir =.GlobalEnv)
+      main_process_activation<-1
     }
     
-    if (!is.null(message_val)) {
+    if (!is.null(main_process_activation)) {
       showModal(
         modalDialog(
-          title = "DEG Analysis Result",
+          title = "Input Data-Based DEG Analysis",
           "Process Completed",
           easyClose = TRUE,
           footer = NULL
@@ -194,10 +192,10 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
       )
     }
     
-    if (!is.null(message_val_2)) {
+    if (!is.null(test_activation)) {
       showModal(
         modalDialog(
-          title = "Test Data-Based DEG Analysis Result",
+          title = "Test Data-Based DEG Analysis",
           "Process Completed",
           easyClose = TRUE,
           footer = NULL

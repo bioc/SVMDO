@@ -8,13 +8,12 @@
 
 innerServer_5<- function(input,output,session,top_val){
   observeEvent(input$initiate_top_gene_selection, {
-    message_val<-NULL
+    top_gene_selection<-NULL
     top_gene_number<-top_val()
-    
+
     if (exists("sorted_new_bound_form_A")) {
       
       if (nrow(sorted_new_bound_form_A) < top_gene_number | nrow(sorted_new_bound_form_B) < top_gene_number) {
-        message_val_2<-1
         max_down_genes<-sorted_new_bound_form_A
         max_up_genes<-sorted_new_bound_form_B
         message("Insufficient gene number All up/downregulated genes were selected")
@@ -26,9 +25,11 @@ innerServer_5<- function(input,output,session,top_val){
       top_combined_genes<-rbind(max_down_genes,max_up_genes)
       rownames(top_combined_genes)<-top_combined_genes[,1]
       changed_whole_data<-subset(total_exp_dataset,select=top_combined_genes$Genes)
-      
+      gene_names<-as.data.frame(top_combined_genes$Genes)
+      colnames(gene_names)<-"Names"
+      assign("top_gene_list",gene_names,envir =.GlobalEnv)
       assign("top_genes",changed_whole_data,envir =.GlobalEnv)
-      message_val<-1
+      top_gene_selection<-1
     }else{
       showModal(
         modalDialog(
@@ -36,7 +37,7 @@ innerServer_5<- function(input,output,session,top_val){
           "Process Failed",
           easyClose = TRUE,footer = NULL))}
     
-    if (!is.null(message_val)) {
+    if (!is.null(top_gene_selection)) {
       showModal(
         modalDialog(
           title = "Top Gene Selection Result",

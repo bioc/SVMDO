@@ -155,9 +155,11 @@ When the user task is completed, click on the **Clear Environment** button to re
 
 # How to install R and RStudio GUI
 
+RStudio requires R 3.3.0+. Choose a version of R that matches your computer’s operating system
+
 ## Windows Operating System
 
-**R-base Install:
+**R-base Install: 
 
 1. Copy/Paste the address https://cran.r-project.org/bin/windows/base/
 2. Click on Download R-X.X.X for Windows
@@ -178,12 +180,14 @@ When the user task is completed, click on the **Clear Environment** button to re
 2. In the Download and Install R section, click on Download R for Linux
 3. In the parent directory, click on ubuntu/ 
 4. Run the following lines in terminal (as root or by prefixing sudo) to provide access to recent version of R:
-* apt update -qq
-* apt install --no-install-recommends software-properties-common dirmngr
+* sudo apt install --no-install-recommends software-properties-common dirmngr
+# add the signing key (by Michael Rutter) for these repos
+# To verify key, run gpg --show-keys /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc 
+# Fingerprint: E298A3A825C0D65DFD57CBB651716619E084DAB9
 * wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
-* add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
-
-5. Run apt-get install r-base
+# add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+* sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+5. After the previous lines, run sudo apt install --no-install-recommends r-base 
 
 **RStudio Install:
 

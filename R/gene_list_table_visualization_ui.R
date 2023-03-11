@@ -3,7 +3,7 @@
 #' @param id connection input
 #' @return Providing table form of discriminative gene sets in GUI
 
-test_data_table_ui  <- function(id){
+deg_data_table_ui  <- function(id){
   ns <- NS(id)
   tagList(
     dataTableOutput(outputId = ns("table")),

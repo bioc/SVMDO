@@ -37,12 +37,13 @@ linebreaks <- function(n){HTML(strrep(br(), n))}
 outerUI <- function(id) {
   
   ns <- NS(id)
-  linebreaks <- function(n){HTML(strrep(br(), n))}
+  # linebreaks <- function(n){HTML(strrep(br(), n))}
   
   navbarPage(title="SVMDO",
              tabPanel(title = "Analysis",
+                      column(6,
                       fluidRow(
-                        column(6,
+                        column(12,
                                wellPanel(
                                  linebreaks(1),
                                  innerUI_path(ns("inner1")),
@@ -61,29 +62,23 @@ outerUI <- function(id) {
                                  linebreaks(1),
                                  div(style="display:inline-block",
                                      innerUI_surv(ns("inner10")),
-                                     innerUI_clear_env(ns("inner11"))))))),
-             
+                                     innerUI_clear_env(ns("inner11")))
+                                 ))
+                                 
+                               )),
+                      ),
              tabPanel(title = "Results",
                       fluidRow(column(6,
-                                      wellPanel(
-                                        column(12,
-                                               innerUI_table_show(ns("inner12"))),
-                                        column(12,
-                                               div(dataTableOutput(ns("table")), style = "font-size: 60%; 
-                 width: 50%")
-                                        ),
-                                        column(12,
-                                               div(style="display:inline-block",
-                                                   
-                                                   innerUI_collect_plot_data(ns("inner13")),
-                                                   disc_gene_download_ui(ns("inner14")),
-                                                   surv_plots_download_ui(ns("inner15")))),
-                                        column(12,
-                                               innerUI_plot_inject(ns("inner16")),
-                                               innerUI_plot_show(ns("inner17")))
-                                      )))))
-}
-
+                                      innerUI_table_show(ns("inner12")),
+                                      div(dataTableOutput(ns("table")), 
+                                      style = "font-size: 60%;width: 50%"),
+                                      div(style="display:inline-block",
+                                          innerUI_collect_plot_data(ns("inner13")),
+                                          disc_gene_download_ui(ns("inner14")),
+                                          surv_plots_download_ui(ns("inner15"))),
+                                      innerUI_plot_inject(ns("inner16")),
+                                      innerUI_plot_show(ns("inner17"))
+                                      ))))}
 
 ui <- fluidPage(
   outerUI("mod1")
@@ -105,7 +100,8 @@ outerServer <- function(id) {
       innerResult_8 <- callModule(innerServer_8, "inner10",innerResult_clinic,innerResult_x)
       innerResult_9 <- callModule(innerServer_9,"inner11")
       innerResult_10<-callModule(table_server,"inner12")
-      output$table<-renderDataTable({return(innerResult_10())},escape=FALSE)
+      output$table<-renderDataTable(return(innerResult_10()),options = list(pageLength = 5)
+                                           ,escape=FALSE)
       innerResult_11<-callModule(plot_list_server,"inner13")
       innerResult_12<-callModule(disc_gene_dw_server,"inner14")
       innerResult_13<-callModule(surv_plot_dw_server,"inner15")
@@ -121,7 +117,6 @@ server <- function(input, output, session) {
     stopApp()
   })
 }
-
 
 #' @export
 

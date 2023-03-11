@@ -2,10 +2,10 @@
 % Please edit documentation in R/gene_list_table_visualization_ui.R
 \name{gene_list_table_visualization_ui}
 \alias{gene_list_table_visualization_ui}
-\alias{test_data_table_ui}
+\alias{deg_data_table_ui}
 \title{SVMDO}
 \usage{
-test_data_table_ui(id)
+deg_data_table_ui(id)
 }
 \arguments{
 \item{id}{connection input}

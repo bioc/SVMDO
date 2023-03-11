@@ -15,8 +15,6 @@ innerServer_9<-function(input,output,session){
                     "top_genes_test","top_genes","total_exp_dataset",
                     "max_plots")
     
-    string_names_2<-c("fit_list","hr_list","p_list","modulename_list")
-    
     n_list<-NULL
     y_list<-NULL
     sig_val<-NULL
@@ -50,46 +48,20 @@ innerServer_9<-function(input,output,session){
       }
     }
 
-    if (!is.null(ls(pattern = "fit1_",envir = .GlobalEnv))) {
-      fit_list<-ls(pattern = "fit1_",envir = .GlobalEnv)
-      modulename_list<-ls(pattern = "modulename_",envir = .GlobalEnv)
-      p_list<-ls(pattern = "^p_",envir = .GlobalEnv)
-      hr_list<-ls(pattern = "hr_",envir = .GlobalEnv)
+    if (length(ls(pattern = "fit1_",envir = .GlobalEnv))>0) {
       
-      assign("fit_list",fit_list,envir = .GlobalEnv)
-      assign("modulename_list",modulename_list,envir = .GlobalEnv)
-      assign("hr_list",hr_list,envir = .GlobalEnv)
-      assign("p_list",p_list,envir = .GlobalEnv)
+      pat_list<-c("fit1_","modulename_","p_","hr_")
+      
+      rm_pat_list<-lapply(seq.int(pat_list),function(i){
+        rm(list = pat_list[grep(file.path("^",pat_list[i],fsep = ""), pat_list)],envir = .GlobalEnv)
+        })
     }
     
-    rm_fit_names<-lapply(seq.int(fit_list), function(i){
-      if (exists(fit_list[i],envir = .GlobalEnv )) {
-        rm(list = c(fit_list[i]), envir = .GlobalEnv)
-        }
-      })
+    if (exists("plot_prep_sign",envir = .GlobalEnv )) {
+      rm(list = c("fit_list","hr_list","p_list","modulename_list","plot_prep_sign"), envir = .GlobalEnv)
+    }
     
-    rm_p_names<-lapply(seq.int(p_list), function(i){
-      if (exists(p_list[i],envir = .GlobalEnv )) {
-        rm(list = c(p_list[i]), envir = .GlobalEnv)
-      }
-    })
-    
-    rm_hr_names<-lapply(seq.int(hr_list), function(i){
-      if (exists(hr_list[i],envir = .GlobalEnv )) {
-        rm(list = c(hr_list[i]), envir = .GlobalEnv)
-      }
-    })
-    
-    rm_mod_names<-lapply(seq.int(modulename_list), function(i){
-      if (exists(modulename_list[i],envir = .GlobalEnv )) {
-        rm(list = c(modulename_list[i]), envir = .GlobalEnv)
-      }
-    })
-    
-    rm_var_names_2<-lapply(seq.int(string_names_2), function(i){
-      if (exists(string_names_2[i],envir = .GlobalEnv )) {
-        rm(list = c(string_names_2[i]), envir = .GlobalEnv)
-      }})
+
     
     if (sig_val==1) {
       showModal(
