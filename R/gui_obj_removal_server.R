@@ -48,7 +48,7 @@ innerServer_9<-function(input,output,session){
       }
     }
 
-    if (length(ls(pattern = "fit1_",envir = .GlobalEnv))>0) {
+    if (length(ls(pattern = "^fit1_",envir = .GlobalEnv))>0) {
       
       pat_list<-c("fit1_","modulename_","p_","hr_")
       

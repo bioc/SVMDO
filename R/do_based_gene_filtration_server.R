@@ -72,13 +72,10 @@ innerServer_6<-function(input,output,session){
         assign("tcga_sample_comb",assigning_tcga_sample_comb,envir =.GlobalEnv)
       }
       
-      d_genes_list<-as.data.frame(unlist(dis_gene_extract))
-      colnames(d_genes_list)<-"Names"
       assigning_disease_filtered_gene_data<-cbind(new_tissue_type_list,changed_name_plus_var_imp_genes_table)
       assigning_disease_filtered_gene_data<-as.data.frame(assigning_disease_filtered_gene_data)
       assign("disease_filtered_gene_data",assigning_disease_filtered_gene_data,envir = .GlobalEnv)
-      assign("d_genes_list",d_genes_list,envir = .GlobalEnv)
-      
+
       message_val_3<-1
     }
     if (!is.null(message_val_3)) {

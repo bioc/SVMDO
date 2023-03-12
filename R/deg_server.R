@@ -173,7 +173,6 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
         gene_names_test<-as.data.frame(top_combined_genes$Genes)
         colnames(gene_names_test)<-"Names"
         assign("top_genes_test",changed_whole_data_test,envir =.GlobalEnv)
-        assign("top_gene_list_test",gene_names_test,envir =.GlobalEnv)
         test_activation<-1
       }else{
         assign("sorted_new_bound_form_A",sorted_new_bound_form_A,envir =.GlobalEnv)

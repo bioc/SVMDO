@@ -171,7 +171,7 @@ innerServer_7<-function(input,output,session) {
     if (exists("final_discriminative_gene_set")) {
       showModal(
         modalDialog(
-          title = "Classification Result",
+          title = "Classification Analysis",
           "Process Completed",
           easyClose = TRUE,
           footer = NULL

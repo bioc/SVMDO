@@ -25,9 +25,6 @@ innerServer_5<- function(input,output,session,top_val){
       top_combined_genes<-rbind(max_down_genes,max_up_genes)
       rownames(top_combined_genes)<-top_combined_genes[,1]
       changed_whole_data<-subset(total_exp_dataset,select=top_combined_genes$Genes)
-      gene_names<-as.data.frame(top_combined_genes$Genes)
-      colnames(gene_names)<-"Names"
-      assign("top_gene_list",gene_names,envir =.GlobalEnv)
       assign("top_genes",changed_whole_data,envir =.GlobalEnv)
       top_gene_selection<-1
     }else{

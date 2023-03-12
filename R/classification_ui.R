@@ -6,5 +6,5 @@
 
 innerUI_classification<- function(id){
   ns <- NS(id)
-  actionButton(ns("initiate_wlsvmdo_analysis"),"Classification")
+  actionButton(ns("initiate_wlsvmdo_analysis"),"Classification Analysis")
 }

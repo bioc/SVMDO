@@ -155,7 +155,7 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
           
           showModal(
             modalDialog(
-              title = "Survival Analysis Result",
+              title = "Survival Analysis",
               "Process Completed",
               easyClose = TRUE,
               footer = NULL
