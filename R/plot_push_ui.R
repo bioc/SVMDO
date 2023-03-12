@@ -6,5 +6,5 @@
 
 innerUI_plot_inject<-function(id){
   ns <- NS(id)
-  actionButton(ns("plot_add"),"Show Plots")  
+  actionButton(ns("plot_add"),"Show Survival Plot List")  
 }

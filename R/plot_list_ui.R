@@ -5,5 +5,5 @@
 
 innerUI_collect_plot_data<-function(id){
   ns <- NS(id)
-  actionButton(ns("list_data"),"Prepare Plot Lists")
+  actionButton(ns("list_data"),"Prepare Survival Plot List")
 }

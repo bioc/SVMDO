@@ -47,13 +47,13 @@ outerUI <- function(id) {
                                wellPanel(
                                  linebreaks(1),
                                  innerUI_path(ns("inner1")),
-                                 helpText(a("Click here to Examine Recent Version of SVMDO Manual in Github", 
+                                 helpText(a("Click here to examine recent version of SVMDO manual in Github", 
+                                            target="_blank",
                                             href="https://github.com/robogeno/SVMDO/blob/master/vignettes/SVMDO_guide.Rmd")),
-                                             
+                                 p("(Wait until 'Upload complete' message appears after choosing your expression dataset)"),
                                  innerUI_exp_data(ns("inner2")),
                                  innerUI_test_data(ns("inner3")),
-                                 
-                                 p("(You will receieve error if expression dataset is incompatible)"),
+                                 p("(When you click on DEG Analysis button, an error message will appear if expression dataset is incompatible)"),
                                  innerUI_deg_analysis(ns("inner4")),
                                  linebreaks(1),
                                  innerUI_top_gene_val(ns("inner5")),
@@ -63,8 +63,11 @@ outerUI <- function(id) {
                                      innerUI_disease_ont_class(ns("inner7")),
                                      innerUI_classification(ns("inner8")
                                                             )),
-                                 innerUI_clinic_data(ns("inner9")),
                                  linebreaks(1),
+                                 p("(In a test analysis, clinical dataset is not chosen)"),
+                                 p("(Uploading clinical dataset is required for input data-based analysis)"),
+                                 innerUI_clinic_data(ns("inner9")),
+                                 p("(When you click on Survival Analysis button,An error message will appear if clinical dataset is incompatible)"),
                                  div(style="display:inline-block",
                                      innerUI_surv(ns("inner10")),
                                      innerUI_clear_env(ns("inner11")))
@@ -74,7 +77,9 @@ outerUI <- function(id) {
                       ),
              tabPanel(title = "Results",
                       fluidRow(column(6,
+                                      p("(Visualizing the gene set acquired from classification step)"),
                                       innerUI_table_show(ns("inner12")),
+                                      p("(To download or show plots, click on Prepare Survival Plot List button)"),
                                       div(dataTableOutput(ns("table")), 
                                       style = "font-size: 60%;width: 50%"),
                                       div(style="display:inline-block",
