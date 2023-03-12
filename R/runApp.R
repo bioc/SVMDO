@@ -37,7 +37,6 @@ linebreaks <- function(n){HTML(strrep(br(), n))}
 outerUI <- function(id) {
   
   ns <- NS(id)
-  # linebreaks <- function(n){HTML(strrep(br(), n))}
   
   navbarPage(title="SVMDO",
              tabPanel(title = "Analysis",

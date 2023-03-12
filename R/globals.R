@@ -67,4 +67,6 @@ globalVariables(c("final_discriminative_gene_set","top_genes","tcga_id_list",
                   "..elected_val","..num_data", 
                   "..type_num_data","tissue_type_list","disease_filtered_gene_data",
                   "tcga_sample_comb","new_tissue_type_list","tissue_type",
-                  "top_genes_test","total_exp_dataset"))
+                  "top_genes_test","total_exp_dataset","c_path",
+                  "sorted_new_bound_form_A_test","sorted_new_bound_form_B_test",
+                  "top_combined_genes"))
