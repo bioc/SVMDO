@@ -51,6 +51,7 @@ outerUI <- function(id) {
                                             href="https://github.com/robogeno/SVMDO/blob/master/vignettes/SVMDO_guide.Rmd")),
                                  p("(Wait until 'Upload complete' message appears after choosing your expression dataset)"),
                                  innerUI_exp_data(ns("inner2")),
+                                 p("(In a test study, clinical and expression datasets are pre-selected)"),
                                  innerUI_test_data(ns("inner3")),
                                  p("(When you click on DEG Analysis button, an error message will appear if expression dataset is incompatible)"),
                                  innerUI_deg_analysis(ns("inner4")),
@@ -63,10 +64,8 @@ outerUI <- function(id) {
                                      innerUI_classification(ns("inner8")
                                                             )),
                                  linebreaks(1),
-                                 p("(In a test analysis, clinical dataset is not chosen)"),
-                                 p("(Uploading clinical dataset is required for input data-based analysis)"),
                                  innerUI_clinic_data(ns("inner9")),
-                                 p("(When you click on Survival Analysis button,An error message will appear if clinical dataset is incompatible)"),
+                                 p("(In an input-based study, incompatible clinical dataset will result in an error message)"),
                                  div(style="display:inline-block",
                                      innerUI_surv(ns("inner10")),
                                      innerUI_clear_env(ns("inner11")))
