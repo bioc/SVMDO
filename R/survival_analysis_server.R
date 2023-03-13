@@ -84,7 +84,6 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
         
         prog_prep<-lapply(seq_along(disc_list$Names),function(a){
           alldata1 <- alldata
-          
           module <- (sub_exp_data[a,])
           row.names(module) <- make.names(module[,1], unique = TRUE)
           module <- (module[,-1])

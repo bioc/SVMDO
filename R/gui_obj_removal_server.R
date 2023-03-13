@@ -49,15 +49,24 @@ innerServer_9<-function(input,output,session){
       }
     }
     
+    if (length(ls(,pattern = "^fit1_",envir = .GlobalEnv))>0) {
+      a<-length(ls(,pattern = "^fit1_",envir = .GlobalEnv))
+      b<-ls(,pattern = "^fit1_",envir = .GlobalEnv)
+      c<-ls(,pattern= "^modulename_",envir = .GlobalEnv)
+      d<-ls(,pattern= "^p_",envir = .GlobalEnv)
+      e<-ls(,pattern= "^hr_",envir = .GlobalEnv)
+      rm_var_names_fit<-lapply(seq.int(a), function(i){
+        rm(list = b[i], envir = .GlobalEnv)})
+      rm_var_names_mod<-lapply(seq.int(a), function(i){
+        rm(list = c[i], envir = .GlobalEnv)})
+      rm_var_names_pval<-lapply(seq.int(a), function(i){
+        rm(list = d[i], envir = .GlobalEnv)})
+      rm_var_names_hr<-lapply(seq.int(a), function(i){
+        rm(list = e[i], envir = .GlobalEnv)})
+      }
+      
+      
 
-    if (length(ls(,pattern = "^fit1_"))>0) {
-      
-      
-      rm(list = ls(,pattern= "^fit1_"))
-      rm(list = ls(,pattern= "^modulename_"))
-      rm(list = ls(,pattern= "^p_"))
-      rm(list = ls(,pattern= "^hr_"))
-    }
     
     if (exists("plot_prep_sign",envir = .GlobalEnv )) {
       rm(list = c("fit_list","hr_list","p_list","modulename_list","plot_prep_sign"), envir = .GlobalEnv)
