@@ -8,12 +8,13 @@
 
 innerServer_9<-function(input,output,session){
   observeEvent(input$clean_workspace, {
-    string_names_1<-c("complete_deg_gene_list","disease_filtered_gene_data",
+    string_names_1<-c("complete_deg_gene_list","complete_deg_gene_list_test","disease_filtered_gene_data",
                     "final_discriminative_gene_set","new_tissue_type_list",
-                    "sorted_new_bound_form_A","sorted_new_bound_form_B",
+                    "sorted_new_bound_form_A","sorted_new_bound_form_A_test",
+                    "sorted_new_bound_form_B", "sorted_new_bound_form_B_test",
                     "tcga_id_list","tcga_sample_comb","tissue_type_list",
                     "top_genes_test","top_genes","total_exp_dataset",
-                    "max_plots")
+                    "total_exp_dataset_test","max_plots")
     
     n_list<-NULL
     y_list<-NULL
@@ -47,14 +48,13 @@ innerServer_9<-function(input,output,session){
         sig_val<-1
       }
     }
+    
 
-    if (length(ls(pattern = "^fit1_",envir = .GlobalEnv))>0) {
-      
-      pat_list<-c("fit1_","modulename_","p_","hr_")
-      
-      rm_pat_list<-lapply(seq.int(pat_list),function(i){
-        rm(list = pat_list[grep(file.path("^",pat_list[i],fsep = ""), pat_list)],envir = .GlobalEnv)
-        })
+    if (length(ls(,pattern = "^fit1_"))>0) {
+      rm(list = ls(,pattern= "^fit1_"))
+      rm(list = ls(,pattern= "^modulename_"))
+      rm(list = ls(,pattern= "^p_"))
+      rm(list = ls(,pattern= "^hr_"))
     }
     
     if (exists("plot_prep_sign",envir = .GlobalEnv )) {

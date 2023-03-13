@@ -169,9 +169,7 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
         max_up_genes_test<-sorted_new_bound_form_B_test[seq.int((nrow(sorted_new_bound_form_B_test)-(top_gene_number-1)),nrow(sorted_new_bound_form_B_test)),]
         top_combined_genes_test<-rbind(max_down_genes_test,max_up_genes_test)
         rownames(top_combined_genes_test)<-top_combined_genes_test[,1]
-        changed_whole_data_test<-subset(c,select=top_combined_genes$Genes)
-        gene_names_test<-as.data.frame(top_combined_genes$Genes)
-        colnames(gene_names_test)<-"Names"
+        changed_whole_data_test<-subset(c,select=top_combined_genes_test$Genes)
         assign("top_genes_test",changed_whole_data_test,envir =.GlobalEnv)
         test_activation<-1
       }else{
