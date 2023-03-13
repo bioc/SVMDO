@@ -13,7 +13,7 @@ table_server<-function(input,output,session){
       showModal(
         modalDialog(
           title = "Error in Gene Set Visualization",
-          "Process Failed",
+          "Classification Step is Missing",
           easyClose = TRUE,
           footer = NULL
         )

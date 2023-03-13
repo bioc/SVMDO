@@ -34,7 +34,7 @@ plot_list_server<-function(input,output,session){
       showModal(
         modalDialog(
           title = "Survival Plot Preparation",
-          "Process Failed",
+          "Missing Survival Plots",
           easyClose = TRUE,
           footer = NULL
         )

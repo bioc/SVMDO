@@ -31,13 +31,13 @@ innerServer_5<- function(input,output,session,top_val){
       showModal(
         modalDialog(
           title = "Error in Top Gene Selection",
-          "Process Failed",
+          "Missing DEG Analysis Step",
           easyClose = TRUE,footer = NULL))}
     
     if (!is.null(top_gene_selection)) {
       showModal(
         modalDialog(
-          title = "Top Gene Selection Result",
+          title = "Top Gene Selection",
           "Process Completed",
           easyClose = TRUE,footer = NULL))}
   })

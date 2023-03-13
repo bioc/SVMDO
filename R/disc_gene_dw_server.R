@@ -21,7 +21,7 @@ disc_gene_dw_server<-function(input,output,session){
       showModal(
         modalDialog(
           title = "Gene List Download Failed",
-          "Gene List Not Found",
+          "Missing Discriminative Gene List",
           easyClose = TRUE,
           footer = NULL
         )

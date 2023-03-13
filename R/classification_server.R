@@ -181,7 +181,7 @@ innerServer_7<-function(input,output,session) {
       showModal(
         modalDialog(
           title = "Error in Classification",
-          "Process Failed",
+          "Missing DO Analysis Step",
           easyClose = TRUE,
           footer = NULL
         )

@@ -178,7 +178,7 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
       showModal(
         modalDialog(
           title = "Error in Survival Analysis",
-          "Process Failed",
+          "Missing Classification Step",
           easyClose = TRUE,
           footer = NULL
         )

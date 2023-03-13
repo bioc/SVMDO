@@ -53,7 +53,7 @@ outerUI <- function(id) {
                                  innerUI_exp_data(ns("inner2")),
                                  p("(In a test study, clinical and expression datasets are pre-selected)"),
                                  innerUI_test_data(ns("inner3")),
-                                 p("(When you click on DEG Analysis button, an error message will appear if expression dataset is incompatible)"),
+                                 p("(In an input-based differential expression analysis, an error message will appear if expression dataset is incompatible)"),
                                  innerUI_deg_analysis(ns("inner4")),
                                  linebreaks(1),
                                  innerUI_top_gene_val(ns("inner5")),
@@ -65,7 +65,7 @@ outerUI <- function(id) {
                                                             )),
                                  linebreaks(1),
                                  innerUI_clinic_data(ns("inner9")),
-                                 p("(In an input-based study, incompatible clinical dataset will result in an error message)"),
+                                 p("(In an input-based survival analysis, incompatible clinical dataset will result in an error message)"),
                                  div(style="display:inline-block",
                                      innerUI_surv(ns("inner10")),
                                      innerUI_clear_env(ns("inner11")))

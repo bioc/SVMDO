@@ -82,7 +82,7 @@ innerServer_6<-function(input,output,session){
       
       showModal(
         modalDialog(
-          title = "DO based Gene Filtration Result",
+          title = "DO based Gene Filtration",
           "Process Completed",
           easyClose = TRUE,
           footer = NULL
@@ -92,7 +92,7 @@ innerServer_6<-function(input,output,session){
       showModal(
         modalDialog(
           title = "Error in DO Analysis",
-          "Process Failed",
+          "Missing Top Gene Number Selection Step",
           easyClose = TRUE,
           footer = NULL
         )
