@@ -45,16 +45,15 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
       
       if (rval_sel=="COAD") {
         package_path<-find.package("SVMDO",quiet=TRUE)
-		rds_path<-"extdata/coad_clinic_sum.rds"
-		comb_path<-file.path(package_path,rds_path,fsep = "/")
-		c<-readRDS(comb_path)
+        rds_path<-"extdata/coad_clinic_sum.rds"
+        comb_path<-file.path(package_path,rds_path,fsep = "/")
+        c<-readRDS(comb_path)
         alldata<-assay(c)
       }else if (rval_sel=="LUSC"){
-	    package_path<-find.package("SVMDO",quiet=TRUE)
-		rds_path<-"extdata/lusc_clinic_sum.rds"
-		comb_path<-file.path(package_path,rds_path,fsep = "/")
-		c<-readRDS(comb_path)
-        c<-readRDS(c_path)
+        package_path<-find.package("SVMDO",quiet=TRUE)
+        rds_path<-"extdata/lusc_clinic_sum.rds"
+        comb_path<-file.path(package_path,rds_path,fsep = "/")
+        c<-readRDS(comb_path)
         alldata<-assay(c)
       }else{
         alldata<-rawData_2()
