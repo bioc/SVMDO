@@ -60,7 +60,7 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
         alldata<-rawData_2()
       }
       
-      if (ncol(alldata)>2) {
+      if (ncol(alldata)<5 & colnames(alldata)[3]=="vital_status") {
         alldata[alldata == "--"] <- NA
         alldata[alldata == ""] <- NA
         alldata$days_to_death <- as.numeric(as.character(alldata$days_to_death))
@@ -148,7 +148,6 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
               assign(paste0("modulename","_",a),modulename,envir = .GlobalEnv)
               assign(paste0("hr","_",a),hr,envir = .GlobalEnv)
               assign(paste0("p","_",a),p,envir = .GlobalEnv)
-              
             }
           }
           

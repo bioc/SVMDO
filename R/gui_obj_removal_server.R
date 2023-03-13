@@ -51,6 +51,8 @@ innerServer_9<-function(input,output,session){
     
 
     if (length(ls(,pattern = "^fit1_"))>0) {
+      
+      
       rm(list = ls(,pattern= "^fit1_"))
       rm(list = ls(,pattern= "^modulename_"))
       rm(list = ls(,pattern= "^p_"))
