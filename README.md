@@ -14,10 +14,20 @@ Using FPKM and RPKM normalized RNA-Seq transcriptomics data, the package follows
 
 ## Installation
 
+To install any package from Bioconductor, run the following command in your R console:
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+```
+
+To install the SVMDO package using BiocManager, run the following command in your R console:
+```
+BiocManager::install("SVMDO")
+```
+
 The recent version can be downloaded from [Github repository](https://github.com/robogeno/SVMDO):
 ```
 install.packages("devtools")
-library(devtools)
 devtools::install_github("robogeno/SVMDO")
 ```
 
