@@ -10,8 +10,8 @@ source(file.path('R/table_ui.R'))
 source(file.path('R/disc_gene_dw_server.R'))
 source(file.path('R/disc_gene_dw_ui.R'))
 
-source(file.path('R/directory_selection_server.R'))
-source(file.path('R/directory_selection_ui.R'))
+source(file.path('R/gene_directory_selection_server.R'))
+source(file.path('R/gene_directory_selection_ui.R'))
 
 source(file.path('R/expression_dataset_input_server.R'))
 source(file.path('R/expression_dataset_input_ui.R'))

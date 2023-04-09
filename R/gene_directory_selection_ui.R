@@ -1,7 +1,7 @@
 #' @title SVMDO
-#' @name directory_selection_ui
+#' @name gene_directory_selection_ui
 #' @param id connection input
-#' @return UI section of entering output/working directory
+#' @return UI section of entering output/working for gene list directory
 
 innerUI_path <- function(id) {
   ns <- NS(id)

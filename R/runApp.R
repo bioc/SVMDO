@@ -45,7 +45,6 @@ outerUI <- function(id) {
                         column(12,
                                wellPanel(
                                  linebreaks(1),
-                                 innerUI_path(ns("inner1")),
                                  helpText(a("Click here to examine recent version of SVMDO manual in Github", 
                                             target="_blank",
                                             href="https://github.com/robogeno/SVMDO/blob/master/vignettes/SVMDO_guide.Rmd")),
@@ -74,7 +73,7 @@ outerUI <- function(id) {
                                )),
                       ),
              tabPanel(title = "Results",
-                      fluidRow(column(6,
+                      fluidRow(column(9,
                                       p("(Visualizing the gene set acquired from classification step)"),
                                       innerUI_table_show(ns("inner12")),
                                       div(dataTableOutput(ns("table")), 
@@ -82,6 +81,8 @@ outerUI <- function(id) {
                                       div(style="display:inline-block",
                                           p("(To download or show plots, click on Prepare Survival Plot List button)"),
                                           innerUI_collect_plot_data(ns("inner13")),
+                                          innerUI_gene_names(ns("inner18")),
+                                          innerUI_path(ns("inner1")),
                                           disc_gene_download_ui(ns("inner14")),
                                           surv_plots_download_ui(ns("inner15"))),
                                       innerUI_plot_inject(ns("inner16")),
@@ -111,10 +112,11 @@ outerServer <- function(id) {
       output$table<-renderDataTable(return(innerResult_10()),options = list(pageLength = 5)
                                            ,escape=FALSE)
       innerResult_11<-callModule(plot_list_server,"inner13")
-      innerResult_12<-callModule(disc_gene_dw_server,"inner14")
+      innerResult_12<-callModule(disc_gene_dw_server,"inner14",innerResult_16,innerResult)
       innerResult_13<-callModule(surv_plot_dw_server,"inner15")
       innerResult_14<-callModule(plot_push_server,"inner16")
       innerResult_15<-callModule(plot_show_server,"inner17",innerResult_14)
+      innerResult_16<-callModule(innerServer_fgh,"inner18")
     }
   )
 }

@@ -1,9 +1,9 @@
 #' @title SVMDO
-#' @name directory_selection_server
+#' @name gene_directory_selection_server
 #' @param input server input
 #' @param output server output
 #' @param session server session
-#' @return Server section of entering output/working directory
+#' @return Server section of entering output/working for gene list directory
 
 
 innerServer <- function(input, output,session) {
@@ -29,6 +29,9 @@ innerServer <- function(input, output,session) {
   output$dir <- renderText({
     global$datapath
   })
+  
+  assign("direct_val_gene_list",getwd(), envir =.GlobalEnv)
+  
   observeEvent(ignoreNULL = TRUE,
                eventExpr = {
                  input$dir
@@ -38,11 +41,15 @@ innerServer <- function(input, output,session) {
                  home <- normalizePath("~")
                  global$datapath <-file.path(home, paste(unlist(dir()$path[-1]), collapse = .Platform$file.sep))
                  if (osSystem == "Linux") {
-                   setwd(global$datapath)
+                   # setwd(global$datapath)
                  }else{
                    filtered<-gsub("^[^/]*/", "", global$datapath)
                    selected_dir_val<-file.path(as.character(def_roots),filtered,fsep = "/")
-                   setwd(selected_dir_val)
+                   # setwd(selected_dir_val)
                    global$datapath<-selected_dir_val
+                   assign("direct_val_gene_list",global$datapath, envir =.GlobalEnv)
+                   
                  }})
+
+  
 }

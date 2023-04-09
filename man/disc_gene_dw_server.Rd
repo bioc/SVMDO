@@ -4,7 +4,7 @@
 \alias{disc_gene_dw_server}
 \title{SVMDO}
 \usage{
-disc_gene_dw_server(input, output, session)
+disc_gene_dw_server(input, output, session, gene_list_val, global)
 }
 \arguments{
 \item{input}{server input}
