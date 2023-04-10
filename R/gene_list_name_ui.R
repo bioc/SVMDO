@@ -7,6 +7,6 @@
 innerUI_gene_names <- function(id) {
   ns <- NS(id)
   fluidRow(
-    column(4,      
-           textInput(ns("gene_names"),"Enter gene names")))
+    column(8,      
+           textInput(ns("gene_names"),"Enter Final Gene Set Filename")))
 }

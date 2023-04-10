@@ -33,8 +33,8 @@ disc_gene_dw_server<-function(input,output,session,gene_list_val,global){
     }else{
       showModal(
         modalDialog(
-          title = "FAILED",
-          "MISSING STEP",
+          title = "Filename Error",
+          "Please Enter Filename",
           easyClose = TRUE,
           footer = NULL
         )

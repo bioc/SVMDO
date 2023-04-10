@@ -7,6 +7,6 @@ innerUI_path <- function(id) {
   ns <- NS(id)
   fluidRow(
     column(5,
-           shinyDirButton(ns("dir"), "Choose Directory", ns("Upload")),
+           shinyDirButton(ns("dir"), "Choose Output Directory", ns("Upload")),
            verbatimTextOutput(ns("dir"), placeholder = TRUE)))
 }

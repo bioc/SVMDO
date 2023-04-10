@@ -82,12 +82,14 @@ outerUI <- function(id) {
                                           p("(To download or show plots, click on Prepare Survival Plot List button)"),
                                           innerUI_collect_plot_data(ns("inner13")),
                                           div(linebreaks(1),
-                                            innerUI_path(ns("inner1"))),
+                                              p("(Output directory of final gene set and survival plots)"),
+                                              p("(To download them in different directories, it can be used sequentially)"),
+                                              innerUI_path(ns("inner1"))),
                                           innerUI_gene_names(ns("inner18")),
                                           disc_gene_download_ui(ns("inner14")),
-                                          surv_plots_download_ui(ns("inner15"))),
-                                      innerUI_plot_inject(ns("inner16")),
-                                      innerUI_plot_show(ns("inner17"))
+                                          surv_plots_download_ui(ns("inner15")),
+                                          innerUI_plot_inject(ns("inner16")),
+                                          innerUI_plot_show(ns("inner17")))
                                       ))))}
 
 ui <- fluidPage(
@@ -113,12 +115,12 @@ outerServer <- function(id) {
       output$table<-renderDataTable(return(innerResult_10()),options = list(pageLength = 5)
                                            ,escape=FALSE)
       innerResult_11<-callModule(plot_list_server,"inner13")
-      innerResult_12<-callModule(disc_gene_dw_server,"inner14",innerResult_16,innerResult)
+      innerResult_12<-callModule(disc_gene_dw_server,"inner14",innerResult_16)
       innerResult_13<-callModule(surv_plot_dw_server,"inner15")
       innerResult_14<-callModule(plot_push_server,"inner16")
       innerResult_15<-callModule(plot_show_server,"inner17",innerResult_14)
-      innerResult_16<-callModule(innerServer_fgh,"inner18")
-    }
+      innerResult_16<-callModule(innerServer_fgh,"inner18")    
+      }
   )
 }
 
