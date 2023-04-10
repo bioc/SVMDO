@@ -98,12 +98,12 @@ The main dialog box is indicated in **Figure-1**. The GUI page consists of two m
 
 ```{r, ,echo=FALSE,  width = 200, height = 50,fig.align = "center",fig.show='hold'}
 # two figs side by side
-knitr::include_graphics("svmdo_analysis_screen.png")
+knitr::include_graphics("svmdo_fig_1.png")
 ```
 <br><br><br>
 ```{r, ,echo=FALSE,  width = 200, height = 50,fig.align = "center",fig.show='hold'}
 # two figs side by side
-knitr::include_graphics("svmdo_result_screen.png")
+knitr::include_graphics("svmdo_fig_2.png")
 ```
 
 # How to open SVMDO Main Screen
