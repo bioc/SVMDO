@@ -115,11 +115,11 @@ outerServer <- function(id) {
       output$table<-renderDataTable(return(innerResult_10()),options = list(pageLength = 5)
                                            ,escape=FALSE)
       innerResult_11<-callModule(plot_list_server,"inner13")
+      innerResult_16<-callModule(innerServer_fgh,"inner18")    
       innerResult_12<-callModule(disc_gene_dw_server,"inner14",innerResult_16)
       innerResult_13<-callModule(surv_plot_dw_server,"inner15")
       innerResult_14<-callModule(plot_push_server,"inner16")
       innerResult_15<-callModule(plot_show_server,"inner17",innerResult_14)
-      innerResult_16<-callModule(innerServer_fgh,"inner18")    
       }
   )
 }

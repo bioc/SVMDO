@@ -3,9 +3,10 @@
 #' @param input server input
 #' @param output server output
 #' @param session server session
-#' @return Server section of final discriminative gene set download button
+#' @param gene_list_val discriminative gene set list variable
+#' @return Server section of discriminative gene set download button
 
-disc_gene_dw_server<-function(input,output,session,gene_list_val,global){
+disc_gene_dw_server<-function(input,output,session,gene_list_val){
   observeEvent(input$dw_genes, {
     if(exists("final_discriminative_gene_set")){
       gene_name_variable<-gene_list_val()

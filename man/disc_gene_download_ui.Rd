@@ -10,7 +10,7 @@ disc_gene_download_ui(id)
 \item{id}{connection input}
 }
 \value{
-UI section of final discriminative gene set download button
+UI section of discriminative gene set download button
 }
 \description{
 SVMDO

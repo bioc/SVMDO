@@ -61,7 +61,7 @@ source(file.path('R/survival_analysis_ui.R'))
 source(file.path('R/gui_obj_removal_server.R'))
 source(file.path('R/gui_obj_removal_ui.R'))
 
-globalVariables(c("final_discriminative_gene_set","top_genes","tcga_id_list", 
+globalVariables(c("final_discriminative_gene_set","direct_val_gene_list","gene_list_val","top_genes","tcga_id_list", 
                   "sorted_new_bound_form_A","sorted_new_bound_form_B", "hr_list",
                   "fit1_val","max_plots","fit_list","modulename_list","p_list",
                   "..elected_val","..num_data", 

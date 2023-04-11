@@ -1,7 +1,7 @@
 #' @title SVMDO
 #' @name disc_gene_download_ui
 #' @param id connection input
-#' @return UI section of final discriminative gene set download button
+#' @return UI section of discriminative gene set download button
 
 disc_gene_download_ui<- function(id){
   ns <- NS(id)

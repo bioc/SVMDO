@@ -4,7 +4,7 @@
 \alias{disc_gene_dw_server}
 \title{SVMDO}
 \usage{
-disc_gene_dw_server(input, output, session, gene_list_val, global)
+disc_gene_dw_server(input, output, session, gene_list_val)
 }
 \arguments{
 \item{input}{server input}
@@ -12,9 +12,11 @@ disc_gene_dw_server(input, output, session, gene_list_val, global)
 \item{output}{server output}
 
 \item{session}{server session}
+
+\item{gene_list_val}{discriminative gene set list variable}
 }
 \value{
-Server section of final discriminative gene set download button
+Server section of discriminative gene set download button
 }
 \description{
 SVMDO
