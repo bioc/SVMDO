@@ -121,7 +121,7 @@ Steps of Analysis Screen
 6. To further apply the following feature selection and classification processes, click on the **Classification** button. A message window saying **process completed** will appear if there is not any problem.
 7. Acquired discriminative gene set can be further used for survival analysis to detect individual prognostic genes. To apply this process, use the file detection in **Choose Clinical Data** section for searching clinical data about patient survival followed by clicking on **Survival Analysis** button. A message window saying **process completed** will appear if there is not any problem.
 
-Applications of Result Screen
+Steps of Result Screen
 
 1. To visualize discriminative gene sets inside GUI screen, click on **Show Gene Results** button. When you click this button, a table of gene set will appear. If there is a problem in the analysis, an error message will appear.
 2. To visualize survival plots of individual genes, two steps have to be applied. First of all, click on **Prepare Plot Lists** button to feed plot information to the visualization system. After that, click on **Show Plots** button to visualize survival plots. If there is a problem in the analysis, an error message will appear at each step.
