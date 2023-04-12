@@ -3,6 +3,9 @@
 \name{package_req_list}
 \alias{package_req_list}
 \title{SVMDO}
+\value{
+List of packages involved in SVMDO
+}
 \description{
 SVMDO
 }

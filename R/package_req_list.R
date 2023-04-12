@@ -1,5 +1,6 @@
 #' @title SVMDO
 #' @name package_req_list
+#' @return List of packages involved in SVMDO
 
 if (!requireNamespace("nortest", quietly = TRUE))
   stop("Install 'nortest' to use this package.")
