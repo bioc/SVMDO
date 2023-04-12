@@ -11,7 +11,7 @@ innerUI_classification(id)
 \item{id}{connection input}
 }
 \value{
-UI section of wilk's lambda filtration and SVM classification of disease filtered differentially expressed gene set
+UI section of wilks lambda filtration and SVM classification of disease filtered differentially expressed gene set
 }
 \description{
 SVMDO

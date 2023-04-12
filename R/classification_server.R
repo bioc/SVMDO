@@ -3,7 +3,7 @@
 #' @param input server input
 #' @param output server output
 #' @param session server session
-#' @return Server section of wilk's lambda filtration and SVM classification of disease filtered differentially expressed gene set
+#' @return Server section of wilks lambda filtration and SVM classification of disease filtered differentially expressed gene set
 
 innerServer_7<-function(input,output,session) {
   observeEvent(input$initiate_wlsvmdo_analysis, {

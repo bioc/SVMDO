@@ -15,7 +15,7 @@ innerServer_7(input, output, session)
 \item{session}{server session}
 }
 \value{
-Server section of wilk's lambda filtration and SVM classification of disease filtered differentially expressed gene set
+Server section of wilks lambda filtration and SVM classification of disease filtered differentially expressed gene set
 }
 \description{
 SVMDO
