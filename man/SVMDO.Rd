@@ -4,6 +4,9 @@
 \name{SVMDO}
 \alias{SVMDO}
 \title{SVMDO}
+\value{
+Providing package-level manual page
+}
 \description{
 Package Description:
 It is an easy-to-use GUI using disease information for detecting tumor/normal sample

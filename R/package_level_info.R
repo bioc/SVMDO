@@ -1,4 +1,5 @@
 #' @title SVMDO
+#' @return Providing package-level manual page
 #' 
 #' @description Package Description:
 #' It is an easy-to-use GUI using disease information for detecting tumor/normal sample 

@@ -2,10 +2,10 @@
 % Please edit documentation in R/gene_list_name_server.R
 \name{gene_list_name_server}
 \alias{gene_list_name_server}
-\alias{innerServer_fgh}
+\alias{innerServer_10}
 \title{SVMDO}
 \usage{
-innerServer_fgh(input, output, session)
+innerServer_10(input, output, session)
 }
 \arguments{
 \item{input}{server input}

@@ -24,8 +24,8 @@ disc_gene_dw_server<-function(input,output,session,gene_list_val){
       }else{
         showModal(
           modalDialog(
-            title = "No variable name entered",
-            "Please enter gene list name",
+            title = "Filename Error",
+            "Please Enter Filename",
             easyClose = TRUE,
             footer = NULL
           )
@@ -34,8 +34,8 @@ disc_gene_dw_server<-function(input,output,session,gene_list_val){
     }else{
       showModal(
         modalDialog(
-          title = "Filename Error",
-          "Please Enter Filename",
+          title = "Gene List Download Failed",
+          "Missing Gene List Data",
           easyClose = TRUE,
           footer = NULL
         )
