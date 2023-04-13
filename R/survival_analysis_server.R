@@ -153,7 +153,7 @@ innerServer_8<-function(input,output,session,rawData_2,rval) {
           showModal(
             modalDialog(
               title = "Survival Analysis",
-              "Process Completed",
+              "Process Completed. Visualize/Download Survival Plots in Results Section",
               easyClose = TRUE,
               footer = NULL
             )

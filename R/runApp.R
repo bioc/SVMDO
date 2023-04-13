@@ -48,6 +48,7 @@ outerUI <- function(id) {
                                  helpText(a("Click here to examine recent version of SVMDO manual in Github", 
                                             target="_blank",
                                             href="https://github.com/robogeno/SVMDO/blob/master/vignettes/SVMDO_guide.Rmd")),
+                                 p("(Results of classification and survival analyses can be visualized and/or downloaded in 'Result' Section)"),
                                  p("(Wait until 'Upload complete' message appears after choosing your expression dataset)"),
                                  innerUI_exp_data(ns("inner2")),
                                  p("(In a test study, clinical and expression datasets are pre-selected)"),

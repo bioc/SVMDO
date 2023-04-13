@@ -172,7 +172,7 @@ innerServer_7<-function(input,output,session) {
       showModal(
         modalDialog(
           title = "Classification Analysis",
-          "Process Completed",
+          "Process Completed. Visualize/Download Gene Sets in Results Section",
           easyClose = TRUE,
           footer = NULL
         )
