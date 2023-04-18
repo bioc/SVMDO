@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 is_windows <- identical(.Platform$OS.type, "windows")
 ```
 
-# Installation
+# Installation and Package Loading
 
 The day-to-day development version from the [Github
 repository](https://github.com/robogeno/SVMDO) can be installed.
@@ -45,9 +45,7 @@ if(!requireNamespace("BiocManager", quietly = TRUE))
 BiocManager::install("SVMDO")
 ```
 
-# Package Loading
-
-```{r load_windows, message=FALSE, warning=FALSE, eval=is_windows, echo=is_windows}
+```{r eval = FALSE}
 #library(SVMDO)
 #Main screen of GUI
 #runGUI()
@@ -55,12 +53,6 @@ BiocManager::install("SVMDO")
 #SVMDO::runGUI()
 ```
 
-```{r load_other_os, message=FALSE, warning=FALSE, eval=isFALSE(is_windows), echo=isFALSE(is_windows)}
-#library(SVMDO)
-#runGUI()
-# OR
-#SVMDO::runGUI()
-```
 
 # Introduction
 
