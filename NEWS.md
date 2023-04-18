@@ -4,5 +4,5 @@ Changes in version 0.99.0 (2022-12-29)
 Changes in version 0.99.0 (2023-01-03)
 - Reopening of package submission issue
 
-Changes in version 0.99.0 (2023-01-11)
-- Removing time limit for process abort in classification section 
+Changes in version 0.99.22 (2023-04-18)
+- Acceptance of package for nightly devel build by Bioconductor
