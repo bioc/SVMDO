@@ -3,8 +3,7 @@ title: "SVMDO-Tutorial"
 author: "<h4>Author: <i>Mustafa Erhan Özer</i></h4>" 
 date: "<h4>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
 output:
-    BiocStyle::html_document:
-      toc: true
+    BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{SVMDO-Tutorial}
   %\VignetteEncoding{UTF-8}

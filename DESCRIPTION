@@ -1,7 +1,7 @@
 Package: SVMDO
 Title: Identification of Tumor-Discriminating mRNA Signatures via Support Vector Machines Supported by Disease Ontology
-Version: 0.99.22
-Date: 2023-04-18
+Version: 0.99.23
+Date: 2023-04-19
 Authors@R: 
     c(person(given = "Mustafa Erhan",
 	family = "Özer",
@@ -38,7 +38,8 @@ RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.1.6)
+    testthat (>= 3.1.6),
+    BiocStyle
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 BugReports: https://github.com/robogeno/SVMDO/issues
