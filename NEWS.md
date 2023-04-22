@@ -7,5 +7,5 @@
 # Changes in version 0.99.23 (2023-04-18)
 + Acceptance of package for nightly devel build by Bioconductor
 
-# Changes in version 0.99.24 (2023-04-18)
+# Changes in version 0.99.24 (2023-04-22)
 + Fixing problems in NEWS file invisibility
