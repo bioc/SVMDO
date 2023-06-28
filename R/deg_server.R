@@ -81,7 +81,6 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
       p_val_total<-NULL
       normal_data_mean<-NULL
       tumour_data_mean<-NULL
-      int_col<-NULL
       dist_normal_pval<-NULL
       dist_tumour_pval<-NULL
       

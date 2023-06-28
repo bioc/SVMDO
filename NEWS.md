@@ -9,3 +9,6 @@
 
 # Changes in version 0.99.24 (2023-04-22)
 + Fixing problems in NEWS file invisibility
+
+# Changes in version 0.99.25 (2023-06-28)
++ Removal of unnecessary variables in differential expression and classification analyses

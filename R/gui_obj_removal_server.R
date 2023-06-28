@@ -64,15 +64,10 @@ innerServer_9<-function(input,output,session){
       rm_var_names_hr<-lapply(seq.int(a), function(i){
         rm(list = e[i], envir = .GlobalEnv)})
       }
-      
-      
-
     
     if (exists("plot_prep_sign",envir = .GlobalEnv )) {
       rm(list = c("fit_list","hr_list","p_list","modulename_list","plot_prep_sign"), envir = .GlobalEnv)
     }
-    
-
     
     if (sig_val==1) {
       showModal(

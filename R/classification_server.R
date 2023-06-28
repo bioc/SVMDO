@@ -11,14 +11,11 @@ innerServer_7<-function(input,output,session) {
     train_spec<-NULL
     test_pval<-NULL
     train_pval<-NULL
-    test_Ac<-NULL
-    train_Ac<-NULL
     test_kappa<-NULL
     train_kappa<-NULL
     elected_genes<-NULL
     elected_genes_before<-NULL
     skip_value<-NULL
-    control_data<-NULL
     nameless_disease_filtered_gene_data<-NULL
     disease_filtered_gene_data_before<-NULL
     para_fixer<-NULL
@@ -26,22 +23,11 @@ innerServer_7<-function(input,output,session) {
     g_val_selection<-NULL
     c_val_const<-NULL
     c_val_selection<-NULL
-    train_sample_normal<-NULL
-    train_sample_cancer<-NULL
     final_elected_check<-NULL
     train_test_val_check<-NULL
-    spec_list<-NULL
-    sens_list<-NULL
-    nor_val<-NULL
-    tum_val<-NULL
-    nor_val_list<-NULL
-    tum_val_list<-NULL
-    test_fin_col<-NULL
     
     specific_check_val<-0
     niv_value<-0.1
-    control_val<-0
-    abc<-0
     
     if (exists("new_tissue_type_list")) {
       

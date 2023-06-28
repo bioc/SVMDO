@@ -7,6 +7,7 @@
 #' @return Server section of providing information about total number of survival plots for visualization
 
 plot_show_server<-function(input,output,session,max_data){
+  
   output$plots<-renderUI({
     max_plot_val<-max_data()
     lapply(seq.int(max_plot_val),function(a) {
