@@ -93,7 +93,6 @@ innerServer_7<-function(input,output,session) {
           }
           
           tuning_action<-svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
-          tuning_action<-svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
           svm_data<-tuning_action
           
           check_training_set<-subset(training_set,select=-tissue_type)
