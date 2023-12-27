@@ -83,7 +83,7 @@ innerServer_7<-function(input,output,session) {
           }
           
           if(is.null(para_fixer)==TRUE) {
-            tuning_action=e1071::tune.svm(as.factor(tissue_type)~., data=training_set,
+            tuning_action<-tune.svm(as.factor(tissue_type)~., data=training_set,
                                           cost=10^(seq(-5,5,1)),gamma=10^(seq(-6,6,1)),scale=FALSE,probability=TRUE)
             svm_data<-tuning_action$best.model
           }
