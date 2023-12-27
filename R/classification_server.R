@@ -83,17 +83,11 @@ innerServer_7<-function(input,output,session) {
           }
           
           if(is.null(para_fixer)==TRUE) {
-            
-            g_val_selection<- sample(10^(seq(-6,6,1)),1)
-            g_val_const<-g_val_selection
-            
-            c_val_selection<- sample(10^(seq(-5,5,1)),1)
-            c_val_const<-c_val_selection
-            
+            tuning_action=e1071::tune.svm(as.factor(tissue_type)~., data=training_set,
+                                          cost=10^(seq(-5,5,1)),gamma=10^(seq(-6,6,1)),scale=FALSE,probability=TRUE)
+            svm_data<-tuning_action$best.model
           }
           
-          tuning_action<-svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
-          svm_data<-tuning_action
           
           check_training_set<-subset(training_set,select=-tissue_type)
           check_testing_set<-subset(test_set,select=-tissue_type)

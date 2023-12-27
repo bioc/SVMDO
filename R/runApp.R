@@ -9,7 +9,7 @@
 #' @importFrom shinytitle use_shiny_title
 #' @importFrom nortest ad.test
 #' @importFrom SummarizedExperiment assay
-#' @importFrom e1071 svm
+#' @importFrom e1071 svm tune.svm
 #' @importFrom BSDA z.test
 #' @importFrom data.table fread fwrite first
 #' @importFrom sjmisc str_contains
