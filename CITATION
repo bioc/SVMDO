@@ -1,0 +1,16 @@
+citEntry(entry="article",
+         title = "SVM-DO: identification of tumor-discriminating mRNA signatures via support vector machines supported by Disease Ontology",
+         author = personList( as.person("Mustafa Erhan Ozer"), 
+         		      as.person("Pemra Ozbek Sarica"),
+                              as.person("Kazim Yalcin Arga")),
+         year = 2023,
+         journal = "Turkish Journal of Biology",
+         volume = "47",
+         pages = "349-365",
+         doi = "10.55730/1300-0152.2670",
+         note="Special Issue",             
+         textVersion = 
+         paste("Ozer, ME., Sarica, PO., Arga KY.,(2023).
+               SVM-DO: identification of tumor-discriminating mRNA signatures via support vector machines supported by Disease Ontology.
+                Turkish Journal of Biology 47, SI-6, 349-365,https://doi.org/10.55730/1300-0152.2670")
+)
