@@ -19,10 +19,6 @@ innerServer_7<-function(input,output,session) {
     nameless_disease_filtered_gene_data<-NULL
     disease_filtered_gene_data_before<-NULL
     para_fixer<-NULL
-    g_val_const<-NULL
-    g_val_selection<-NULL
-    c_val_const<-NULL
-    c_val_selection<-NULL
     final_elected_check<-NULL
     train_test_val_check<-NULL
     
@@ -115,8 +111,6 @@ innerServer_7<-function(input,output,session) {
             final_elected_check<-elected_genes
             final_gene_list<-colnames(disease_filtered_gene_data[,-1])
             
-            collected_g_val<-g_val_selection
-            collected_c_val<-c_val_selection
             disease_filtered_gene_data<-cbind(all_names,actual_disease_filtered_gene_data)
             specific_check_val<-0
             para_fixer<-NULL

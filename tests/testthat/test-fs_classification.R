@@ -15,10 +15,6 @@ test_that("Feature Selection and Classification processes are succesful", {
   nameless_disease_filtered_gene_data<-NULL
   disease_filtered_gene_data_before<-NULL
   para_fixer<-NULL
-  g_val_const<-NULL
-  g_val_selection<-NULL
-  c_val_const<-NULL
-  c_val_selection<-NULL
   train_sample_normal<-NULL
   train_sample_cancer<-NULL
   final_elected_check<-NULL
@@ -92,19 +88,11 @@ test_that("Feature Selection and Classification processes are succesful", {
       }
       
       if(is.null(para_fixer)==TRUE) {
-        
-        g_val_selection<- sample(10^(seq(-6,6,1)),1)
-        g_val_const<-g_val_selection
-        
-        c_val_selection<- sample(10^(seq(-5,5,1)),1)
-        c_val_const<-c_val_selection
-        
+        tuning_action<-tune.svm(as.factor(tissue_type)~., data=training_set,
+                                cost=10^(seq(-5,5,1)),gamma=10^(seq(-6,6,1)),scale=FALSE,probability=TRUE)
+        svm_data<-tuning_action$best.model
       }
-      
 
-      tuning_action<-svm(as.factor(tissue_type)~., training_set,type="C-classification",scale = FALSE, cross=10 ,gamma = g_val_selection,cost = c_val_selection,probability=TRUE)
-      svm_data<-tuning_action
-      
       check_training_set<-subset(training_set,select=-tissue_type)
       check_testing_set<-subset(test_set,select=-tissue_type)
       
@@ -132,8 +120,6 @@ test_that("Feature Selection and Classification processes are succesful", {
         final_elected_check<-elected_genes
         final_gene_list<-colnames(disease_filtered_gene_data[,-1])
 		
-        collected_g_val<-g_val_selection
-        collected_c_val<-c_val_selection
         set_val<-set_val+1
         disease_filtered_gene_data<-cbind(all_names,actual_disease_filtered_gene_data)
         specific_check_val<-0
