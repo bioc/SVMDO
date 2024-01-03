@@ -1,7 +1,7 @@
 Package: SVMDO
 Title: Identification of Tumor-Discriminating mRNA Signatures via Support Vector Machines Supported by Disease Ontology
 Version: 1.3.0
-Date: 2024-01-02
+Date: 2024-01-03
 Authors@R: 
     c(person(given = "Mustafa Erhan",
 	family = "Ozer",
@@ -29,5 +29,16 @@ Description: It is an easy-to-use GUI using disease information for detecting tu
     wilk and wilk’s lambda criterion connected to SVM classification model construction. 
     Along with gene set extraction, SVMDO also provides individual prognostic marker detection. 
     The algorithm is designed for FPKM and RPKM normalized RNA-Seq transcriptome datasets.
-RoxygenNote: 7.2.3
+biocViews: GeneSetEnrichment, DifferentialExpression, GUI, Classification, RNASeq, Transcriptomics, Survival
+NeedsCompilation: no
+License: GPL-3
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.1.6)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+BugReports: https://github.com/robogeno/SVMDO/issues

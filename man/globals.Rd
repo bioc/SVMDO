@@ -4,7 +4,7 @@
 \alias{globals}
 \title{SVMDO}
 \value{
-Including script files and global variables of GUI required to be 
+Including script files and global variables of GUI required to be
 initiated at the runApp file execution
 }
 \description{
