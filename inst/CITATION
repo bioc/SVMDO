@@ -10,5 +10,6 @@ citEntry(entry="article",
          doi = "10.55730/1300-0152.2670",
          note="Special Issue",             
          textVersion = 
-         paste("Özer, Mustafa & Ozbek, Pemra & Arga, Kazim. (2023). SVM-DO: identification of tumor-discriminating mRNA signatures via support vector machines supported by Disease Ontology. Turkish Journal of Biology. 47. 349-365. 10.55730/1300-0152.2670.")
+         paste("OZER, MUSTAFA ERHAN; OZBEK SARICA, PEMRA; and ARGA, KAZIM YALCIN (2023) "SVM-DO: identification of tumor-discriminating mRNA signatures via support vector machines supported by disease ontology," Turkish Journal of Biology: Vol. 47: No. 6, Article 2. https://doi.org/10.55730/1300-0152.2670
+Available at: https://journals.tubitak.gov.tr/biology/vol47/iss6/2)
 )
