@@ -18,3 +18,6 @@
 
 # Changes in version 1.3.0 (1.2.5 in release) (2024-01-05)
 + Addition of BiocStyle in the Suggestion section of Description file
+
+# Changes in version 1.3.0 (1.2.6 in release) (2024-01-05)
++ Updating the package citation
