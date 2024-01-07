@@ -21,3 +21,9 @@
 
 # Changes in version 1.3.0 (1.2.6 in release) (2024-01-05)
 + Updating the package citation
+
+# Changes in version 1.3.0 (1.2.6 in release) (2024-01-07)
++ Updating the package citation
+
+# Changes in version 1.3.0 (1.2.7 in release) (2024-01-07)
++ Fixing merge-related file section problems occured during the latest pushing process
