@@ -27,3 +27,6 @@
 
 # Changes in version 1.3.0 (1.2.7 in release) (2024-01-07)
 + Fixing merge-related file section problems occured during the latest pushing process
+
+# Changes in version 1.3.0 (1.2.8 in release) (2024-01-08)
++ Fixing CITATION-related warning
