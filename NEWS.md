@@ -35,5 +35,3 @@
 + Fixing enrichDO-related error 
 + Fixing deprecation issues about data table visualization in Shiny
 
-
-
