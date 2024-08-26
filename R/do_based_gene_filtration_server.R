@@ -33,7 +33,7 @@ innerServer_6<-function(input,output,session){
       count_gene_id<-length(database_selection$ENTREZID)
       
       dis_gene_extract<-lapply(seq_along(pop_gene_id),function(x){
-        disease_enrichment<-enrichDO(pop_gene_id[x],ont = "DO")
+        disease_enrichment<-enrichDO(pop_gene_id[x],ont = "HDO")
         if (!is.null(disease_enrichment)){
           dis_length<-length(disease_enrichment[1]$Description)
           p_check<-(disease_enrichment[1]$p.adjust[1])
