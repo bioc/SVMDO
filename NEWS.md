@@ -31,7 +31,7 @@
 # Changes in version 1.3.0 (1.2.8 in release) (2024-01-08)
 + Fixing CITATION-related warning
 
-# Changes in version 1.5.4 (1.4.5 in release) (2024-08-30)
+# Changes in version 1.5.4 (1.4.7 in release) (2024-08-30)
 + Fixing enrichDO-related error
 + Fixing deprecation issues about data table visualization in Shiny
 
