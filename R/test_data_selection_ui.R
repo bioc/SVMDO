@@ -6,6 +6,6 @@
 innerUI_test_data <- function(id) {
   ns <- NS(id)
   fluidRow(
-    column(4,radioButtons(ns("test_datasets"),"Load Test Datasets (DEG + Survival)",
-                          choices = c("None","COAD","LUSC"))))
+    column(4,radioButtons(ns("test_datasets"),"Load Test Dataset (DEG + Survival)",
+                          choices = c("None","COAD"))))
 }
