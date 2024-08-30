@@ -20,6 +20,9 @@ if (!requireNamespace("sjmisc", quietly = TRUE))
 if (!requireNamespace("klaR", quietly = TRUE))
   stop("Install 'klaR' to use this package.")
 
+if (!requireNamespace("DT", quietly = TRUE))
+  stop("Install 'DT' to use this package.")
+
 if (!requireNamespace("caTools", quietly = TRUE))
   stop("Install 'caTools' to use this package.")
 
