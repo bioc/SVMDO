@@ -20,5 +20,5 @@ SVMDO
 #SVMDO::runGUI() Calling GUI without activating library
 #runGUI() Calling GUI after activating library
 # Disease Ontology Enrichment of a differentially expresed gene (entrez id):
-a_1<-DOSE::enrichDO(2981,ont="DO")
+a_1<-DOSE::enrichDO(2981,ont="HDO")
 }

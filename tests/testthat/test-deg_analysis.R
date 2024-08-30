@@ -142,7 +142,7 @@ test_that("Differential Expression Analysis is succesful", {
   sorted_new_bound_form_A<-new_bound_form_A[order(-new_bound_form_A$Fold_Change),]
   sorted_new_bound_form_B<-new_bound_form_B[order(new_bound_form_B$Fold_Change),]
   
-  top_gene_number<-50
+  top_gene_number<-65
   
   if (nrow(sorted_new_bound_form_A) < top_gene_number | nrow(sorted_new_bound_form_B) < top_gene_number) {
     message_val_2<-1

@@ -15,6 +15,7 @@
 #' @importFrom sjmisc str_contains
 #' @importFrom caTools sample.split
 #' @importFrom klaR greedy.wilks
+#' @importFrom DT DTOutput renderDT
 #' @importFrom caret confusionMatrix
 #' @importFrom survival Surv survfit coxph survdiff
 #' @importFrom DOSE enrichDO
@@ -30,7 +31,7 @@
 #' #SVMDO::runGUI() Calling GUI without activating library
 #' #runGUI() Calling GUI after activating library
 #' # Disease Ontology Enrichment of a differentially expresed gene (entrez id):
-#' a_1<-DOSE::enrichDO(2981,ont="DO")
+#' a_1<-DOSE::enrichDO(2981,ont="HDO")
 
 linebreaks <- function(n){HTML(strrep(br(), n))}
 
@@ -77,7 +78,7 @@ outerUI <- function(id) {
                       fluidRow(column(6,
                                       p("(Visualizing the gene set acquired from classification step)"),
                                       innerUI_table_show(ns("inner12")),
-                                      div(dataTableOutput(ns("table")), 
+                                      div(DTOutput(ns("table")), 
                                       style = "font-size: 60%;width: 50%"),
                                       div(style="display:inline-block",
                                           p("(To download or show plots, click on Prepare Survival Plot List button)"),
@@ -113,7 +114,7 @@ outerServer <- function(id) {
       innerResult_8 <- callModule(innerServer_8, "inner10",innerResult_clinic,innerResult_x)
       innerResult_9 <- callModule(innerServer_9,"inner11")
       innerResult_10<-callModule(table_server,"inner12")
-      output$table<-renderDataTable(return(innerResult_10()),options = list(pageLength = 5)
+      output$table<-renderDT(return(innerResult_10()),options = list(pageLength = 5)
                                            ,escape=FALSE)
       innerResult_11<-callModule(plot_list_server,"inner13")
       innerResult_16<-callModule(innerServer_10,"inner18")    

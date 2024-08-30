@@ -14,6 +14,9 @@ if (!requireNamespace("BSDA", quietly = TRUE))
 if (!requireNamespace("data.table", quietly = TRUE))
   stop("Install 'data.table' to use this package.")
 
+if (!requireNamespace("DT", quietly = TRUE))
+  stop("Install 'DT' to use this package.")
+
 if (!requireNamespace("sjmisc", quietly = TRUE))
   stop("Install 'sjmisc'  to use this package.")
 
