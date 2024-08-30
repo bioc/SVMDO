@@ -157,8 +157,8 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
       sorted_new_bound_form_A<-new_bound_form_A[order(-new_bound_form_A$Fold_Change),]
       sorted_new_bound_form_B<-new_bound_form_B[order(new_bound_form_B$Fold_Change),]
       
-      if (rval_sel %in% c("COAD")) {
-        top_gene_number<-65
+      if (rval_sel %in% c("COAD","LUSC")) {
+        top_gene_number<-50
         assign("sorted_new_bound_form_A_test",sorted_new_bound_form_A,envir =.GlobalEnv)
         assign("sorted_new_bound_form_B_test",sorted_new_bound_form_B,envir =.GlobalEnv)
         assign("complete_deg_gene_list_test",complete_deg_gene_list,envir =.GlobalEnv)
