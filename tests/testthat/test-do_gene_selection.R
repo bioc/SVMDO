@@ -23,15 +23,17 @@ test_that("Disease Ontology-based Gene Selection is succesful", {
   count_gene_id<-length(database_selection$ENTREZID)
   
   dis_gene_extract<-lapply(seq_along(pop_gene_id),function(x){
-	disease_enrichment<-enrichDO(pop_gene_id[x],ont = "HDO")
-        if (!is.null(disease_enrichment)){
-          dis_length<-length(disease_enrichment[1]$Description)
-          p_check<-(disease_enrichment[1]$p.adjust[1])
-          if (dis_length>0 & p_check<0.05 ){
-            selected_gene_list<-c(collect_gene_names,pop_gene_symbol[x])
-          }
+    disease_enrichment<-enrichDO(pop_gene_id[x],ont = "HDO")
+    if (!is.null(disease_enrichment)){
+      dis_length<-length(disease_enrichment[1]$Description)
+      p_check<-(disease_enrichment[1]$p.adjust[1])
+      if (dis_length > 0){
+        if (isTRUE(p_check < 0.05)==TRUE) {
+          selected_gene_list<-c(collect_gene_names,pop_gene_symbol[x])
         }
-      })
+      }
+    }
+  })
   
   collect_gene_names<-unlist(dis_gene_extract)
   collect_gene_names<-gsub( "-", "__",collect_gene_names)

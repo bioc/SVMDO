@@ -10,3 +10,4 @@
 #' construction. Along with gene set extraction, SVMDO also provides 
 #' individual prognostic marker detection. The algorithm is designed 
 #' for FPKM and RPKM normalized RNA-Seq transcriptome datasets. 
+

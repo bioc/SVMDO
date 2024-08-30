@@ -28,7 +28,7 @@ innerServer_6<-function(input,output,session){
       colnames(changed_whole_data[,seq.int(2,ncol(changed_whole_data))])<-checking_data
       database_selection<-select(org.Hs.eg.db, keys = checking_data,columns = c("ENTREZID", "SYMBOL"),keytype = "SYMBOL")
       
-      pop_gene_id<-database_selection$ENTREZID
+      pop_gene_id<-(database_selection$ENTREZID)
       pop_gene_symbol<-database_selection$SYMBOL
       count_gene_id<-length(database_selection$ENTREZID)
       
@@ -37,8 +37,10 @@ innerServer_6<-function(input,output,session){
         if (!is.null(disease_enrichment)){
           dis_length<-length(disease_enrichment[1]$Description)
           p_check<-(disease_enrichment[1]$p.adjust[1])
-          if (dis_length>0 & p_check<0.05 ){
-            selected_gene_list<-c(collect_gene_names,pop_gene_symbol[x])
+          if (dis_length > 0){
+            if (isTRUE(p_check < 0.05)==TRUE) {
+              selected_gene_list<-c(collect_gene_names,pop_gene_symbol[x])
+            }
           }
         }
       })
