@@ -23,6 +23,14 @@ innerServer_3 <- function(input, output, session,rawData, rval) {
       c<-assay(c)
       type_num_data<-seq.int(ncol(c))
       type_data<-c[1,type_num_data]
+    }else if (rval_sel=="LUSC"){
+      package_path<-find.package("SVMDO",quiet=TRUE)
+      rds_path<-"extdata/lusc_exp_sum.rds"
+      comb_path<-file.path(package_path,rds_path,fsep = "/")
+      c<-readRDS(comb_path)
+      c<-assay(c)
+      type_num_data<-seq.int(ncol(c))
+      type_data<-c[1,type_num_data]
     }else{
       c<-rawData()
       type_num_data<-seq.int(ncol(c))
