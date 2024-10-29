@@ -1,6 +1,6 @@
 Package: SVMDO
 Title: Identification of Tumor-Discriminating mRNA Signatures via Support Vector Machines Supported by Disease Ontology
-Version: 1.5.5
+Version: 1.6.0
 Date: 2024-08-30
 Authors@R: 
     c(person(given = "Mustafa Erhan",
